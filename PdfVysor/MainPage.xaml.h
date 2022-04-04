@@ -17,5 +17,17 @@ namespace PdfVysor
 	public:
 		MainPage();
 
-	};
+   private:
+      Windows::Data::Pdf::PdfDocument^ document;
+      int actualPage;
+
+      void Update();
+      void ShowPage();
+
+      void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+      void FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+      void PreviousPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+      void NextPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+      void LastPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+   };
 }

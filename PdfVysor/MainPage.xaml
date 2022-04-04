@@ -9,6 +9,26 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" Spacing="20" Margin="20">
+                <Button x:Name="loadDocument" Content="Abrir documento" Click="OpenFile"/>
+                <PasswordBox x:Name="password" Width="200" PlaceholderText="Contraseña opcional"/>
+            </StackPanel>
+            <StackPanel x:Name="pagePanel" VerticalAlignment="Stretch" >
+                <StackPanel Orientation="Horizontal" Spacing="15" Margin="20">
+                    <Button x:Name="firstPage" Content="&lt;&lt;" Width="40" Click="FirstPage"/>
+                    <Button x:Name="previosPage" Content="&lt;" Width="40" Click="PreviousPage"/>
+                    <TextBox x:Name="actualPageBox" PlaceholderText="pagina" BorderThickness="1" Width="65" IsReadOnly="True" RequestedTheme="Default" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False"/>
+                    <TextBox x:Name="totalPagesBox" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" RequestedTheme="Default" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False"/>
+                    <Button x:Name="nextPage" Content="&gt;" Width="40" Click="NextPage"/>
+                    <Button x:Name="lastPage" Content="&gt;&gt;" Width="40" Click="LastPage"/>
+                </StackPanel>
+                <ScrollViewer Margin="20">
+                    <Image x:Name="output"/>
+                </ScrollViewer>
+                
+            </StackPanel>
+            
+        </StackPanel>
     </Grid>
 </Page>
