@@ -5,8 +5,16 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
+#include <sstream>
+#include <iostream>
 
 using namespace PdfVysor;
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+
 
 using namespace Concurrency;
 using namespace Windows::Storage;
@@ -29,51 +37,56 @@ using namespace Windows::UI::Xaml::Navigation;
 
 MainPage::MainPage() {
 	InitializeComponent();
-   buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-   scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-   m_resolutionFactor = 1;
-   m_zoomGlobal = 1;
-   SetZomm();
+	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	m_resolutionFactor = 1;
+	m_zoomGlobal = 1;
+	SetZomm();
 }
+
+
 
 //-----------------------------------------------------------------------------------------
 /*
    Open new FileOpenPicker every time button loadDocument is clicked
 */
 void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   loadDocument->IsEnabled = false;
-   buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-   scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-   
-   m_document = nullptr;
-   m_actualPage = 0; //index base 0
+	loadDocument->IsEnabled = false;
+	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 
-   auto picker = ref new FileOpenPicker();
-   picker->FileTypeFilter->Append(".pdf");
+	m_document = nullptr;
+	m_actualPage = 0; //index base 0
+	m_file = nullptr;
 
-   create_task(picker->PickSingleFileAsync()).then([this](StorageFile^ file) {
-      if (file != nullptr) {
-         return create_task(PdfDocument::LoadFromFileAsync(file, password->Password));
-      } else {
-         return task_from_result(static_cast<PdfDocument^>(nullptr));
-      }
-   }).then([this](task<PdfDocument^> task) {
-      try {
-         m_document = task.get();
-      } catch (Exception^ ex) {
-         //Capturar excepcion
-      }
+	auto picker = ref new FileOpenPicker();
+	picker->FileTypeFilter->Append(".pdf");
 
-      if (m_document != nullptr) {
-         
-         buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
-		 scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
-         totalPagesBox->Text = m_document->PageCount.ToString();
-         this->Update();
-      }
-   });
+	create_task(picker->PickSingleFileAsync()).then([this](StorageFile^ file) {
+		
+		if (file != nullptr) {
+			m_file = file;
+			return create_task(PdfDocument::LoadFromFileAsync(file, password->Password));
+		} else {
+			return task_from_result(static_cast<PdfDocument^>(nullptr));
+		}
+	}).then([this](task<PdfDocument^> task) {
+		try {
+			m_document = task.get();
+		} catch (Exception^ ex) {
+			//Capturar excepcion
+		}
 
-   loadDocument->IsEnabled = true;
+		if (m_document != nullptr) {
+			
+
+			buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			totalPagesBox->Text = m_document->PageCount.ToString();
+			this->Update();
+		}
+	});
+	loadDocument->IsEnabled = true;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -81,8 +94,8 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
    Navigate to the first page
 */
 void PdfVysor::MainPage::FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   m_actualPage = 0;
-   this->Update();
+	m_actualPage = 0;
+	this->Update();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -90,8 +103,8 @@ void PdfVysor::MainPage::FirstPage(Platform::Object^ sender, Windows::UI::Xaml::
    Navigate to the previous page
 */
 void PdfVysor::MainPage::PreviousPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   --m_actualPage;
-   this->Update();
+	--m_actualPage;
+	this->Update();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -99,8 +112,8 @@ void PdfVysor::MainPage::PreviousPage(Platform::Object^ sender, Windows::UI::Xam
    Navigate to the next page
 */
 void PdfVysor::MainPage::NextPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   ++m_actualPage;
-   this->Update();
+	++m_actualPage;
+	this->Update();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -108,8 +121,8 @@ void PdfVysor::MainPage::NextPage(Platform::Object^ sender, Windows::UI::Xaml::R
    Navigate to the last page
 */
 void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   m_actualPage = m_document->PageCount - 1;
-   this->Update();
+	m_actualPage = m_document->PageCount - 1;
+	this->Update();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -117,27 +130,27 @@ void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::R
    Change the actual page to the page selected previously
 */
 void PdfVysor::MainPage::Update() {
-   //Shows the actual page index in base 1
-   actualPageBox->Text = (m_actualPage + 1).ToString();
-   if (m_actualPage == 0) {
-      firstPage->IsEnabled = false;
-      previosPage->IsEnabled = false;
-   } else {
-      firstPage->IsEnabled = true;
-      previosPage->IsEnabled = true;
-   }
+	//Shows the actual page index in base 1
+	actualPageBox->Text = (m_actualPage + 1).ToString();
+	if (m_actualPage == 0) {
+		firstPage->IsEnabled = false;
+		previosPage->IsEnabled = false;
+	} else {
+		firstPage->IsEnabled = true;
+		previosPage->IsEnabled = true;
+	}
 
-   if (m_document != nullptr) {
-      if (m_actualPage == m_document->PageCount - 1) {
-         nextPage->IsEnabled = false;
-         lastPage->IsEnabled = false;
-      } else {
-         nextPage->IsEnabled = true;
-         lastPage->IsEnabled = true;
-      }
-   }
+	if (m_document != nullptr) {
+		if (m_actualPage == m_document->PageCount - 1) {
+			nextPage->IsEnabled = false;
+			lastPage->IsEnabled = false;
+		} else {
+			nextPage->IsEnabled = true;
+			lastPage->IsEnabled = true;
+		}
+	}
 
-   this->ShowPage();
+	this->ShowPage();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -145,23 +158,28 @@ void PdfVysor::MainPage::Update() {
    Render the actual page, from index (m_actualPage) to StreamMemory
 */
 void PdfVysor::MainPage::ShowPage() {
-   output->Source = nullptr;
-   PdfPage^ page = m_document->GetPage(m_actualPage);
-   auto stream = ref new InMemoryRandomAccessStream();
+	/*if (m_file != nullptr)
+	{
+		Log("Ok.");
+		filePath->Text = m_file->Path;
+	}*/
+	output->Source = nullptr;
+	PdfPage^ page = m_document->GetPage(m_actualPage);
+	auto stream = ref new InMemoryRandomAccessStream();
 
-   IAsyncAction^ renderAction;
+	IAsyncAction^ renderAction;
 
-   auto options = ref new PdfPageRenderOptions();
-   options->BackgroundColor = Windows::UI::Colors::White; //background color of page
-   options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kZoomDefault);
-   options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kZoomDefault);
-   renderAction = page->RenderToStreamAsync(stream, options);
+	auto options = ref new PdfPageRenderOptions();
+	options->BackgroundColor = Windows::UI::Colors::White; //background color of page
+	options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kZoomDefault);
+	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kZoomDefault);
+	renderAction = page->RenderToStreamAsync(stream, options);
 
-   create_task(renderAction).then([this, stream]() {
-         auto src = ref new BitmapImage();
-         output->Source = src;
-         return create_task(src->SetSourceAsync(stream));
-      });
+	create_task(renderAction).then([this, stream]() {
+			auto src = ref new BitmapImage();
+			output->Source = src;
+			return create_task(src->SetSourceAsync(stream));
+		});
 }
 
 //-----------------------------------------------------------------------------------------
@@ -169,11 +187,11 @@ void PdfVysor::MainPage::ShowPage() {
    Decrease the zoom value
 */
 void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   if (m_zoomGlobal > 0.25) {
-      m_zoomGlobal -= 0.15;
-   }
-   zoom->Text = (m_zoomGlobal * 100).ToString();
-   SetZomm();
+	if (m_zoomGlobal > 0.25) {
+		m_zoomGlobal -= 0.15;
+	}
+	zoom->Text = (m_zoomGlobal * 100).ToString();
+	SetZomm();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -181,11 +199,11 @@ void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::Ro
    Increase the zoom value
 */
 void PdfVysor::MainPage::ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-   m_zoomGlobal += 0.15;
+	m_zoomGlobal += 0.15;
 
-   //Shows the zoom level from base 1 to base 100
-   zoom->Text = (m_zoomGlobal * 100).ToString();
-   SetZomm();
+	//Shows the zoom level from base 1 to base 100
+	zoom->Text = (m_zoomGlobal * 100).ToString();
+	SetZomm();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -193,6 +211,58 @@ void PdfVysor::MainPage::ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::Rou
    Aply the zoom value to the zoom of the pages
 */
 void PdfVysor::MainPage::SetZomm() {
-   output->Height = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
-   output->Width = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
+	output->Height = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
+	output->Width = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	Shows Logs into debug console
+*/
+void PdfVysor::MainPage::Log(Platform::String^ msg) {
+	std::wstring fooW(msg->Begin());
+	std::string fooA(fooW.begin(), fooW.end());
+	const char* charStr = fooA.c_str();
+	OutputDebugStringA(charStr);
+	OutputDebugStringA("\n");
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	When actualPageBox loses pointer focus, it tries to find the page written on it
+*/
+void PdfVysor::MainPage::ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	try {
+		const wchar_t *string = actualPageBox->Text->Data();
+		IsNumber(string) ? Log("Es numero") : Log("No es numero");
+		int newPage = std::stoi(string);
+		--newPage; // set index base from 1 to 0
+		// if the new page isn't on the range of pages throw new exception
+		if (newPage < 0 || newPage >= m_document->PageCount) throw std::exception();
+		// if the new page it's the same than actual return and does nothing
+		if (m_actualPage == newPage) { 
+			actualPageBox->Text = (m_actualPage + 1).ToString();
+			return; 
+		}
+		m_actualPage = newPage;
+		this->Update();
+	} catch (const std::exception&) {
+		actualPageBox->Text = (m_actualPage + 1).ToString();
+		animationError->Begin();
+	}
+}
+
+bool PdfVysor::MainPage::IsNumber(const wchar_t *string) {
+	std::string aux;
+	// pasar los argumentos del metodo a std::string
+	for (char const &c : aux) {
+		if (isdigit(c) == 0) return false;
+	}
+	return true;
+}
+
+void PdfVysor::MainPage::ActualPageGetFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	actualPageBox->Text = "";
 }
