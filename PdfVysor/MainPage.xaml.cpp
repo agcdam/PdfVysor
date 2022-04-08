@@ -40,7 +40,6 @@ MainPage::MainPage() {
 	InitializeComponent();
 	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	m_resolutionFactor = 1;
 	m_zoomGlobal = 1;
 	SetZomm();
 }
@@ -174,8 +173,10 @@ void PdfVysor::MainPage::ShowPage() {
 
 	auto options = ref new PdfPageRenderOptions();
 	options->BackgroundColor = Windows::UI::Colors::White; //background color of page
-	options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kZoomDefault);
-	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kZoomDefault);
+	/*options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kZoomDefault);
+	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kZoomDefault);*/
+	options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * 2);
+	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * 2);
 	renderAction = page->RenderToStreamAsync(stream, options);
 
 	create_task(renderAction).then([this, stream]() {

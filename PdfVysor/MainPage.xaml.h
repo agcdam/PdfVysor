@@ -21,7 +21,6 @@ namespace PdfVysor {
 		Platform::String^ m_pathFile;
 		
 		int m_actualPage;
-		double m_resolutionFactor;
 		double m_zoomGlobal;
       
 
