@@ -32,6 +32,9 @@ namespace PdfVysor {
 
 		//Default zoom of a page used for the default zoom level (100 %)
 		const int kZoomDefault = 4;
+
+		//Rendering page quality
+		const int kPageQualityRender = 2;
       
 
 		void Update();
