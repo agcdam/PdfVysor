@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+    RequestedTheme="Dark" >
 
     <Page.Resources>
         <Storyboard x:Name="animationError">
@@ -20,14 +21,16 @@
     <Grid x:Name="gridPane">
         <RelativePanel>
             <StackPanel x:Name="searchContent" Orientation="Horizontal" Spacing="20" Margin="20"
-                    RelativePanel.AlignTopWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignLeftWithPanel="True">
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True">
 
                 <Button x:Name="loadDocument" Content="Abrir documento" Click="OpenFile"/>
                 <PasswordBox x:Name="password" Width="200" PlaceholderText="Contraseña opcional"/>
-                <TextBlock x:Name="filePath" Text="Fichero" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                <TextBlock x:Name="filePath" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             </StackPanel>
+
+            
 
             <StackPanel x:Name="buttonController"  Orientation="Horizontal" Spacing="80" Margin="20"
                     RelativePanel.Below="searchContent"
@@ -50,12 +53,20 @@
                     <Button Content="+" Width="40" Click="ZoomIn"/>
                 </StackPanel>
             </StackPanel>
-            <ScrollViewer RelativePanel.Below="buttonController" Margin="20"
+            <ScrollViewer RelativePanel.Below="buttonController" Margin="0,20,0,0"
                         RelativePanel.AlignBottomWithPanel="True"
+                          Background="DarkGray"
                         x:Name="scrollerPage" HorizontalContentAlignment="Stretch"
                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" RelativePanel.AlignVerticalCenterWith="" ManipulationMode="System" HorizontalSnapPointsAlignment="Near" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                 <StackPanel>
-                    <Image x:Name="output" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    <Image x:Name="output" 
+                           VerticalAlignment="Stretch" 
+                           HorizontalAlignment="Stretch" 
+                           Margin="10,10,10,15" >
+                        <Image.Shadow>
+                            <ThemeShadow/>
+                        </Image.Shadow>
+                    </Image>
                 </StackPanel>
             </ScrollViewer>
         </RelativePanel>

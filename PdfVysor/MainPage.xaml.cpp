@@ -32,6 +32,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Media::Imaging;
 using namespace Windows::UI::Xaml::Navigation;
+using namespace Windows::Foundation::Numerics;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0xc0a
 
@@ -54,6 +55,7 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 	loadDocument->IsEnabled = false;
 	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	filePath->Text = "";
 
 	m_document = nullptr;
 	m_actualPage = 0; //index base 0
@@ -79,7 +81,7 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 
 		if (m_document != nullptr) {
 			
-
+			filePath->Text = m_file->Name;
 			buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			totalPagesBox->Text = m_document->PageCount.ToString();
@@ -248,6 +250,10 @@ void PdfVysor::MainPage::ActualPageKeyUp(Platform::Object^ sender, Windows::UI::
 	}
 }
 
+//-----------------------------------------------------------------------------------------
+/*
+	Search the page with the number written in actualPageBox
+*/
 void PdfVysor::MainPage::SearchPage() {
 	try {
 		const wchar_t *string = actualPageBox->Text->Data();
