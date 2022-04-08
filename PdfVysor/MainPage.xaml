@@ -38,7 +38,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="15">
                     <Button x:Name="firstPage" Content="&lt;&lt;" Width="40" Click="FirstPage"/>
                     <Button x:Name="previosPage" Content="&lt;" Width="40" Click="PreviousPage"/>
-                    <TextBox x:Name="actualPageBox" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocus" GotFocus="ActualPageGetFocus"/>
+                    <TextBox x:Name="actualPageBox" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocus" KeyUp="ActualPageKeyUp"/>
                     <TextBox x:Name="totalPagesBox" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False"/>
                     <Button x:Name="nextPage" Content="&gt;" Width="40" Click="NextPage"/>
                     <Button x:Name="lastPage" Content="&gt;&gt;" Width="40" Click="LastPage"/>

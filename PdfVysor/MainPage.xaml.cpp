@@ -132,6 +132,7 @@ void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::R
 void PdfVysor::MainPage::Update() {
 	//Shows the actual page index in base 1
 	actualPageBox->Text = (m_actualPage + 1).ToString();
+	
 	if (m_actualPage == 0) {
 		firstPage->IsEnabled = false;
 		previosPage->IsEnabled = false;
@@ -231,38 +232,54 @@ void PdfVysor::MainPage::Log(Platform::String^ msg) {
 /*
 	When actualPageBox loses pointer focus, it tries to find the page written on it
 */
-void PdfVysor::MainPage::ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
+void PdfVysor::MainPage::ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	SearchPage();
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	When press enter while focus is in actualPageBox search the page
+*/
+void PdfVysor::MainPage::ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
+	if (e->Key == Windows::System::VirtualKey::Enter)
+	{
+		Log("dentro");
+		SearchPage();
+	}
+}
+
+void PdfVysor::MainPage::SearchPage() {
 	try {
 		const wchar_t *string = actualPageBox->Text->Data();
-		IsNumber(string) ? Log("Es numero") : Log("No es numero");
-		int newPage = std::stoi(string);
+		unsigned int newPage;
+		IsNumber(string) ? newPage = std::stoi(string) : throw std::exception();
 		--newPage; // set index base from 1 to 0
 		// if the new page isn't on the range of pages throw new exception
 		if (newPage < 0 || newPage >= m_document->PageCount) throw std::exception();
 		// if the new page it's the same than actual return and does nothing
-		if (m_actualPage == newPage) { 
+		if (m_actualPage == newPage) {
 			actualPageBox->Text = (m_actualPage + 1).ToString();
-			return; 
+			return;
 		}
 		m_actualPage = newPage;
 		this->Update();
-	} catch (const std::exception&) {
+	}
+	catch (const std::exception&) {
 		actualPageBox->Text = (m_actualPage + 1).ToString();
 		animationError->Begin();
 	}
 }
 
-bool PdfVysor::MainPage::IsNumber(const wchar_t *string) {
-	std::string aux;
-	// pasar los argumentos del metodo a std::string
+//-----------------------------------------------------------------------------------------
+bool PdfVysor::MainPage::IsNumber(const wchar_t *str) {
+	std::wstring ws(str);
+	std::string aux(ws.begin(), ws.end());
 	for (char const &c : aux) {
 		if (isdigit(c) == 0) return false;
 	}
 	return true;
 }
 
-void PdfVysor::MainPage::ActualPageGetFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-	actualPageBox->Text = "";
-}
+
+
+

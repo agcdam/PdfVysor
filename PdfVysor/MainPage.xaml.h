@@ -40,6 +40,7 @@ namespace PdfVysor {
 		void SetZomm();
 		void Log(Platform::String^ msg);
 		bool IsNumber(const wchar_t *string);
+		void SearchPage();
 
 		void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -49,6 +50,6 @@ namespace PdfVysor {
 		void ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ActualPageGetFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
 	};
 }
