@@ -40,8 +40,8 @@ MainPage::MainPage() {
 	InitializeComponent();
 	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	m_zoomGlobal = 1;
-	SetZomm();
+	m_zoomScroller = scrollerPage->ZoomFactor;
+	zoom->Text = (m_zoomScroller * 100).ToString() + " %";
 }
 
 
@@ -160,11 +160,6 @@ void PdfVysor::MainPage::Update() {
    Render the actual page, from index (m_actualPage) to StreamMemory
 */
 void PdfVysor::MainPage::ShowPage() {
-	/*if (m_file != nullptr)
-	{
-		Log("Ok.");
-		filePath->Text = m_file->Path;
-	}*/
 	output->Source = nullptr;
 	PdfPage^ page = m_document->GetPage(m_actualPage);
 	auto stream = ref new InMemoryRandomAccessStream();
@@ -173,8 +168,6 @@ void PdfVysor::MainPage::ShowPage() {
 
 	auto options = ref new PdfPageRenderOptions();
 	options->BackgroundColor = Windows::UI::Colors::White; //background color of page
-	/*options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kZoomDefault);
-	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kZoomDefault);*/
 	options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kPageQualityRender);
 	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kPageQualityRender);
 	renderAction = page->RenderToStreamAsync(stream, options);
@@ -182,6 +175,8 @@ void PdfVysor::MainPage::ShowPage() {
 	create_task(renderAction).then([this, stream]() {
 			auto src = ref new BitmapImage();
 			output->Source = src;
+			output->Height = kBaseHeightImage * kZoomDefault;
+			output->Width = kBaseWidthImage * kZoomDefault;
 			return create_task(src->SetSourceAsync(stream));
 		});
 }
@@ -191,11 +186,20 @@ void PdfVysor::MainPage::ShowPage() {
    Decrease the zoom value
 */
 void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	if (m_zoomGlobal > 0.25) {
-		m_zoomGlobal -= 0.15;
+	if ((m_zoomScroller - scrollerPage->MinZoomFactor) > 0.15)
+	{
+		m_zoomScroller -= 0.15f;
 	}
-	zoom->Text = (m_zoomGlobal * 100).ToString();
-	SetZomm();
+	else if (m_zoomScroller > scrollerPage->MinZoomFactor)
+	{
+		m_zoomScroller -= scrollerPage->MinZoomFactor;
+	}
+	else
+	{
+		return;
+	}
+	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
+	zoom->Text = ((int) (m_zoomScroller * 100)).ToString() + " %";
 }
 
 //-----------------------------------------------------------------------------------------
@@ -203,20 +207,20 @@ void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::Ro
    Increase the zoom value
 */
 void PdfVysor::MainPage::ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	m_zoomGlobal += 0.15;
-
-	//Shows the zoom level from base 1 to base 100
-	zoom->Text = (m_zoomGlobal * 100).ToString();
-	SetZomm();
-}
-
-//-----------------------------------------------------------------------------------------
-/*
-   Aply the zoom value to the zoom of the pages
-*/
-void PdfVysor::MainPage::SetZomm() {
-	output->Height = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
-	output->Width = (kBaseHeightImage * kZoomDefault * m_zoomGlobal);
+	if ((scrollerPage->MaxZoomFactor - m_zoomScroller) > 0.15)
+	{
+		m_zoomScroller += 0.15f;
+	}
+	else if (scrollerPage->MaxZoomFactor > m_zoomScroller)
+	{
+		m_zoomScroller += (scrollerPage->MaxZoomFactor - m_zoomScroller);
+	}
+	else
+	{
+		return;
+	}
+	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
+	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
 }
 
 //-----------------------------------------------------------------------------------------
@@ -287,6 +291,13 @@ bool PdfVysor::MainPage::IsNumber(const wchar_t *str) {
 	return true;
 }
 
-
-
-
+//-----------------------------------------------------------------------------------------
+/*
+	Updates the zoom text while aplying zoom with wheelmouse + ctrl
+*/
+void PdfVysor::MainPage::ViewChanging(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e)
+{
+	m_zoomScroller = scrollerPage->ZoomFactor;
+	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
+	Log(scrollerPage->ZoomFactor.ToString());
+}

@@ -21,7 +21,7 @@ namespace PdfVysor {
 		Platform::String^ m_pathFile;
 		
 		int m_actualPage;
-		double m_zoomGlobal;
+		float m_zoomScroller;
       
 
 		//Minimum page height used to calculate the zoom and size of output render
@@ -34,12 +34,11 @@ namespace PdfVysor {
 		const int kZoomDefault = 4;
 
 		//Rendering page quality
-		const int kPageQualityRender = 2;
+		const double kPageQualityRender = 3.75;
       
 
 		void Update();
 		void ShowPage();
-		void SetZomm();
 		void Log(Platform::String^ msg);
 		bool IsNumber(const wchar_t *string);
 		void SearchPage();
@@ -53,5 +52,6 @@ namespace PdfVysor {
 		void ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
+		void ViewChanging(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e);
 	};
 }

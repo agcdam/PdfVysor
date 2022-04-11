@@ -53,21 +53,26 @@
                     <Button Content="+" Width="40" Click="ZoomIn"/>
                 </StackPanel>
             </StackPanel>
-            <ScrollViewer RelativePanel.Below="buttonController" Margin="0,20,0,0"
-                        RelativePanel.AlignBottomWithPanel="True"
+            <ScrollViewer RelativePanel.Below="buttonController" 
+                          RelativePanel.AlignBottomWithPanel="True"
+                          RelativePanel.AlignLeftWith="searchContent"
+                          RelativePanel.AlignRightWith="searchContent"
                           Background="DarkGray"
-                        x:Name="scrollerPage" HorizontalContentAlignment="Stretch"
-                        VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" RelativePanel.AlignVerticalCenterWith="" ManipulationMode="System" HorizontalSnapPointsAlignment="Near" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                <StackPanel>
+                          x:Name="scrollerPage" 
+                          HorizontalContentAlignment="Center"
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Auto" 
+                          RelativePanel.AlignVerticalCenterWith="" 
+                          HorizontalSnapPointsAlignment="Center" Margin="0,22,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="10" ZoomMode="Enabled" MinZoomFactor="0.25" ViewChanging="ViewChanging">
+                
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Image x:Name="output" 
                            VerticalAlignment="Stretch" 
-                           HorizontalAlignment="Stretch" 
-                           Margin="10,10,10,15" >
-                        <Image.Shadow>
-                            <ThemeShadow/>
-                        </Image.Shadow>
-                    </Image>
+                           HorizontalAlignment="Center" 
+                           Margin="10,10,10,15" />
+
                 </StackPanel>
+                
             </ScrollViewer>
         </RelativePanel>
     </Grid> 
