@@ -8,6 +8,9 @@
 #include <sstream>
 #include <iostream>
 
+#include <thread>
+#include <chrono>
+
 using namespace PdfVysor;
 
 using std::cout;
@@ -41,7 +44,7 @@ MainPage::MainPage() {
 	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	m_zoomScroller = scrollerPage->ZoomFactor;
-	zoom->Text = (m_zoomScroller * 100).ToString() + " %";
+	SetZoom();
 }
 
 
@@ -79,15 +82,57 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 		}
 
 		if (m_document != nullptr) {
-			
 			filePath->Text = m_file->Name;
 			buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			totalPagesBox->Text = m_document->PageCount.ToString();
+			RenderPages();
 			this->Update();
 		}
 	});
 	loadDocument->IsEnabled = true;
+}
+
+void PdfVysor::MainPage::RenderPages() {
+	std::thread hilo([=]{
+		PdfDocument^ doc = m_document;
+		std::vector<std::pair<BitmapImage^, int>> pagesAux;
+		Log("Comienzo render");
+		for (int i = 0; i < doc->PageCount; i++) {
+			Log("Page " + i);
+			if (!IsRendered(i)) {
+				PdfPage^ page = doc->GetPage(i);
+				auto stream = ref new InMemoryRandomAccessStream();
+				IAsyncAction^ renderAction;
+				auto options = ref new PdfPageRenderOptions();
+				options->BackgroundColor = Windows::UI::Colors::White; //background color of page
+				options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * 3.75);
+				options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * 3.75);
+				renderAction = page->RenderToStreamAsync(stream, options);
+				auto src = ref new BitmapImage();
+				Log("Punto");
+				pagesAux.push_back({ src, i });
+				create_task(renderAction).then([stream, src]() {
+					return create_task(src->SetSourceAsync(stream));
+					});
+			}
+		}
+		Log("Fin render");
+	});
+	hilo.detach();
+}
+
+bool PdfVysor::MainPage::IsRendered(int page) {
+	if (!m_pdfPages.empty())
+	{
+		for (const auto& x : m_pdfPages) {
+			if (x.second == m_actualPage)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -131,8 +176,6 @@ void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::R
    Change the actual page to the page selected previously
 */
 void PdfVysor::MainPage::Update() {
-	//Shows the actual page index in base 1
-	actualPageBox->Text = (m_actualPage + 1).ToString();
 	
 	if (m_actualPage == 0) {
 		firstPage->IsEnabled = false;
@@ -160,25 +203,53 @@ void PdfVysor::MainPage::Update() {
    Render the actual page, from index (m_actualPage) to StreamMemory
 */
 void PdfVysor::MainPage::ShowPage() {
+	
 	output->Source = nullptr;
+	// If the page is already rendered, don't do nothing
+	if (ShowPageRendered()) return;
+	Log("Renderizando pagina");
 	PdfPage^ page = m_document->GetPage(m_actualPage);
 	auto stream = ref new InMemoryRandomAccessStream();
-
 	IAsyncAction^ renderAction;
-
 	auto options = ref new PdfPageRenderOptions();
 	options->BackgroundColor = Windows::UI::Colors::White; //background color of page
 	options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * kPageQualityRender);
 	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kPageQualityRender);
 	renderAction = page->RenderToStreamAsync(stream, options);
+	auto src = ref new BitmapImage();
+	output->Source = src;
+	output->Height = kBaseHeightImage * kZoomDefault;
+	output->Width = kBaseWidthImage * kZoomDefault;
+	//Shows the actual page index in base 1
+	actualPageBox->Text = (m_actualPage + 1).ToString();
+	//m_pdfPages[m_actualPage] = src;
+	m_pdfPages.push_back({ src, m_actualPage });
 
-	create_task(renderAction).then([this, stream]() {
-			auto src = ref new BitmapImage();
-			output->Source = src;
-			output->Height = kBaseHeightImage * kZoomDefault;
-			output->Width = kBaseWidthImage * kZoomDefault;
-			return create_task(src->SetSourceAsync(stream));
+	create_task(renderAction).then([stream, src]() {
+		return create_task(src->SetSourceAsync(stream));
 		});
+	
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	Looks if the actual page is already rendered
+	If it's true set the resource in the output
+*/
+bool PdfVysor::MainPage::ShowPageRendered() {
+	if (!m_pdfPages.empty())
+	{
+		for (const auto& x : m_pdfPages) {
+			if (x.second == m_actualPage)
+			{
+				//Shows the actual page index in base 1
+				actualPageBox->Text = (m_actualPage + 1).ToString();
+				output->Source = x.first;
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -198,8 +269,7 @@ void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::Ro
 	{
 		return;
 	}
-	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
-	zoom->Text = ((int) (m_zoomScroller * 100)).ToString() + " %";
+	SetZoom();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -219,8 +289,7 @@ void PdfVysor::MainPage::ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::Rou
 	{
 		return;
 	}
-	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
-	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
+	SetZoom();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -282,6 +351,9 @@ void PdfVysor::MainPage::SearchPage() {
 }
 
 //-----------------------------------------------------------------------------------------
+/*
+	Checks if the actualPageBox is a number
+*/
 bool PdfVysor::MainPage::IsNumber(const wchar_t *str) {
 	std::wstring ws(str);
 	std::string aux(ws.begin(), ws.end());
@@ -299,5 +371,23 @@ void PdfVysor::MainPage::ViewChanging(Platform::Object^ sender, Windows::UI::Xam
 {
 	m_zoomScroller = scrollerPage->ZoomFactor;
 	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
-	Log(scrollerPage->ZoomFactor.ToString());
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	Set zoom 100%
+*/
+void PdfVysor::MainPage::RestoreZoom(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	m_zoomScroller = (float) 1;
+	SetZoom();
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	Changes zoom and updates zoom text
+*/
+void PdfVysor::MainPage::SetZoom() {
+	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
+	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
 }

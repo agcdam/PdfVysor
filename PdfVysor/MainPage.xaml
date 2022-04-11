@@ -51,6 +51,7 @@
                     <Button Content="-" Width="40" Click="ZoomOut"/>
                     <TextBlock Text="100 %" VerticalAlignment="Center" x:Name="zoom"/>
                     <Button Content="+" Width="40" Click="ZoomIn"/>
+                    <Button x:Name="restoreZoom" Content="Restablecer" Click="RestoreZoom"/>
                 </StackPanel>
             </StackPanel>
             <ScrollViewer RelativePanel.Below="buttonController" 
