@@ -36,7 +36,7 @@ namespace PdfVysor {
 		const int kZoomDefault = 4;
 
 		//Rendering page quality
-		const double kPageQualityRender = 3.75;
+		const double kPageQualityRender = 2.5;
 
 
 		

@@ -271,12 +271,11 @@ void PdfVysor::MainPage::ActualPageLostFocus(Platform::Object^ sender, Windows::
 
 //-----------------------------------------------------------------------------------------
 /*
-	When press enter while focus is in actualPageBox search the page
+	When press enter or navigate with keys up/down, while focus is in actualPageBox search the page
 */
 void PdfVysor::MainPage::ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
 	if (e->Key == Windows::System::VirtualKey::Enter)
 	{
-		Log("dentro");
 		SearchPage();
 	}
 }
@@ -348,3 +347,6 @@ void PdfVysor::MainPage::SetZoom() {
 	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
 	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
 }
+
+
+
