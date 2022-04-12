@@ -16,9 +16,7 @@ namespace PdfVysor {
 	public ref class MainPage sealed {
 	public:
 		MainPage();
-		
-		
-		
+
 	private:
 		Windows::Data::Pdf::PdfDocument^ m_document;
 		Windows::Storage::StorageFile^ m_file;
@@ -26,10 +24,7 @@ namespace PdfVysor {
 		
 		int m_actualPage;
 		float m_zoomScroller;
-		/*std::vector<BitmapImage> m_pdfPages;*/
 		std::vector<std::pair<BitmapImage^, int>> m_pdfPages;
-
-		unsigned int m_indexRenderPages;
 
 		//Minimum page height used to calculate the zoom and size of output render
 		const int kBaseHeightImage = 297;
@@ -44,8 +39,7 @@ namespace PdfVysor {
 		const double kPageQualityRender = 3.75;
 
 
-		bool IsRendered(int page);
-
+		
 		void Update();
 		void ShowPage();
 		void Log(Platform::String^ msg);
@@ -53,8 +47,6 @@ namespace PdfVysor {
 		void SetZoom();
 		void SearchPage();
 		bool ShowPageRendered();
-		
-		void RenderPages();
 		
 
 		void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);

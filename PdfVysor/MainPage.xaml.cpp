@@ -86,53 +86,10 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 			buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
 			totalPagesBox->Text = m_document->PageCount.ToString();
-			RenderPages();
 			this->Update();
 		}
 	});
 	loadDocument->IsEnabled = true;
-}
-
-void PdfVysor::MainPage::RenderPages() {
-	std::thread hilo([=]{
-		PdfDocument^ doc = m_document;
-		std::vector<std::pair<BitmapImage^, int>> pagesAux;
-		Log("Comienzo render");
-		for (int i = 0; i < doc->PageCount; i++) {
-			Log("Page " + i);
-			if (!IsRendered(i)) {
-				PdfPage^ page = doc->GetPage(i);
-				auto stream = ref new InMemoryRandomAccessStream();
-				IAsyncAction^ renderAction;
-				auto options = ref new PdfPageRenderOptions();
-				options->BackgroundColor = Windows::UI::Colors::White; //background color of page
-				options->DestinationHeight = static_cast<unsigned int>(page->Size.Height * 3.75);
-				options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * 3.75);
-				renderAction = page->RenderToStreamAsync(stream, options);
-				auto src = ref new BitmapImage();
-				Log("Punto");
-				pagesAux.push_back({ src, i });
-				create_task(renderAction).then([stream, src]() {
-					return create_task(src->SetSourceAsync(stream));
-					});
-			}
-		}
-		Log("Fin render");
-	});
-	hilo.detach();
-}
-
-bool PdfVysor::MainPage::IsRendered(int page) {
-	if (!m_pdfPages.empty())
-	{
-		for (const auto& x : m_pdfPages) {
-			if (x.second == m_actualPage)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
 }
 
 //-----------------------------------------------------------------------------------------
