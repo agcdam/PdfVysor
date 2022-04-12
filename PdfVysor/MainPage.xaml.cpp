@@ -60,8 +60,11 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 	filePath->Text = "";
 
 	m_document = nullptr;
-	m_actualPage = 0; //index base 0
 	m_file = nullptr;
+	m_pathFile = nullptr;
+	m_actualPage = 0; //index base 0
+	m_zoomScroller = 1;
+	m_pdfPages.clear();
 
 	auto picker = ref new FileOpenPicker();
 	picker->FileTypeFilter->Append(".pdf");
@@ -160,11 +163,11 @@ void PdfVysor::MainPage::Update() {
    Render the actual page, from index (m_actualPage) to StreamMemory
 */
 void PdfVysor::MainPage::ShowPage() {
-	
+	//bloquear cambiar de pagina
+	LoadingPage(true);
 	output->Source = nullptr;
 	// If the page is already rendered, don't do nothing
 	if (ShowPageRendered()) return;
-	Log("Renderizando pagina");
 	PdfPage^ page = m_document->GetPage(m_actualPage);
 	auto stream = ref new InMemoryRandomAccessStream();
 	IAsyncAction^ renderAction;
@@ -181,11 +184,52 @@ void PdfVysor::MainPage::ShowPage() {
 	actualPageBox->Text = (m_actualPage + 1).ToString();
 	//m_pdfPages[m_actualPage] = src;
 	m_pdfPages.push_back({ src, m_actualPage });
+	//desbloquear cambiar de pagina
+	
 
-	create_task(renderAction).then([stream, src]() {
+	create_task(renderAction).then([=]() {
+		LoadingPage(false);
 		return create_task(src->SetSourceAsync(stream));
 		});
 	
+}
+
+//-----------------------------------------------------------------------------------------
+/*
+	Disables controls on screen while page is rendering
+*/
+void PdfVysor::MainPage::LoadingPage(bool enable) {
+	enable = !enable;
+	loadDocument->IsEnabled = enable;
+	if (m_actualPage > 0) {
+		firstPage->IsEnabled = enable;
+		previosPage->IsEnabled = enable;
+	} else {
+		firstPage->IsEnabled = false;
+		previosPage->IsEnabled = false;
+	}
+	
+	actualPageBox->IsEnabled = enable;
+	if (m_actualPage < m_document->PageCount - 1)
+	{
+		nextPage->IsEnabled = enable;
+		lastPage->IsEnabled = enable;
+	}
+	else
+	{
+		nextPage->IsEnabled = false;
+		lastPage->IsEnabled = false;
+	}
+	
+	zoomOut->IsEnabled = enable;
+	zoomIn->IsEnabled = enable;
+	restoreZoom->IsEnabled = enable;
+	progressBar->IsActive = !enable;
+	if (enable) {
+		progressBar->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	} else {
+		progressBar->Visibility = Windows::UI::Xaml::Visibility::Visible;
+	}
 }
 
 //-----------------------------------------------------------------------------------------
@@ -202,6 +246,7 @@ bool PdfVysor::MainPage::ShowPageRendered() {
 				//Shows the actual page index in base 1
 				actualPageBox->Text = (m_actualPage + 1).ToString();
 				output->Source = x.first;
+				LoadingPage(false);
 				return true;
 			}
 		}

@@ -47,6 +47,7 @@ namespace PdfVysor {
 		void SetZoom();
 		void SearchPage();
 		bool ShowPageRendered();
+		void LoadingPage(bool state);
 		
 
 		void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
