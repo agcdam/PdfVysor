@@ -1,14 +1,11 @@
-﻿<Page
+<Page
     x:Class="PdfVysor.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PdfVysor"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-    RequestedTheme="Dark"  
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    mc:Ignorable="d">
 
     <Page.Resources>
         <Storyboard x:Name="animationErrorVisor">
@@ -24,7 +21,7 @@
                 To="DimGray" From="Red" FillBehavior="Stop" Duration="0:0:2"/>
         </Storyboard>
     </Page.Resources>
-
+    
     <Grid Padding="40">
         <Pivot Title="PdfVysor">
             <PivotItem Header="Visor">
@@ -43,16 +40,16 @@
 
 
 
-                        <StackPanel x:Name="buttonControllerVisor"  Orientation="Horizontal" Spacing="80" Margin="20"
+                        <StackPanel x:Name="buttonControllerVisor"  Orientation="Horizontal" Spacing="80" Margin="20" 
                                 RelativePanel.Below="searchContentVisor"
                                 RelativePanel.AlignRightWithPanel="True"
-                                RelativePanel.AlignLeftWithPanel="True" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+                                RelativePanel.AlignLeftWith="searchContentVisor"  VerticalAlignment="Stretch" HorizontalAlignment="Center" >
 
 
                             <StackPanel Orientation="Horizontal" Spacing="15">
                                 <Button x:Name="firstPageVisor" Content="&lt;&lt;" Width="40" Click="FirstPageVisor"/>
                                 <Button x:Name="previousPageVisor" Content="&lt;" Width="40" Click="PreviousPageVisor"/>
-                                <TextBox x:Name="actualPageBoxVisor" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusVisor" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" KeyUp="ActualPageKeyUpVisor"/>
+                                <TextBox x:Name="actualPageBoxVisor" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusVisor" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6"/>
                                 <TextBox x:Name="totalPagesBoxVisor" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
                                 <Button x:Name="nextPageVisor" Content="&gt;" Width="40" Click="NextPageVisor"/>
                                 <Button x:Name="lastPageVisor" Content="&gt;&gt;" Width="40" Click="LastPageVisor"/>
@@ -115,7 +112,7 @@
                             <StackPanel x:Name="buttonControllerDiv"  Orientation="Horizontal" Spacing="20" Margin="20">
                                 <Button x:Name="firstPageDiv" Content="&lt;&lt;" Width="40" Click="FirstPageDiv"/>
                                 <Button x:Name="previosPageDiv" Content="&lt;" Width="40" Click="PreviousPageDiv"/>
-                                <TextBox x:Name="actualPageBoxDiv" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusDiv" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" KeyUp="ActualPageKeyUpDiv"/>
+                                <TextBox x:Name="actualPageBoxDiv" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusDiv" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6"/>
                                 <TextBox x:Name="totalPagesBoxDiv" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
                                 <Button x:Name="nextPageDiv" Content="&gt;" Width="40" Click="NextPageDiv"/>
                                 <Button x:Name="lastPageDiv" Content="&gt;&gt;" Width="40" Click="LastPageDiv"/>
