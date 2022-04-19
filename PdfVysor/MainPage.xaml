@@ -30,7 +30,7 @@
                 <TextBlock x:Name="filePath" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             </StackPanel>
 
-            
+
 
             <StackPanel x:Name="buttonController"  Orientation="Horizontal" Spacing="80" Margin="20"
                     RelativePanel.Below="searchContent"
@@ -42,15 +42,16 @@
                     <Button x:Name="firstPage" Content="&lt;&lt;" Width="40" Click="FirstPage"/>
                     <Button x:Name="previosPage" Content="&lt;" Width="40" Click="PreviousPage"/>
                     <TextBox x:Name="actualPageBox" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocus" KeyUp="ActualPageKeyUp"/>
-                    <TextBox x:Name="totalPagesBox" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False"/>
+                    <TextBox x:Name="totalPagesBox" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
                     <Button x:Name="nextPage" Content="&gt;" Width="40" Click="NextPage"/>
                     <Button x:Name="lastPage" Content="&gt;&gt;" Width="40" Click="LastPage"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
-                    <Button Content="-" Width="40" Click="ZoomOut"/>
+                    <Button x:Name="zoomOut" Content="-" Width="40" Click="ZoomOut"/>
                     <TextBlock Text="100 %" VerticalAlignment="Center" x:Name="zoom"/>
-                    <Button Content="+" Width="40" Click="ZoomIn"/>
+                    <Button x:Name="zoomIn" Content="+" Width="40" Click="ZoomIn"/>
+                    <Button x:Name="restoreZoom" Content="Restablecer" Click="RestoreZoom"/>
                 </StackPanel>
             </StackPanel>
             <ScrollViewer RelativePanel.Below="buttonController" 
@@ -64,7 +65,7 @@
                           HorizontalScrollBarVisibility="Auto" 
                           RelativePanel.AlignVerticalCenterWith="" 
                           HorizontalSnapPointsAlignment="Center" Margin="0,22,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="10" ZoomMode="Enabled" MinZoomFactor="0.25" ViewChanging="ViewChanging">
-                
+
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Image x:Name="output" 
                            VerticalAlignment="Stretch" 
@@ -72,8 +73,18 @@
                            Margin="10,10,10,15" />
 
                 </StackPanel>
-                
+
             </ScrollViewer>
+            <StackPanel RelativePanel.AlignBottomWithPanel="True"
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"
+                          RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing x:Name="progressBar"
+                              Height="40"
+                              Width="40"
+                              IsActive="False"
+                              Visibility="Collapsed"/>
+            </StackPanel>
         </RelativePanel>
-    </Grid> 
+    </Grid>
 </Page>

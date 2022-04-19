@@ -7,6 +7,8 @@
 
 #include "MainPage.g.h"
 
+using namespace Windows::UI::Xaml::Media::Imaging;
+
 namespace PdfVysor {
 	/// <summary>
 	/// Página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
@@ -14,7 +16,7 @@ namespace PdfVysor {
 	public ref class MainPage sealed {
 	public:
 		MainPage();
-		
+
 	private:
 		Windows::Data::Pdf::PdfDocument^ m_document;
 		Windows::Storage::StorageFile^ m_file;
@@ -22,7 +24,7 @@ namespace PdfVysor {
 		
 		int m_actualPage;
 		float m_zoomScroller;
-      
+		std::vector<std::pair<BitmapImage^, int>> m_pdfPages;
 
 		//Minimum page height used to calculate the zoom and size of output render
 		const int kBaseHeightImage = 297;
@@ -34,14 +36,19 @@ namespace PdfVysor {
 		const int kZoomDefault = 4;
 
 		//Rendering page quality
-		const double kPageQualityRender = 3.75;
-      
+		const double kPageQualityRender = 2.5;
 
+
+		
 		void Update();
 		void ShowPage();
 		void Log(Platform::String^ msg);
 		bool IsNumber(const wchar_t *string);
+		void SetZoom();
 		void SearchPage();
+		bool ShowPageRendered();
+		void LoadingPage(bool state);
+		
 
 		void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -53,5 +60,6 @@ namespace PdfVysor {
 		void ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
 		void ViewChanging(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e);
+		void RestoreZoom(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 	};
 }
