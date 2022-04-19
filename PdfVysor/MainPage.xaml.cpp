@@ -41,9 +41,9 @@ using namespace Windows::Foundation::Numerics;
 
 MainPage::MainPage() {
 	InitializeComponent();
-	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	m_zoomScroller = scrollerPage->ZoomFactor;
+	buttonControllerVisor->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	scrollerPageVisor->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	m_zoomScroller = scrollerPageVisor->ZoomFactor;
 	SetZoom();
 }
 
@@ -51,13 +51,13 @@ MainPage::MainPage() {
 
 //-----------------------------------------------------------------------------------------
 /*
-   Open new FileOpenPicker every time button loadDocument is clicked
+   Open new FileOpenPicker every time button loadDocumentVisor is clicked
 */
-void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	loadDocument->IsEnabled = false;
-	buttonController->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-	filePath->Text = "";
+void PdfVysor::MainPage::OpenFileVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	loadDocumentVisor->IsEnabled = false;
+	buttonControllerVisor->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	scrollerPageVisor->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	filePathVisor->Text = "";
 
 	m_document = nullptr;
 	m_file = nullptr;
@@ -73,7 +73,7 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 		
 		if (file != nullptr) {
 			m_file = file;
-			return create_task(PdfDocument::LoadFromFileAsync(file, password->Password));
+			return create_task(PdfDocument::LoadFromFileAsync(file, passwordVisor->Password));
 		} else {
 			return task_from_result(static_cast<PdfDocument^>(nullptr));
 		}
@@ -85,21 +85,21 @@ void PdfVysor::MainPage::OpenFile(Platform::Object^ sender, Windows::UI::Xaml::R
 		}
 
 		if (m_document != nullptr) {
-			filePath->Text = m_file->Name;
-			buttonController->Visibility = Windows::UI::Xaml::Visibility::Visible;
-			scrollerPage->Visibility = Windows::UI::Xaml::Visibility::Visible;
-			totalPagesBox->Text = m_document->PageCount.ToString();
+			filePathVisor->Text = m_file->Name;
+			buttonControllerVisor->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			scrollerPageVisor->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			totalPagesBoxVisor->Text = m_document->PageCount.ToString();
 			this->Update();
 		}
 	});
-	loadDocument->IsEnabled = true;
+	loadDocumentVisor->IsEnabled = true;
 }
 
 //-----------------------------------------------------------------------------------------
 /*
    Navigate to the first page
 */
-void PdfVysor::MainPage::FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+void PdfVysor::MainPage::FirstPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	m_actualPage = 0;
 	this->Update();
 }
@@ -108,7 +108,7 @@ void PdfVysor::MainPage::FirstPage(Platform::Object^ sender, Windows::UI::Xaml::
 /*
    Navigate to the previous page
 */
-void PdfVysor::MainPage::PreviousPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+void PdfVysor::MainPage::PreviousPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	--m_actualPage;
 	this->Update();
 }
@@ -117,7 +117,7 @@ void PdfVysor::MainPage::PreviousPage(Platform::Object^ sender, Windows::UI::Xam
 /*
    Navigate to the next page
 */
-void PdfVysor::MainPage::NextPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+void PdfVysor::MainPage::NextPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	++m_actualPage;
 	this->Update();
 }
@@ -126,7 +126,7 @@ void PdfVysor::MainPage::NextPage(Platform::Object^ sender, Windows::UI::Xaml::R
 /*
    Navigate to the last page
 */
-void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+void PdfVysor::MainPage::LastPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	m_actualPage = m_document->PageCount - 1;
 	this->Update();
 }
@@ -138,20 +138,20 @@ void PdfVysor::MainPage::LastPage(Platform::Object^ sender, Windows::UI::Xaml::R
 void PdfVysor::MainPage::Update() {
 	
 	if (m_actualPage == 0) {
-		firstPage->IsEnabled = false;
-		previosPage->IsEnabled = false;
+		firstPageVisor->IsEnabled = false;
+		previousPageVisor->IsEnabled = false;
 	} else {
-		firstPage->IsEnabled = true;
-		previosPage->IsEnabled = true;
+		firstPageVisor->IsEnabled = true;
+		previousPageVisor->IsEnabled = true;
 	}
 
 	if (m_document != nullptr) {
 		if (m_actualPage == m_document->PageCount - 1) {
-			nextPage->IsEnabled = false;
-			lastPage->IsEnabled = false;
+			nextPageVisor->IsEnabled = false;
+			lastPageVisor->IsEnabled = false;
 		} else {
-			nextPage->IsEnabled = true;
-			lastPage->IsEnabled = true;
+			nextPageVisor->IsEnabled = true;
+			lastPageVisor->IsEnabled = true;
 		}
 	}
 
@@ -165,7 +165,7 @@ void PdfVysor::MainPage::Update() {
 void PdfVysor::MainPage::ShowPage() {
 	//bloquear cambiar de pagina
 	LoadingPage(true);
-	output->Source = nullptr;
+	outputVisor->Source = nullptr;
 	// If the page is already rendered, don't do nothing
 	if (ShowPageRendered()) return;
 	PdfPage^ page = m_document->GetPage(m_actualPage);
@@ -177,11 +177,11 @@ void PdfVysor::MainPage::ShowPage() {
 	options->DestinationWidth = static_cast<unsigned int>(page->Size.Width * kPageQualityRender);
 	renderAction = page->RenderToStreamAsync(stream, options);
 	auto src = ref new BitmapImage();
-	output->Source = src;
-	output->Height = kBaseHeightImage * kZoomDefault;
-	output->Width = kBaseWidthImage * kZoomDefault;
+	outputVisor->Source = src;
+	outputVisor->Height = kBaseHeightImage * kZoomDefault;
+	outputVisor->Width = kBaseWidthImage * kZoomDefault;
 	//Shows the actual page index in base 1
-	actualPageBox->Text = (m_actualPage + 1).ToString();
+	actualPageBoxVisor->Text = (m_actualPage + 1).ToString();
 	//m_pdfPages[m_actualPage] = src;
 	m_pdfPages.push_back({ src, m_actualPage });
 	//desbloquear cambiar de pagina
@@ -200,42 +200,42 @@ void PdfVysor::MainPage::ShowPage() {
 */
 void PdfVysor::MainPage::LoadingPage(bool enable) {
 	enable = !enable;
-	loadDocument->IsEnabled = enable;
+	loadDocumentVisor->IsEnabled = enable;
 	if (m_actualPage > 0) {
-		firstPage->IsEnabled = enable;
-		previosPage->IsEnabled = enable;
+		firstPageVisor->IsEnabled = enable;
+		previousPageVisor->IsEnabled = enable;
 	} else {
-		firstPage->IsEnabled = false;
-		previosPage->IsEnabled = false;
+		firstPageVisor->IsEnabled = false;
+		previousPageVisor->IsEnabled = false;
 	}
 	
-	actualPageBox->IsEnabled = enable;
+	actualPageBoxVisor->IsEnabled = enable;
 	if (m_actualPage < m_document->PageCount - 1)
 	{
-		nextPage->IsEnabled = enable;
-		lastPage->IsEnabled = enable;
+		nextPageVisor->IsEnabled = enable;
+		lastPageVisor->IsEnabled = enable;
 	}
 	else
 	{
-		nextPage->IsEnabled = false;
-		lastPage->IsEnabled = false;
+		nextPageVisor->IsEnabled = false;
+		lastPageVisor->IsEnabled = false;
 	}
 	
-	zoomOut->IsEnabled = enable;
-	zoomIn->IsEnabled = enable;
-	restoreZoom->IsEnabled = enable;
-	progressBar->IsActive = !enable;
+	zoomOutVisor->IsEnabled = enable;
+	zoomInVisor->IsEnabled = enable;
+	restoreZoomVisor->IsEnabled = enable;
+	progressBarVisor->IsActive = !enable;
 	if (enable) {
-		progressBar->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		progressBarVisor->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 	} else {
-		progressBar->Visibility = Windows::UI::Xaml::Visibility::Visible;
+		progressBarVisor->Visibility = Windows::UI::Xaml::Visibility::Visible;
 	}
 }
 
 //-----------------------------------------------------------------------------------------
 /*
 	Looks if the actual page is already rendered
-	If it's true set the resource in the output
+	If it's true set the resource in the outputVisor
 */
 bool PdfVysor::MainPage::ShowPageRendered() {
 	if (!m_pdfPages.empty())
@@ -244,8 +244,8 @@ bool PdfVysor::MainPage::ShowPageRendered() {
 			if (x.second == m_actualPage)
 			{
 				//Shows the actual page index in base 1
-				actualPageBox->Text = (m_actualPage + 1).ToString();
-				output->Source = x.first;
+				actualPageBoxVisor->Text = (m_actualPage + 1).ToString();
+				outputVisor->Source = x.first;
 				LoadingPage(false);
 				return true;
 			}
@@ -258,14 +258,14 @@ bool PdfVysor::MainPage::ShowPageRendered() {
 /*
    Decrease the zoom value
 */
-void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	if ((m_zoomScroller - scrollerPage->MinZoomFactor) > 0.15)
+void PdfVysor::MainPage::ZoomOutVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	if ((m_zoomScroller - scrollerPageVisor->MinZoomFactor) > 0.15)
 	{
 		m_zoomScroller -= 0.15f;
 	}
-	else if (m_zoomScroller > scrollerPage->MinZoomFactor)
+	else if (m_zoomScroller > scrollerPageVisor->MinZoomFactor)
 	{
-		m_zoomScroller -= scrollerPage->MinZoomFactor;
+		m_zoomScroller -= scrollerPageVisor->MinZoomFactor;
 	}
 	else
 	{
@@ -278,14 +278,14 @@ void PdfVysor::MainPage::ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::Ro
 /*
    Increase the zoom value
 */
-void PdfVysor::MainPage::ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	if ((scrollerPage->MaxZoomFactor - m_zoomScroller) > 0.15)
+void PdfVysor::MainPage::ZoomInVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	if ((scrollerPageVisor->MaxZoomFactor - m_zoomScroller) > 0.15)
 	{
 		m_zoomScroller += 0.15f;
 	}
-	else if (scrollerPage->MaxZoomFactor > m_zoomScroller)
+	else if (scrollerPageVisor->MaxZoomFactor > m_zoomScroller)
 	{
-		m_zoomScroller += (scrollerPage->MaxZoomFactor - m_zoomScroller);
+		m_zoomScroller += (scrollerPageVisor->MaxZoomFactor - m_zoomScroller);
 	}
 	else
 	{
@@ -308,17 +308,17 @@ void PdfVysor::MainPage::Log(Platform::String^ msg) {
 
 //-----------------------------------------------------------------------------------------
 /*
-	When actualPageBox loses pointer focus, it tries to find the page written on it
+	When actualPageBoxVisor loses pointer focus, it tries to find the page written on it
 */
-void PdfVysor::MainPage::ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+void PdfVysor::MainPage::ActualPageLostFocusVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	SearchPage();
 }
 
 //-----------------------------------------------------------------------------------------
 /*
-	When press enter or navigate with keys up/down, while focus is in actualPageBox search the page
+	When press enter or navigate with keys up/down, while focus is in actualPageBoxVisor search the page
 */
-void PdfVysor::MainPage::ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
+void PdfVysor::MainPage::ActualPageKeyUpVisor(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
 	if (e->Key == Windows::System::VirtualKey::Enter)
 	{
 		SearchPage();
@@ -327,11 +327,11 @@ void PdfVysor::MainPage::ActualPageKeyUp(Platform::Object^ sender, Windows::UI::
 
 //-----------------------------------------------------------------------------------------
 /*
-	Search the page with the number written in actualPageBox
+	Search the page with the number written in actualPageBoxVisor
 */
 void PdfVysor::MainPage::SearchPage() {
 	try {
-		const wchar_t *string = actualPageBox->Text->Data();
+		const wchar_t *string = actualPageBoxVisor->Text->Data();
 		unsigned int newPage;
 		IsNumber(string) ? newPage = std::stoi(string) : throw std::exception();
 		--newPage; // set index base from 1 to 0
@@ -339,21 +339,21 @@ void PdfVysor::MainPage::SearchPage() {
 		if (newPage < 0 || newPage >= m_document->PageCount) throw std::exception();
 		// if the new page it's the same than actual return and does nothing
 		if (m_actualPage == newPage) {
-			actualPageBox->Text = (m_actualPage + 1).ToString();
+			actualPageBoxVisor->Text = (m_actualPage + 1).ToString();
 			return;
 		}
 		m_actualPage = newPage;
 		this->Update();
 	}
 	catch (const std::exception&) {
-		actualPageBox->Text = (m_actualPage + 1).ToString();
-		animationError->Begin();
+		actualPageBoxVisor->Text = (m_actualPage + 1).ToString();
+		animationErrorVisor->Begin();
 	}
 }
 
 //-----------------------------------------------------------------------------------------
 /*
-	Checks if the actualPageBox is a number
+	Checks if the actualPageBoxVisor is a number
 */
 bool PdfVysor::MainPage::IsNumber(const wchar_t *str) {
 	std::wstring ws(str);
@@ -368,17 +368,17 @@ bool PdfVysor::MainPage::IsNumber(const wchar_t *str) {
 /*
 	Updates the zoom text while aplying zoom with wheelmouse + ctrl
 */
-void PdfVysor::MainPage::ViewChanging(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e)
+void PdfVysor::MainPage::ViewChangingVisor(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e)
 {
-	m_zoomScroller = scrollerPage->ZoomFactor;
-	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
+	m_zoomScroller = scrollerPageVisor->ZoomFactor;
+	zoomVisor->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
 }
 
 //-----------------------------------------------------------------------------------------
 /*
 	Set zoom 100%
 */
-void PdfVysor::MainPage::RestoreZoom(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void PdfVysor::MainPage::RestoreZoomVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	m_zoomScroller = (float) 1;
 	SetZoom();
@@ -389,9 +389,39 @@ void PdfVysor::MainPage::RestoreZoom(Platform::Object^ sender, Windows::UI::Xaml
 	Changes zoom and updates zoom text
 */
 void PdfVysor::MainPage::SetZoom() {
-	zoom->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
-	scrollerPage->ChangeView(scrollerPage->HorizontalOffset, scrollerPage->VerticalOffset, m_zoomScroller);
+	zoomVisor->Text = ((int)(m_zoomScroller * 100)).ToString() + " %";
+	scrollerPageVisor->ChangeView(scrollerPageVisor->HorizontalOffset, scrollerPageVisor->VerticalOffset, m_zoomScroller);
 }
 
 
+void PdfVysor::MainPage::OpenFileDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	//open file for file divider
+}
 
+void PdfVysor::MainPage::ActualPageKeyUpDiv(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e)
+{
+	
+}
+
+void PdfVysor::MainPage::ActualPageLostFocusDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) 
+{
+
+}
+
+void PdfVysor::MainPage::FirstPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+
+}
+
+void PdfVysor::MainPage::PreviousPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	
+}
+
+void PdfVysor::MainPage::NextPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	
+}
+
+void PdfVysor::MainPage::LastPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	
+}

@@ -50,16 +50,24 @@ namespace PdfVysor {
 		void LoadingPage(bool state);
 		
 
-		void OpenFile(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void FirstPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void PreviousPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void NextPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void LastPage(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ZoomOut(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ZoomIn(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ActualPageLostFocus(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ActualPageKeyUp(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
-		void ViewChanging(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e);
-		void RestoreZoom(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ZoomOutVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ZoomInVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ActualPageLostFocusVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ActualPageKeyUpVisor(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
+		void ViewChangingVisor(Platform::Object^ sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs^ e);
+		void RestoreZoomVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void OpenFileVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void FirstPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void PreviousPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void NextPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void LastPageVisor(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
+		void OpenFileDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ActualPageKeyUpDiv(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
+		void ActualPageLostFocusDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void FirstPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void PreviousPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void NextPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void LastPageDiv(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 	};
 }
