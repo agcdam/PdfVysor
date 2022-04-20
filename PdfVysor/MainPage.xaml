@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-    RequestedTheme="Dark">
+     
+    RequestedTheme="Default">
 
     <Page.Resources>
         <Storyboard x:Name="animationErrorVisor">
@@ -27,51 +27,52 @@
     <Grid>
         <Pivot Title="PdfVysor">
             <PivotItem Header="Visor">
-                <Grid>
-                    <RelativePanel>
-                      
-                        <StackPanel x:Name="UpperContentVisor" RelativePanel.AlignTopWithPanel="True" Margin="30,10,30,10" Orientation="Horizontal" Spacing="50"
+                <RelativePanel>
+
+                    <StackPanel x:Name="UpperContentVisor" RelativePanel.AlignTopWithPanel="True" Margin="30,10,30,10" Orientation="Horizontal" Spacing="50"
                                     RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Stretch">
-                            
-                            <StackPanel Visibility="Visible" x:Name="LoadContentVisor" Orientation="Horizontal" Spacing="20"
+
+                        <StackPanel Visibility="Visible" x:Name="LoadContentVisor" Orientation="Horizontal" Spacing="20"
                                          RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Left">
 
-                                <Button x:Name="loadDocumentVisor" Content="Abrir documento" Click="OpenFileVisor"/>
-                                <PasswordBox x:Name="passwordVisor" BorderThickness="1" PlaceholderText="Contraseña opcional" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                             
-                            </StackPanel>
+                            <Button x:Name="loadDocumentVisor" Content="Abrir documento" Click="OpenFileVisor"/>
+                            <PasswordBox x:Name="passwordVisor" BorderThickness="1" PlaceholderText="Contraseña opcional" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
 
-                            <StackPanel x:Name="PageControllerVisor" Orientation="Horizontal" Spacing="15"  HorizontalAlignment="Center"
+                        </StackPanel>
+
+                        <StackPanel x:Name="PageControllerVisor" Orientation="Horizontal" Spacing="15"  HorizontalAlignment="Center"
                                         RelativePanel.AlignRightWithPanel="True"
                                         RelativePanel.AlignLeftWithPanel="True"
                                         RelativePanel.Below="">
-                                
-                                <Button x:Name="firstPageVisor" Content="&lt;&lt;" Width="40" Click="FirstPageVisor"/>
-                                <Button x:Name="previousPageVisor" Content="&lt;" Width="40" Click="PreviousPageVisor"/>
-                                <TextBox x:Name="actualPageBoxVisor" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusVisor" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" IsTabStop="False" />
-                                <TextBox x:Name="totalPagesBoxVisor" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
-                                <Button x:Name="nextPageVisor" Content="&gt;" Width="40" Click="NextPageVisor"/>
-                                <Button x:Name="lastPageVisor" Content="&gt;&gt;" Width="40" Click="LastPageVisor"/>
-                                
-                            </StackPanel>
 
-                            <StackPanel x:Name="ZoomControllerVisor"  Orientation="Horizontal"  Spacing="50" HorizontalAlignment="Right"
+                            <Button x:Name="firstPageVisor" Content="&lt;&lt;" Width="40" Click="FirstPageVisor"/>
+                            <Button x:Name="previousPageVisor" Content="&lt;" Width="40" Click="PreviousPageVisor"/>
+                            <TextBox x:Name="actualPageBoxVisor" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusVisor" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" IsTabStop="False" />
+                            <TextBox x:Name="totalPagesBoxVisor" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
+                            <Button x:Name="nextPageVisor" Content="&gt;" Width="40" Click="NextPageVisor"/>
+                            <Button x:Name="lastPageVisor" Content="&gt;&gt;" Width="40" Click="LastPageVisor"/>
+
+                        </StackPanel>
+
+                        <StackPanel x:Name="ZoomControllerVisor"  Orientation="Horizontal"  Spacing="50" HorizontalAlignment="Right"
                                         RelativePanel.AlignRightWithPanel="True">
 
-                                <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
-                                    <RepeatButton x:Name="zoomOutVisor" Content="-" Width="40" Click="ZoomOutVisor"/>
-                                    <TextBlock Text="100 %" VerticalAlignment="Center" x:Name="zoomVisor"/>
-                                    <RepeatButton x:Name="zoomInVisor" Content="+" Width="40" Click="ZoomInVisor"/>
-                                    <Button x:Name="restoreZoomVisor" Content="Restablecer" Click="RestoreZoomVisor"/>
-                                </StackPanel>
-
+                            <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
+                                <RepeatButton x:Name="zoomOutVisor" Content="-" Width="40" Click="ZoomOutVisor"/>
+                                <TextBlock Text="100 %" VerticalAlignment="Center" x:Name="zoomVisor"/>
+                                <RepeatButton x:Name="zoomInVisor" Content="+" Width="40" Click="ZoomInVisor"/>
+                                <Button x:Name="restoreZoomVisor" Content="Restablecer" Click="RestoreZoomVisor"/>
                             </StackPanel>
 
                         </StackPanel>
-                        
 
-                        <ScrollViewer RelativePanel.Below="UpperContentVisor" 
+
+                    </StackPanel>
+
+
+
+                    <ScrollViewer RelativePanel.Below="UpperContentVisor" 
                                     RelativePanel.AlignBottomWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True"
                                     RelativePanel.AlignRightWithPanel="True"
@@ -82,27 +83,26 @@
                                     RelativePanel.AlignVerticalCenterWith="" 
                                     HorizontalSnapPointsAlignment="Center" Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="10" ZoomMode="Enabled" MinZoomFactor="0.25" ViewChanging="ViewChangingVisor">
 
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                                <Image x:Name="outputVisor" 
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                            <Image x:Name="outputVisor" 
                                     VerticalAlignment="Stretch" 
                                     HorizontalAlignment="Center" 
                                     Margin="10,10,10,15" />
 
-                            </StackPanel>
+                        </StackPanel>
 
-                        </ScrollViewer>
-                        <StackPanel RelativePanel.AlignBottomWithPanel="True"
+                    </ScrollViewer>
+                    <StackPanel RelativePanel.AlignBottomWithPanel="True"
                                     RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignTopWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <ProgressRing x:Name="progressBarVisor"
+                        <ProgressRing x:Name="progressBarVisor"
                                         Height="40"
                                         Width="40"
                                         IsActive="False"
                                         Visibility="Collapsed"/>
-                        </StackPanel>
-                    </RelativePanel>
-                </Grid>
+                    </StackPanel>
+                </RelativePanel>
             </PivotItem>
             <PivotItem Header="Dividir Paginas">
                 <Grid>
