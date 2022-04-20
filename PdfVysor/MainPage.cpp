@@ -18,9 +18,10 @@ namespace winrt::PdfVysor::implementation
 {
 	MainPage::MainPage() {
 		InitializeComponent();
-		buttonControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+		PageControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
 		scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
-		filePathVisor().Text(L"");
+		ZoomControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+		/*filePathVisor().Text(L"");*/
 	}
 
 
@@ -30,16 +31,7 @@ namespace winrt::PdfVysor::implementation
 	*/
 	fire_and_forget winrt::PdfVysor::implementation::MainPage::OpenFileVisor(IInspectable const&, RoutedEventArgs const&) {
 
-		loadDocumentVisor().IsEnabled(false);
-		buttonControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
-		scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
-		filePathVisor().Text(L"");
-
-		m_document = nullptr;
-		m_file = nullptr;
-		m_actualPage = 0; //index base 0
-		m_zoomScroller = 1;
-		m_pdfPages.clear();
+		
 
 		FileOpenPicker picker;
 		
@@ -49,6 +41,18 @@ namespace winrt::PdfVysor::implementation
 		StorageFile file = co_await picker.PickSingleFileAsync();
 		if (file != nullptr)
 		{
+			loadDocumentVisor().IsEnabled(false);
+			PageControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+			scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+			ZoomControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+			//filePathVisor().Text(L"");
+
+			m_document = nullptr;
+			m_file = nullptr;
+			m_actualPage = 0; //index base 0
+			m_zoomScroller = 1;
+			m_pdfPages.clear();
+
 			m_file = file;
 			try
 			{
@@ -56,47 +60,21 @@ namespace winrt::PdfVysor::implementation
 			}
 			catch (winrt::hresult_error const& ex)
 			{
-				
+				//capturar excepcion
 			}
 
 			if (&m_document != nullptr)
 			{
 				totalPagesBoxVisor().Text(winrt::to_hstring(m_document.PageCount()));
-				filePathVisor().Text(m_file.Name());
-				buttonControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Visible());
-				scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Visible());
-				totalPagesBoxVisor().Text(winrt::to_hstring(m_document.PageCount()));
+				//filePathVisor().Text(m_file.Name());
+				PageControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
+				scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
+				ZoomControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
+
 				this->Update();
 			}
 		}
 		loadDocumentVisor().IsEnabled(true);
-
-		//create_task(picker->PickSingleFileAsync()).then([this](StorageFile* file) {
-
-		//	if (file != nullptr) {
-		//		m_file = file;
-		//		return create_task(PdfDocument::LoadFromFileAsync(file, passwordVisor->Password));
-		//	}
-		//	else {
-		//		return task_from_result(static_cast<PdfDocument^>(nullptr));
-		//	}
-		//	}).then([this](task<PdfDocument*> task) {
-		//		try {
-		//			m_document = task.get();
-		//		}
-		//		catch (Exception^ ex) {
-		//			//Capturar excepcion
-		//		}
-
-		//		if (m_document != nullptr) {
-		//			filePathVisor->Text = m_file->Name;
-		//			buttonControllerVisor->Visibility = Windows::UI::Xaml::Visibility::Visible;
-		//			scrollerPageVisor()Visibility = Windows::UI::Xaml::Visibility::Visible;
-		//			totalPagesBoxVisor->Text = m_document.PageCount.ToString();
-		//			this->Update();
-		//		}
-		//		});
-		//	loadDocumentVisor().IsEnabled(true);
 	}
 
 	//-----------------------------------------------------------------------------------------
@@ -172,11 +150,10 @@ namespace winrt::PdfVysor::implementation
 		//bloquear cambiar de pagina
 		LoadingPage(true);
 		outputVisor().Source(nullptr);
-		// If the page is already rendered, don't do nothing
+		// If the page is already rendered, shows the page that is rendered yet
 		if (ShowPageRendered()) return;
 		PdfPage page = m_document.GetPage(m_actualPage);
 		InMemoryRandomAccessStream stream;
-		IAsyncAction* renderAction;
 		auto options = PdfPageRenderOptions();
 		options.BackgroundColor(Windows::UI::Colors::White()) ; //background color of page
 		options.DestinationHeight(static_cast<unsigned int>(page.Size().Height * kPageQualityRender));
@@ -359,7 +336,8 @@ namespace winrt::PdfVysor::implementation
 		Checks if the actualPageBoxVisor is a number
 	*/
 	bool winrt::PdfVysor::implementation::MainPage::IsNumber(winrt::hstring const& str) {
-		for (char const& c : str) {
+		std::string aux = winrt::to_string(str);
+		for (char const& c : aux) {
 			if (isdigit(c) == 0) return false;
 		}
 		return true;
@@ -422,4 +400,24 @@ namespace winrt::PdfVysor::implementation
 
 	}
 
+	//void winrt::PdfVysor::implementation::MainPage::ActualPageKeyUpVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& e)
+	//{
+
+	//	/*if (e.Key() == Windows::System::VirtualKey::Enter)
+	//	{
+	//		SearchPage();
+	//	}*/
+	//}
+
+	//void winrt::PdfVysor::implementation::MainPage::ActualPageKeyUpDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& e)
+	//{
+
+	//}
+
 }
+
+
+
+
+
+

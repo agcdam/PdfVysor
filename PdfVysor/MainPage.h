@@ -9,12 +9,39 @@ namespace winrt::PdfVysor::implementation
     {
         MainPage();
 
+
+		//void FirstPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void FirstPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void PreviousPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+
+		void ZoomOutVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void ZoomInVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void ActualPageLostFocusVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void ViewChangingVisor(IInspectable const& sender, winrt::Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs const& e);
+		void RestoreZoomVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		fire_and_forget OpenFileVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void FirstPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void PreviousPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void NextPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void LastPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+
+		void OpenFileDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void ActualPageLostFocusDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void NextPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		void LastPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+
+		/*void ActualPageKeyUpVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& e);
+		void ActualPageKeyUpDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& e);*/
+
+
+
+	private:
 		Windows::Data::Pdf::PdfDocument m_document {nullptr};
 		Windows::Storage::StorageFile m_file {nullptr};
 
-		int m_actualPage;
-		float m_zoomScroller;
-		std::vector<std::pair<Windows::UI::Xaml::Media::Imaging::BitmapImage, int>> m_pdfPages;
+		int m_actualPage = 0;
+		float m_zoomScroller = 1;
+		std::vector<std::pair<Windows::UI::Xaml::Media::Imaging::BitmapImage, int>> m_pdfPages {};
 
 		//Minimum page height used to calculate the zoom and size of output render
 		const int kBaseHeightImage = 297;
@@ -40,26 +67,7 @@ namespace winrt::PdfVysor::implementation
 		void LoadingPage(bool state);
 
         
-        //void FirstPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void FirstPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-        void PreviousPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-
-		void ZoomOutVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void ZoomInVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void ActualPageLostFocusVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void ViewChangingVisor(IInspectable const& sender, winrt::Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs const& e);
-		void RestoreZoomVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		fire_and_forget OpenFileVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void FirstPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void PreviousPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void NextPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void LastPageVisor(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-
-		void OpenFileDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void ActualPageLostFocusDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void NextPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		void LastPageDiv(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
-		
+        
 	};
 }
 
