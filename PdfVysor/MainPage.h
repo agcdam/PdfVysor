@@ -65,6 +65,7 @@ namespace winrt::PdfVysor::implementation
 		void SearchPage();
 		bool ShowPageRendered();
 		void LoadingPage(bool state);
+		void ChangeVisibilityControls(Windows::UI::Xaml::Visibility state);
 
         
         

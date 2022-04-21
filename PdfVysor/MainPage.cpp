@@ -42,9 +42,7 @@ namespace winrt::PdfVysor::implementation
 		if (file != nullptr)
 		{
 			loadDocumentVisor().IsEnabled(false);
-			PageControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
-			scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
-			ZoomControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+			ChangeVisibilityControls(Visibility::Collapsed);
 			//filePathVisor().Text(L"");
 
 			m_document = nullptr;
@@ -67,14 +65,18 @@ namespace winrt::PdfVysor::implementation
 			{
 				totalPagesBoxVisor().Text(winrt::to_hstring(m_document.PageCount()));
 				//filePathVisor().Text(m_file.Name());
-				PageControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
-				scrollerPageVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
-				ZoomControllerVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
+				ChangeVisibilityControls(Visibility::Visible);
 
 				this->Update();
 			}
 		}
 		loadDocumentVisor().IsEnabled(true);
+	}
+
+	void MainPage::ChangeVisibilityControls(Windows::UI::Xaml::Visibility state) {
+		PageControllerVisor().Visibility(state);
+		scrollerPageVisor().Visibility(state);
+		ZoomControllerVisor().Visibility(state);
 	}
 
 	//-----------------------------------------------------------------------------------------
@@ -213,6 +215,8 @@ namespace winrt::PdfVysor::implementation
 			progressBarVisor().Visibility(Windows::UI::Xaml::Visibility::Visible);
 		}
 	}
+
+	
 
 	//-----------------------------------------------------------------------------------------
 	/*
