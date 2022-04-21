@@ -32,7 +32,8 @@ namespace winrt::PdfVysorWinUI::implementation
 
     void winrt::PdfVysorWinUI::implementation::MainWindow::Button_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-
+        
+        ContentFram().Navigate(xaml_typename<PdfVysorWinUI::Ayuda>(), *this);
     }
 }
 
