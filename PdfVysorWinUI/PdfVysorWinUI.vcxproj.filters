@@ -5,8 +5,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
-    <Page Include="Visor.xaml" />
     <Page Include="Ayuda.xaml" />
+    <Page Include="Visor.xaml" />
+    <Page Include="DivideDoc.xaml" />
+    <Page Include="UnirDoc.xaml" />
+    <Page Include="CreaDoc.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />

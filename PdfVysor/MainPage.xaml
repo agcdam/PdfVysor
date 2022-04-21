@@ -105,7 +105,7 @@
                 </RelativePanel>
             </PivotItem>
             <PivotItem Header="Dividir Paginas">
-                <Grid>
+                <!--<Grid>
                     <RelativePanel>
                         <StackPanel x:Name="upperControlDiv" Orientation="Horizontal" 
                                     RelativePanel.AlignTopWithPanel="True"
@@ -130,7 +130,7 @@
                         <StackPanel x:Name="lowerControlDiv" Orientation="Horizontal">
                         </StackPanel>
                     </RelativePanel>
-                </Grid>
+                </Grid>-->
             </PivotItem>
             <PivotItem Header="Unir Pdfs">
                 <TextBlock Text="Unir varios pdfs en uno" />

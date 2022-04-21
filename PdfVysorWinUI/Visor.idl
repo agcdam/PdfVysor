@@ -4,5 +4,6 @@ namespace PdfVysorWinUI
     runtimeclass Visor : Microsoft.UI.Xaml.Controls.Page
     {
         Visor();
+        
     }
 }

@@ -4,6 +4,6 @@ namespace PdfVysorWinUI
     runtimeclass Ayuda : Microsoft.UI.Xaml.Controls.Page
     {
         Ayuda();
-    
+       
     }
 }

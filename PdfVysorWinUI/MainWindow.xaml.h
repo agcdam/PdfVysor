@@ -11,6 +11,7 @@ namespace winrt::PdfVysorWinUI::implementation
         void nav_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
         void nav_ItemInvoked(winrt::NavigationView const& sender, winrt::NavigationViewItemInvokedEventArgs const& args);
         void Button_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+        void nav_SelectionChanged(winrt::NavigationView const& sender, winrt::NavigationViewSelectionChangedEventArgs const& args);
     };
 }
 
