@@ -16,9 +16,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        
 
-        <NavigationView
+
+        <NavigationView CompactModeThresholdWidth="0"
                         IsSettingsVisible="False" Grid.Row="1" IsBackButtonVisible="Collapsed" x:Name="nav"
                         Loaded="nav_Loaded" ItemInvoked="nav_ItemInvoked" SelectionChanged="nav_SelectionChanged"
                         >
@@ -36,6 +36,8 @@
             <Frame x:Name="ContentFram"/>
         </NavigationView>
 
+       
+
         <InfoBar Grid.Row="0"
             IsOpen="True"
             Severity="Informational"
@@ -43,7 +45,7 @@
             Message="Recuerda revisar la ayuda si es la primera vez que usa la aplicacion"
                  x:Name="InfoBar">
             <InfoBar.ActionButton>
-                <Button Content="Mostrar ayuda" Click="Button_Click"/>
+                <Button Content="Mostrar ayuda" Click="InfoBarButton_Click"/>
             </InfoBar.ActionButton>
         </InfoBar>
         

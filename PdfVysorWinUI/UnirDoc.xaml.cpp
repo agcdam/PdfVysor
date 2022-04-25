@@ -15,6 +15,7 @@ namespace winrt::PdfVysorWinUI::implementation
     UnirDoc::UnirDoc()
     {
         InitializeComponent();
+        this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
 
     

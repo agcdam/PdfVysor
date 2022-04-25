@@ -15,6 +15,7 @@ namespace winrt::PdfVysorWinUI::implementation
     Ayuda::Ayuda()
     {
         InitializeComponent();
+        this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
 
     

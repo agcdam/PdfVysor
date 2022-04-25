@@ -15,6 +15,7 @@ namespace winrt::PdfVysorWinUI::implementation
     CreaDoc::CreaDoc()
     {
         InitializeComponent();
+        this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
 
     

@@ -15,6 +15,7 @@ namespace winrt::PdfVysorWinUI::implementation
     DivideDoc::DivideDoc()
     {
         InitializeComponent();
+        this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
 
     

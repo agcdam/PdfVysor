@@ -17,12 +17,13 @@ namespace winrt::PdfVysorWinUI::implementation
     MainWindow::MainWindow()
     {
         InitializeComponent();
+        this->Title(kTitleWindow);
     }
 
     void winrt::PdfVysorWinUI::implementation::MainWindow::nav_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
         nav().SelectedItem(nav().MenuItems().GetAt(0));
-        //cargar la pantalla de visor
+        ContentFram().Navigate(xaml_typename<PdfVysorWinUI::Visor>(), *this);
     }
 
 
@@ -44,7 +45,7 @@ namespace winrt::PdfVysorWinUI::implementation
         //sender.Header(args.SelectedItemContainer().Content());
     }
 
-    void winrt::PdfVysorWinUI::implementation::MainWindow::Button_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
+    void winrt::PdfVysorWinUI::implementation::MainWindow::InfoBarButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
         nav().SelectedItem(nav().MenuItems().GetAt(3));
         ContentFram().Navigate(xaml_typename<PdfVysorWinUI::Ayuda>(), *this);
