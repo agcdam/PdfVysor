@@ -1,25 +1,19 @@
 ﻿#include "pch.h"
-#include "Visor.xaml.h"
+#include "Visor.h"
 #if __has_include("Visor.g.cpp")
 #include "Visor.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace winrt::PdfVysorWinUI::implementation
+namespace winrt::PdfVysor::implementation
 {
     Visor::Visor()
     {
         InitializeComponent();
-        this->NavigationCacheMode(NavigationCacheMode::Enabled);
-        
+        /*this->NavigationCacheMode(NavigationCacheMode::Enabled)*/;
+
         Log("Pagina cargada------");
-        
-        
+
+
         //PageControllersVisibility(Visibility::Collapsed);
     }
 
@@ -31,11 +25,7 @@ namespace winrt::PdfVysorWinUI::implementation
     {
         OpenFile().IsEnabled(false);
 
-        HWND hwnd = GetActiveWindow();
-
         FileOpenPicker picker;
-        auto initializeWithWindow{ picker.as<::IInitializeWithWindow>()};
-        initializeWithWindow->Initialize(hwnd);
 
         picker.FileTypeFilter().Append(L".pdf");
         StorageFile file = co_await picker.PickSingleFileAsync();
@@ -43,8 +33,8 @@ namespace winrt::PdfVysorWinUI::implementation
         PdfDocument pdf = nullptr;
         if (file != nullptr)
         {
-            
-            
+
+
             try
             {
                 pdf = co_await PdfDocument::LoadFromFileAsync(file);
@@ -79,17 +69,17 @@ namespace winrt::PdfVysorWinUI::implementation
         if (m_pdfDocument != nullptr)
         {
             //asignar a m_pdfDocument el nuevo documento
-            PageControllersVisibility(Visibility::Visible); 
+            PageControllersVisibility(Visibility::Visible);
             TotalPages().Content(winrt::box_value(winrt::to_hstring(m_pdfDocument.PageCount())));
             ActualPage().Content(winrt::box_value(winrt::to_hstring(m_actualPage + 1)));
-            
+
             CheckPageControls();
 
             RenderPage();
             //renderizar la pagina
             //mostrar la pagina
         }
-        
+
         OpenFile().IsEnabled(true);
     }
 
@@ -102,9 +92,9 @@ namespace winrt::PdfVysorWinUI::implementation
         m_pdfDocument = nullptr;
         m_pdfDocument = newDoc;
         m_actualPage = 0;
-        m_zoomScroller = 1;
+        m_zoomScroller = 100;
         m_pagesCache.clear();
-        
+
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -233,18 +223,17 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::ZoomOut_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        if (m_zoomScroller > (kMinZoom + kStepFrequencyZoom))
+        if (m_zoomScroller > (kminZoom + 10))
         {
-            m_zoomScroller -= kStepFrequencyZoom;
+            m_zoomScroller -= 10;
         }
-        else if (m_zoomScroller > kMinZoom)
+        else if (m_zoomScroller > kminZoom)
         {
-            m_zoomScroller -= m_zoomScroller - kMinZoom;
+            m_zoomScroller -= m_zoomScroller - kminZoom;
         }
-        UpdateZoomValue();
-        UpdateScrollViewer();
+        ZoomValue().Content(winrt::box_value(winrt::to_hstring(m_zoomScroller) + L" %"));
         //establecer el zoom en el scrollviewer
-        
+
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -253,11 +242,8 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::Slider_ValueChanged(winrt::IInspectable const& sender, winrt::Primitives::RangeBaseValueChangedEventArgs const& e)
     {
-        m_zoomScroller = (float) e.NewValue() / 100;
-        UpdateZoomValue();
-        //UpdateScrollViewer();
-        
-        
+        m_zoomScroller = (int)e.NewValue();
+        ZoomValue().Content(winrt::box_value(winrt::to_hstring(m_zoomScroller) + L" %"));
         //establecer el zoom en el scrollviewer
     }
 
@@ -267,16 +253,15 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::ZoomIn_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        if (m_zoomScroller < (kMaxZoom - kStepFrequencyZoom))
+        if (m_zoomScroller < (kmaxZoom - 10))
         {
-            m_zoomScroller += kStepFrequencyZoom;
+            m_zoomScroller += 10;
         }
-        else if (m_zoomScroller < kMaxZoom)
+        else if (m_zoomScroller < kmaxZoom)
         {
-            m_zoomScroller += kMaxZoom - m_zoomScroller;
+            m_zoomScroller += kmaxZoom - m_zoomScroller;
         }
-        UpdateZoomValue();
-        UpdateScrollViewer();
+        ZoomValue().Content(winrt::box_value(winrt::to_hstring(m_zoomScroller) + L" %"));
         //establecer el zoom en el scrollviewer
     }
 
@@ -286,9 +271,8 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::ResetZoom_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        m_zoomScroller = kDefaultZoomValue;
-        UpdateScrollViewer();
-        UpdateZoomValue();
+        m_zoomScroller = 100;
+        ZoomValue().Content(winrt::box_value(winrt::to_hstring(m_zoomScroller) + L" %"));
         //establecer el zoom en el scrollviewer
     }
 
@@ -298,42 +282,19 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::FlyoutZoom_Opening(winrt::IInspectable const& sender, winrt::IInspectable const& e)
     {
-        ZoomSelector().Value((int)(m_zoomScroller * 100));
-    }
-
-    //----------------------------------------------------------------------------------------------------------
-    /*
-        Updates the zoom index of the scroller page
-    */
-    void Visor::UpdateScrollViewer()
-    {
-        if (ScrollerPage().IsLoaded())
-        {
-            Log(std::to_string(m_zoomScroller));
-            
-            
-            ScrollerPage().ChangeView(nullptr, nullptr, (m_zoomScroller));
-        }
-    }
-
-    //----------------------------------------------------------------------------------------------------------
-    /*
-        Updates the zoom value of the indicator
-    */
-    void Visor::UpdateZoomValue()
-    {
-        ZoomValue().Content(winrt::box_value(winrt::to_hstring ((int)(m_zoomScroller * 100)) + L" %"));
+        ZoomSelector().Value(m_zoomScroller);
     }
 
     //----------------------------------------------------------------------------------------------------------
     /*
         Update content every time scroller page change
     */
-    void Visor::ScrollerPage_ViewChanging(winrt::IInspectable const& sender, winrt::ScrollViewerViewChangingEventArgs const& e)
-    {
-        m_zoomScroller = (double) (ScrollerPage().ZoomFactor());
-        UpdateZoomValue();
-    }
+    //void Visor::ScrollerPage_ViewChanging(winrt::IInspectable const& sender, winrt::ScrollViewerViewChangingEventArgs const& e)
+    //{
+    //    /*Log("scroller changing");
+    //    m_zoomScroller = (int) (ScrollerPage().ZoomFactor() * 100);
+    //    ZoomValue().Content(winrt::box_value(winrt::to_hstring(m_zoomScroller) + L" %"));*/
+    //}
 
     //----------------------------------------------------------------------------------------------------------
     //Utility
@@ -377,22 +338,27 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     fire_and_forget Visor::RenderPage()
     {
-        BitmapImage aux = GetPageRendered(m_actualPage);
-        if (aux != nullptr) { 
-            ShowPage(aux); 
+        BitmapImage src = GetPageRendered(m_actualPage);
+        if (src != nullptr) { 
+            ShowPage(src); 
             return; 
         }
-        BitmapImage src;
+
         PdfPage page = m_pdfDocument.GetPage(m_actualPage);
         InMemoryRandomAccessStream stream;
         auto options = PdfPageRenderOptions();
         options.BackgroundColor(Windows::UI::Colors::White()); //background color of page
         options.DestinationHeight(static_cast<unsigned int>(page.Size().Height * kPageQualityRender));
         options.DestinationHeight(static_cast<unsigned int>(page.Size().Width * kPageQualityRender));
-        co_await page.RenderToStreamAsync(stream, options);  
+        co_await page.RenderToStreamAsync(stream, options);
+        Output().Source(src);
+        Output().Height(kHeightImage);
+        Output().Width(kWidthImage);       
         m_pagesCache.push_back({ src, m_actualPage });
+
         co_await src.SetSourceAsync(stream);
-        ShowPage(src);
+        
+        //ShowPage(src);
     }
 
     BitmapImage Visor::GetPageRendered(unsigned int const& page)
@@ -417,10 +383,8 @@ namespace winrt::PdfVysorWinUI::implementation
         Output().Height(kHeightImage);
         Output().Width(kWidthImage);
     }
-
-    
-    
-
-    
     
 }
+
+
+

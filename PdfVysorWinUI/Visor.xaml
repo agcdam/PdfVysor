@@ -5,11 +5,13 @@
     xmlns:local="using:PdfVysorWinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
     mc:Ignorable="d">
 
-    <StackPanel>
+    <RelativePanel>
 
-        <CommandBar Background="Transparent" IsOpen="False"  HorizontalAlignment="Left">
+        <CommandBar x:Name="CommandBar" Background="Transparent" IsOpen="False"  HorizontalAlignment="Left"
+                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
             <AppBarButton x:Name="OpenFile" Icon="OpenFile" Label="Abrir documento" Click="OpenFileButton_Click"/>
             <AppBarSeparator x:Name="Separator1" Visibility="Collapsed"/>
             <AppBarButton x:Name="FirstPage" Icon="Back" Label="Primera pagina" Click="FirstPage_Click" Visibility="Collapsed"/>
@@ -42,65 +44,23 @@
             <AppBarButton x:Name="ZoomIn" Icon="ZoomIn" Label="Añadir zoom" Click="ZoomIn_Click" Visibility="Collapsed"/>
             <AppBarButton x:Name="ResetZoom" Icon="Refresh" Label="Restablecer zoom" Click="ResetZoom_Click" Visibility="Collapsed"/>
         </CommandBar>
-        <!--Falta por implementar metodos de eventos-->
-        <!--<StackPanel x:Name="UpperContent"  Margin="30,10,30,10" Orientation="Horizontal" Spacing="50"
-                                     HorizontalAlignment="Stretch">
-
-            <StackPanel Visibility="Visible" x:Name="LoadContent" Orientation="Horizontal" Spacing="20"
-                                         RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Left">
-
-                <Button x:Name="loadDocument" Content="Abrir documento" />
-                
-
-            </StackPanel>
-
-            <StackPanel x:Name="PageController" Orientation="Horizontal" Spacing="15"  HorizontalAlignment="Center"
-                                        RelativePanel.AlignRightWithPanel="True"
-                                        RelativePanel.AlignLeftWithPanel="True"
-                                        RelativePanel.Below="">
-
-                <Button x:Name="firstPage" Content="&lt;&lt;" Width="40" />
-                <Button x:Name="previousPage" Content="&lt;" Width="40" />
-                <TextBox x:Name="actualPageBox" PlaceholderText="pagina" BorderThickness="1" Width="65" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" IsTabStop="False" />
-                <TextBox x:Name="totalPagesBox" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
-                <Button x:Name="nextPage" Content="&gt;" Width="40" />
-                <Button x:Name="lastPage" Content="&gt;&gt;" Width="40" />
-
-            </StackPanel>
-
-            <StackPanel x:Name="ZoomController"  Orientation="Horizontal"  Spacing="50" HorizontalAlignment="Right"
-                                        RelativePanel.AlignRightWithPanel="True">
-
-                <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
-                    <RepeatButton x:Name="zoomOut" Content="-" Width="40" />
-                    <TextBlock Text="100 %" VerticalAlignment="Center" x:Name="zoom"/>
-                    <RepeatButton x:Name="zoomIn" Content="+" Width="40" />
-                    <Button x:Name="restoreZoom" Content="Restablecer" />
-                </StackPanel>
-
-            </StackPanel>
-
-
-        </StackPanel>-->
-
-
-
+        
         <ScrollViewer x:Name="ScrollerPage" 
+                      RelativePanel.Below="CommandBar"
+                      RelativePanel.AlignBottomWithPanel="True"
+                      RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
                       HorizontalContentAlignment="Center"
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Auto" 
                       HorizontalSnapPointsAlignment="Center" Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="5" ZoomMode="Enabled" MinZoomFactor="0.20" ViewChanging="ScrollerPage_ViewChanging">
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                <Image x:Name="Output" 
-                       VerticalAlignment="Stretch" 
+            <Image x:Name="Output"
+                       VerticalAlignment="Top"
                        HorizontalAlignment="Center" 
                        Margin="10,10,10,15" />
-
-            </StackPanel>
-
         </ScrollViewer>
-        <!--<StackPanel RelativePanel.AlignBottomWithPanel="True"
+
+        <StackPanel RelativePanel.AlignBottomWithPanel="True"
                                     RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignTopWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -109,6 +69,6 @@
                                         Width="40"
                                         IsActive="False"
                                         Visibility="Collapsed"/>
-        </StackPanel>-->
-    </StackPanel>
+        </StackPanel>
+    </RelativePanel>
 </Page>

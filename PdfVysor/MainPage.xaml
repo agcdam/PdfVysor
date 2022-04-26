@@ -25,7 +25,7 @@
     </Page.Resources>
 
     <Grid>
-        <Pivot Title="PdfVysor">
+        <!--<Pivot Title="PdfVysor">
             <PivotItem Header="Visor">
                 <RelativePanel>
 
@@ -105,32 +105,7 @@
                 </RelativePanel>
             </PivotItem>
             <PivotItem Header="Dividir Paginas">
-                <!--<Grid>
-                    <RelativePanel>
-                        <StackPanel x:Name="upperControlDiv" Orientation="Horizontal" 
-                                    RelativePanel.AlignTopWithPanel="True"
-                                    RelativePanel.AlignRightWithPanel="True"
-                                    RelativePanel.AlignLeftWithPanel="True">
-
-                            <StackPanel x:Name="searchContentDiv" Orientation="Horizontal" Spacing="20" Margin="0,20,20,20">
-                                <Button x:Name="loadDocumentDiv" Content="Abrir documento" Click="OpenFileDiv"/>
-                                <PasswordBox x:Name="passwordDiv" Width="200" PlaceholderText="Contraseña opcional"/>
-                                <TextBlock x:Name="filePathDiv" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <StackPanel x:Name="buttonControllerDiv"  Orientation="Horizontal" Spacing="20" Margin="20">
-                                <Button x:Name="firstPageDiv" Content="&lt;&lt;" Width="40" Click="FirstPageDiv"/>
-                                <Button x:Name="previosPageDiv" Content="&lt;" Width="40" Click="PreviousPageDiv"/>
-                                <TextBox x:Name="actualPageBoxDiv" PlaceholderText="pagina" BorderThickness="1" Width="65" LostFocus="ActualPageLostFocusDiv" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6"/>
-                                <TextBox x:Name="totalPagesBoxDiv" PlaceholderText="total"  BorderThickness="1" Width="65" IsReadOnly="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,3,5,6" UseLayoutRounding="True" AllowFocusOnInteraction="False" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" IsTabStop="False"/>
-                                <Button x:Name="nextPageDiv" Content="&gt;" Width="40" Click="NextPageDiv"/>
-                                <Button x:Name="lastPageDiv" Content="&gt;&gt;" Width="40" Click="LastPageDiv"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel x:Name="lowerControlDiv" Orientation="Horizontal">
-                        </StackPanel>
-                    </RelativePanel>
-                </Grid>-->
+                
             </PivotItem>
             <PivotItem Header="Unir Pdfs">
                 <TextBlock Text="Unir varios pdfs en uno" />
@@ -141,6 +116,36 @@
             <PivotItem Header="Primera ejecucion">
                 <TextBlock Text="Informacion sobre como realizar la configuracion de la aplicacion"/>
             </PivotItem>
-        </Pivot>
+        </Pivot>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <NavigationView
+                        IsSettingsVisible="False" Grid.Row="1" IsBackButtonVisible="Collapsed" x:Name="nav"
+                        Loaded="nav_Loaded" ItemInvoked="nav_ItemInvoked" SelectionChanged="nav_SelectionChanged" PaneDisplayMode="Top"
+                        >
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="View" Content="Visualizar documentos" Tag="visor"/>
+                <NavigationViewItem Icon="Cut" Content="Dividir documentos" Tag="divide"/>
+                <NavigationViewItem Icon="Add" Content="Unir documentos" Tag="unir"/>
+                
+                <NavigationViewItem Icon="Document" Content="Crear documentacion" Tag="newDocumentacion"/>
+                <NavigationViewItem Icon="Help" Content="Ayuda" Tag="ayuda"/>
+            </NavigationView.MenuItems>
+            <Frame x:Name="ContentFram"/>
+        </NavigationView>
+
+        <!--<InfoBar Grid.Row="0"
+            IsOpen="True"
+            Severity="Informational"
+            Title="Primera configuracion"
+            Message="Recuerda revisar la ayuda si es la primera vez que usa la aplicacion"
+                 x:Name="InfoBar">
+            <InfoBar.ActionButton>
+                <Button Content="Mostrar ayuda" Click="InfoBarButton_Click"/>
+            </InfoBar.ActionButton>
+        </InfoBar>-->
     </Grid>
 </Page>

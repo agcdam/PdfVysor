@@ -5,11 +5,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
-    <Page Include="Ayuda.xaml" />
     <Page Include="Visor.xaml" />
-    <Page Include="DivideDoc.xaml" />
     <Page Include="UnirDoc.xaml" />
+    <Page Include="Ayuda.xaml" />
     <Page Include="CreaDoc.xaml" />
+    <Page Include="DivideDoc.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -57,9 +57,9 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+namespace PdfVysor
+{
+    [default_interface]
+    runtimeclass Visor : Windows.UI.Xaml.Controls.Page
+    {
+        Visor();
+        
+    }
+}
