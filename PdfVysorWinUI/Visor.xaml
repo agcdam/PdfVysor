@@ -45,7 +45,7 @@
             <AppBarButton x:Name="ResetZoom" Icon="Refresh" Label="Restablecer zoom" Click="ResetZoom_Click" Visibility="Collapsed"/>
         </CommandBar>
         
-        <ScrollViewer x:Name="ScrollerPage" 
+        <ScrollViewer x:Name="ScrollerPage" Background="Beige"
                       RelativePanel.Below="CommandBar"
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
