@@ -20,6 +20,13 @@ namespace winrt::PdfVysorWinUI::implementation
         InitializeComponent();
         this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
+
+    void DivideDoc::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    {
+        
+    }
+
+
 }
 
 
