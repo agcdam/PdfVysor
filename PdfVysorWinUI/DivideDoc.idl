@@ -1,0 +1,9 @@
+namespace PdfVysorWinUI
+{
+    [default_interface]
+    runtimeclass DivideDoc : Microsoft.UI.Xaml.Controls.Page
+    {
+        DivideDoc();
+        
+    }
+}
