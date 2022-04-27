@@ -4,6 +4,7 @@
 
 namespace winrt::PdfVysorWinUI::implementation
 {
+    enum class Page { First, Previous, Next, Last, Search };
     struct Visor : VisorT<Visor>
     {
         Visor();
@@ -13,7 +14,7 @@ namespace winrt::PdfVysorWinUI::implementation
         unsigned int m_actualPage = 0;
         float m_zoomScroller = 1;
         std::vector<std::pair<BitmapImage, int>> m_pagesCache{};
-
+        bool m_documentIsLoaded{ false };
 
         const int kHeightImage = 1188;
         const int kWidthImage = 840;
@@ -30,11 +31,14 @@ namespace winrt::PdfVysorWinUI::implementation
         bool IsNumber(winrt::hstring const& str);
         bool IsInRange(winrt::hstring const& str);
         void CheckPageControls();
+        void UpdatePageValue(Page page);
         fire_and_forget RenderPage();
         BitmapImage GetPageRendered(unsigned int const& page);
         void ShowPage(const BitmapImage& src);
         void UpdateScrollViewer();
         void UpdateZoomValue();
+        void AdjustPageZoom();
+        void UncheckAdjustZoom();
 
     public:
         fire_and_forget OpenFileButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
@@ -49,6 +53,8 @@ namespace winrt::PdfVysorWinUI::implementation
         void ResetZoom_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
         void FlyoutZoom_Opening(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
         void ScrollerPage_ViewChanging(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs const& e);
+        void ScrollerPage_SizeChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::SizeChangedEventArgs const& e);
+        void AdjustZoom_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
     };
 }
 

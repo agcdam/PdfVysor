@@ -4,6 +4,9 @@
 #include "DivideDoc.g.cpp"
 #endif
 
+
+
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -17,6 +20,7 @@ namespace winrt::PdfVysorWinUI::implementation
         InitializeComponent();
         this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
-
-    
 }
+
+
+

@@ -10,7 +10,6 @@ namespace winrt::PdfVysorWinUI::implementation
         MainWindow();
         void nav_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
         void nav_ItemInvoked(winrt::NavigationView const& sender, winrt::NavigationViewItemInvokedEventArgs const& args);
-        void nav_SelectionChanged(winrt::NavigationView const& sender, winrt::NavigationViewSelectionChangedEventArgs const& args);
         void InfoBarButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
         const winrt::hstring kTitleWindow = L"PdfVysor";
     

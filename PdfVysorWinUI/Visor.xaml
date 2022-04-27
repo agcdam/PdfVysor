@@ -33,6 +33,7 @@
             <AppBarButton x:Name="NextPage"  Icon="Next" Label="Pagina siguiente" Click="NextPage_Click" Visibility="Collapsed"/>
             <AppBarButton x:Name="LastPage" Icon="Forward" Label="Ultima pagina" Click="LastPage_Click" Visibility="Collapsed"/>
             <AppBarSeparator x:Name="Separator2" Visibility="Collapsed"/>
+            <AppBarToggleButton x:Name="AdjustZoom" Icon="BackToWindow" Label="Ajustar pagina" Click="AdjustZoom_Click" Visibility="Collapsed"/>
             <AppBarButton x:Name="ZoomOut" Icon="ZoomOut" Label="Quitar zoom" Click="ZoomOut_Click" Visibility="Collapsed"/>
             <AppBarButton x:Name="ZoomValue" Content="100 %" Label="Zoom" Visibility="Collapsed" >
                 <Button.Flyout>
@@ -45,19 +46,18 @@
             <AppBarButton x:Name="ResetZoom" Icon="Refresh" Label="Restablecer zoom" Click="ResetZoom_Click" Visibility="Collapsed"/>
         </CommandBar>
         
-        <ScrollViewer x:Name="ScrollerPage" Background="Beige"
+        <ScrollViewer x:Name="ScrollerPage" Background="LightGray" Visibility="Collapsed"
                       RelativePanel.Below="CommandBar"
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
                       HorizontalContentAlignment="Center"
                       VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto" 
-                      HorizontalSnapPointsAlignment="Center" Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="5" ZoomMode="Enabled" MinZoomFactor="0.20" ViewChanging="ScrollerPage_ViewChanging">
+                      HorizontalScrollBarVisibility="Auto" SizeChanged="ScrollerPage_SizeChanged"  
+                      HorizontalSnapPointsAlignment="Center" Padding="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="5" ZoomMode="Enabled" MinZoomFactor="0.20" ViewChanging="ScrollerPage_ViewChanging">
 
             <Image x:Name="Output"
                        VerticalAlignment="Top"
-                       HorizontalAlignment="Center" 
-                       Margin="10,10,10,15" />
+                       HorizontalAlignment="Center" />
         </ScrollViewer>
 
         <StackPanel RelativePanel.AlignBottomWithPanel="True"

@@ -20,8 +20,7 @@
 
         <NavigationView CompactModeThresholdWidth="0"
                         IsSettingsVisible="False" Grid.Row="1" IsBackButtonVisible="Collapsed" x:Name="nav"
-                        Loaded="nav_Loaded" ItemInvoked="nav_ItemInvoked" SelectionChanged="nav_SelectionChanged"
-                        >
+                        Loaded="nav_Loaded" ItemInvoked="nav_ItemInvoked" >
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="View" Content="Visualizar documentos" Tag="visor"/>
                 <NavigationViewItem Icon="Edit" Content="Editar documentos" SelectsOnInvoked="False" Tag="edit">

@@ -34,15 +34,18 @@ namespace winrt::PdfVysorWinUI::implementation
             hstring tagValue = unbox_value<hstring>(tag);
             if (tagValue == L"visor") {
                 ContentFram().Navigate(xaml_typename<PdfVysorWinUI::Visor>(), *this);
+            } else if (tagValue == L"divide") {
+                ContentFram().Navigate(xaml_typename<PdfVysorWinUI::DivideDoc>(), *this);
+            } else if (tagValue == L"unir") {
+                ContentFram().Navigate(xaml_typename<PdfVysorWinUI::UnirDoc>(), *this);
+            } else if (tagValue == L"newDocumentacion") {
+                ContentFram().Navigate(xaml_typename<PdfVysorWinUI::CreaDoc>(), *this);
             } else if (tagValue == L"ayuda") {
                 ContentFram().Navigate(xaml_typename<PdfVysorWinUI::Ayuda>(), *this);
             }
+            
+            
         }
-    }
-
-    void winrt::PdfVysorWinUI::implementation::MainWindow::nav_SelectionChanged(winrt::NavigationView const& sender, winrt::NavigationViewSelectionChangedEventArgs const& args)
-    {
-        //sender.Header(args.SelectedItemContainer().Content());
     }
 
     void winrt::PdfVysorWinUI::implementation::MainWindow::InfoBarButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)

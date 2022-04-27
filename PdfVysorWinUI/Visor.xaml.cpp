@@ -17,7 +17,7 @@ namespace winrt::PdfVysorWinUI::implementation
         InitializeComponent();
         this->NavigationCacheMode(NavigationCacheMode::Enabled);
         
-        Log("Pagina cargada------");
+       
         
         
         //PageControllersVisibility(Visibility::Collapsed);
@@ -48,7 +48,7 @@ namespace winrt::PdfVysorWinUI::implementation
             try
             {
                 pdf = co_await PdfDocument::LoadFromFileAsync(file);
-                Log("Pdf renderizado-------------------");
+               
             }
             catch (winrt::hresult_error const& ex)
             {
@@ -81,7 +81,7 @@ namespace winrt::PdfVysorWinUI::implementation
             //asignar a m_pdfDocument el nuevo documento
             PageControllersVisibility(Visibility::Visible); 
             TotalPages().Content(winrt::box_value(winrt::to_hstring(m_pdfDocument.PageCount())));
-            ActualPage().Content(winrt::box_value(winrt::to_hstring(m_actualPage + 1)));
+            UpdatePageValue(Page::First);
             
             CheckPageControls();
 
@@ -105,6 +105,7 @@ namespace winrt::PdfVysorWinUI::implementation
         m_zoomScroller = 1;
         m_pagesCache.clear();
         
+        
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -114,7 +115,7 @@ namespace winrt::PdfVysorWinUI::implementation
     //----------------------------------------------------------------------------------------------------------
     void Visor::FirstPage_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        //establecer la pagina actual en 0
+        UpdatePageValue(Page::First);
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -123,7 +124,7 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::PreviousPage_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        //restar 1 a la pagina actual si es posible
+        UpdatePageValue(Page::Previous);
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -132,7 +133,7 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::NextPage_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        //sumar 1 a la pagina actual si es posible
+        UpdatePageValue(Page::Next);
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -141,7 +142,7 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::LastPage_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        //navegar a la ultima pagina
+        UpdatePageValue(Page::Last);
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -151,13 +152,10 @@ namespace winrt::PdfVysorWinUI::implementation
     void Visor::SearchPage_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
         winrt::hstring string = InputPageBox().Text();
-        //FlyoutPage().Hide();
         if (IsNumber(string) && IsInRange(string))
         {
-            CheckPageControls();
-            ActualPage().Content(winrt::box_value(winrt::to_hstring(m_actualPage + 1)));
-            FlyoutPage().Hide();
-
+            UpdatePageValue(Page::Search);
+            
         }
         else
         {
@@ -200,27 +198,76 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::CheckPageControls()
     {
-        if (m_actualPage == 0) //actual page is the first
+        if (m_pdfDocument.PageCount() == 1) // document only disposes 1 page
         {
             PreviousPage().IsEnabled(false);
             FirstPage().IsEnabled(false);
-            NextPage().IsEnabled(true);
-            LastPage().IsEnabled(true);
-        }
-        else if (m_actualPage == (m_pdfDocument.PageCount() - 1)) //actual page is the last
-        {
-            PreviousPage().IsEnabled(true);
-            FirstPage().IsEnabled(true);
             NextPage().IsEnabled(false);
             LastPage().IsEnabled(false);
         }
-        else //actual page is in range without be the first or the last
+        else 
         {
-            PreviousPage().IsEnabled(true);
-            FirstPage().IsEnabled(true);
-            NextPage().IsEnabled(true);
-            LastPage().IsEnabled(true);
+
+            if (m_actualPage == 0) //actual page is the first
+            {
+                PreviousPage().IsEnabled(false);
+                FirstPage().IsEnabled(false);
+                NextPage().IsEnabled(true);
+                LastPage().IsEnabled(true);
+            }
+            else if (m_actualPage == (m_pdfDocument.PageCount() - 1)) //actual page is the last
+            {
+                PreviousPage().IsEnabled(true);
+                FirstPage().IsEnabled(true);
+                NextPage().IsEnabled(false);
+                LastPage().IsEnabled(false);
+            }
+            else //actual page is in range without be the first or the last
+            {
+                PreviousPage().IsEnabled(true);
+                FirstPage().IsEnabled(true);
+                NextPage().IsEnabled(true);
+                LastPage().IsEnabled(true);
+            }
         }
+        
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    /*
+        Change the page, update page value and show the page 
+    */
+    void Visor::UpdatePageValue(Page page)
+    {
+        switch (page)
+        {
+        case Page::First:
+            m_actualPage = 0;
+            break;
+        case Page::Previous:
+            if (m_actualPage > 0)
+            {
+                m_actualPage--;
+            }
+            break;
+        case Page::Next:
+            if (m_actualPage < m_pdfDocument.PageCount())
+            {
+                m_actualPage++;
+            }
+            break;
+        case Page::Last:
+            m_actualPage = m_pdfDocument.PageCount() - 1;
+            break;
+        case Page::Search:
+            FlyoutPage().Hide();
+            break;
+        default:
+            break;
+        }
+        ActualPage().Content(winrt::box_value(winrt::to_hstring(m_actualPage + 1)));
+        CheckPageControls();
+        RenderPage();
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -241,8 +288,10 @@ namespace winrt::PdfVysorWinUI::implementation
         {
             m_zoomScroller -= m_zoomScroller - kMinZoom;
         }
+        UncheckAdjustZoom();
         UpdateZoomValue();
         UpdateScrollViewer();
+
         //establecer el zoom en el scrollviewer
         
     }
@@ -254,8 +303,13 @@ namespace winrt::PdfVysorWinUI::implementation
     void Visor::Slider_ValueChanged(winrt::IInspectable const& sender, winrt::Primitives::RangeBaseValueChangedEventArgs const& e)
     {
         m_zoomScroller = (float) e.NewValue() / 100;
+        UncheckAdjustZoom();
         UpdateZoomValue();
-        //UpdateScrollViewer();
+        if (m_documentIsLoaded)
+        {
+            UpdateScrollViewer();
+        }
+
         
         
         //establecer el zoom en el scrollviewer
@@ -275,6 +329,7 @@ namespace winrt::PdfVysorWinUI::implementation
         {
             m_zoomScroller += kMaxZoom - m_zoomScroller;
         }
+        UncheckAdjustZoom();
         UpdateZoomValue();
         UpdateScrollViewer();
         //establecer el zoom en el scrollviewer
@@ -286,6 +341,7 @@ namespace winrt::PdfVysorWinUI::implementation
     */
     void Visor::ResetZoom_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
+        UncheckAdjustZoom();
         m_zoomScroller = kDefaultZoomValue;
         UpdateScrollViewer();
         UpdateZoomValue();
@@ -308,10 +364,7 @@ namespace winrt::PdfVysorWinUI::implementation
     void Visor::UpdateScrollViewer()
     {
         if (ScrollerPage().IsLoaded())
-        {
-            Log(std::to_string(m_zoomScroller));
-            
-            
+        { 
             ScrollerPage().ChangeView(nullptr, nullptr, (m_zoomScroller));
         }
     }
@@ -327,11 +380,56 @@ namespace winrt::PdfVysorWinUI::implementation
 
     //----------------------------------------------------------------------------------------------------------
     /*
+        Capture change of size from scroller page to adjust zoom if the option is selected
+    */
+    void Visor::ScrollerPage_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e)
+    {
+        AdjustPageZoom();
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    /*
+        Enables adjust zoom option
+    */
+    void Visor::AdjustZoom_Click(IInspectable const& sender, RoutedEventArgs const& e)
+    {
+        AdjustPageZoom();
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    /*
+        Adjusts page zoom related with the size of scroller page
+    */
+    void Visor::AdjustPageZoom()
+    {
+        if (AdjustZoom().IsChecked().Value() == true)
+        {
+            double actualSizeScroller = ScrollerPage().ActualHeight(); // obtain the actual heihgt of scroll page
+            m_zoomScroller = actualSizeScroller / (kHeightImage + 20); // set margin of 20 to avoid scroll
+
+            UpdateScrollViewer(); // set the new zoom value
+
+        }
+    }
+
+    void Visor::UncheckAdjustZoom()
+    {
+        if (AdjustZoom().IsChecked().Value())
+        {
+            AdjustZoom().IsChecked(false);
+        }
+    }
+
+    
+
+    //----------------------------------------------------------------------------------------------------------
+    /*
         Update content every time scroller page change
     */
     void Visor::ScrollerPage_ViewChanging(winrt::IInspectable const& sender, winrt::ScrollViewerViewChangingEventArgs const& e)
     {
-        m_zoomScroller = (double) (ScrollerPage().ZoomFactor());
+        m_zoomScroller = (ScrollerPage().ZoomFactor());
+        
         UpdateZoomValue();
     }
 
@@ -369,6 +467,8 @@ namespace winrt::PdfVysorWinUI::implementation
         ResetZoom().Visibility(visibility);
         Separator1().Visibility(visibility);
         Separator2().Visibility(visibility);
+        ScrollerPage().Visibility(visibility);
+        AdjustZoom().Visibility(visibility);
     }
 
     //----------------------------------------------------------------------------------------------------------
@@ -416,11 +516,16 @@ namespace winrt::PdfVysorWinUI::implementation
         Output().Source(src);
         Output().Height(kHeightImage);
         Output().Width(kWidthImage);
+        m_documentIsLoaded = true;
     }
-
-    
-    
-
     
     
 }
+
+
+
+
+
+
+
+
