@@ -1,9 +1,0 @@
-namespace PdfVysorWinUI
-{
-    [default_interface]
-    runtimeclass UnirDoc : Microsoft.UI.Xaml.Controls.Page
-    {
-        UnirDoc();
-        
-    }
-}

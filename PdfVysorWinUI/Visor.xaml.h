@@ -16,16 +16,17 @@ namespace winrt::PdfVysorWinUI::implementation
         std::vector<std::pair<BitmapImage, int>> m_pagesCache{};
         bool m_documentIsLoaded{ false };
 
-        const int kHeightImage = 1188;
-        const int kWidthImage = 840;
-        const double kPageQualityRender = 2.5;
-        const double kMinZoom = 0.20;
-        const double kMaxZoom = 5;
-        const double kDefaultZoomValue = 1;
-        const double kStepFrequencyZoom = 0.10;
+        const int kHeightImage = 1188; // base height of the pdf page
+        const int kWidthImage = 840; // base width of the pdf page
+        const double kPageQualityRender = 2.5; // quality of the page's render
+
+        // zoom level based on 1 as 100% (in the indicators is on % base)
+        const float kMinZoom = 0.20f; // min factor of zoom level in the scroller page
+        const float kMaxZoom = 5.0f; // max factor of zoom level in the scroller page
+        const float kDefaultZoomValue = 1.0f; // default zoom value 
+        const float kStepFrequencyZoom = 0.10f; // every click of the buttons increase o decrease 0.10 (10%) zoom value
 
 
-        void Log(std::string const& msg);
         void PageControllersVisibility(winrt::Visibility const& visibility);
         void NewPdfLoaded(PdfDocument const& newDoc);
         bool IsNumber(winrt::hstring const& str);

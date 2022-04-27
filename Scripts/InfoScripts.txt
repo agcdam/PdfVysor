@@ -1,7 +1,0 @@
-Pagina del modulo: https://evotec.xyz/merging-splitting-and-creating-pdf-files-with-powershell/
-
-Para la posibilidad de ejecutar scripts escriba esto: PS C:\Users\user> Set-ExecutionPolicy AllSigned
-De esta manera se cambiara la directiva de ejecucion predeterminada
-
-Instalacion del modulo: PS C:\Users\user> Install-Module PSWritePDF -Scope CurrentUser -Force
-Eliminacion del modulo: PS C:\Users\user> Uninstall-Module -Name "PSWritePDF"

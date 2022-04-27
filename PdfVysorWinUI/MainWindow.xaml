@@ -16,39 +16,15 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-
-
         <NavigationView CompactModeThresholdWidth="0"
                         IsSettingsVisible="False" Grid.Row="1" IsBackButtonVisible="Collapsed" x:Name="nav"
                         Loaded="nav_Loaded" ItemInvoked="nav_ItemInvoked" >
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="View" Content="Visualizar documentos" Tag="visor"/>
-                <NavigationViewItem Icon="Edit" Content="Editar documentos" SelectsOnInvoked="False" Tag="edit">
-                    <NavigationViewItem.MenuItems>
-                        <NavigationViewItem Icon="Cut" Content="Dividir documentos" Tag="divide"/>
-                        <NavigationViewItem Icon="Add" Content="Unir documentos" Tag="unir"/>
-                    </NavigationViewItem.MenuItems>
-                </NavigationViewItem>
-                <NavigationViewItem Icon="Document" Content="Crear documentacion" Tag="newDocumentacion"/>
-                <NavigationViewItem Icon="Help" Content="Ayuda" Tag="ayuda"/>
+
             </NavigationView.MenuItems>
             <Frame x:Name="ContentFram"/>
         </NavigationView>
-
-       
-
-        <InfoBar Grid.Row="0"
-            IsOpen="True"
-            Severity="Informational"
-            Title="Primera configuracion"
-            Message="Recuerda revisar la ayuda si es la primera vez que usa la aplicacion"
-                 x:Name="InfoBar">
-            <InfoBar.ActionButton>
-                <Button Content="Mostrar ayuda" Click="InfoBarButton_Click"/>
-            </InfoBar.ActionButton>
-        </InfoBar>
         
-        
-
     </Grid>
 </Window>
