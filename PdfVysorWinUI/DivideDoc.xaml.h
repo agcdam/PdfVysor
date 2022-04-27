@@ -10,6 +10,7 @@ namespace winrt::PdfVysorWinUI::implementation
 
         
         void Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void Log(std::string const& msg);
     };
 }
 

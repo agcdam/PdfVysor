@@ -1,7 +1,12 @@
 ﻿param([string]$documento=$(throw "Documento requerido"), #Introducimos el path del documento que queremos dividir
 [int]$numeroPaginas=$(throw "Introduce el numero de paginas"), #Introducimos la pagina por la que queremos dividir siendo el 1 la primera
-[string]$outPath=$HOME, #Introducimos la ruta de salida siendo la default el directorio del usuario
+[string]$outPath=$PSScriptRoot, #Introducimos la ruta de salida siendo la default el directorio del usuario
 [string]$outName="resultado") #Introducimos el nombre de salida del fichero resultante siendo resultado el default
+
+Set-Location $PSScriptRoot
+Start-Sleep 35
+
+Get-Location
 
 $tmpName = "ficTemp"
 
