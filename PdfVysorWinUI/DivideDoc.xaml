@@ -8,6 +8,9 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Button Click="Button_Click" Content="Ejecutar script"/>
+        <StackPanel>
+            <Button Click="Button_Click" Content="Ejecutar script"/>
+            <TextBlock x:Name="Text"/>
+        </StackPanel>
     </Grid>
 </Page>

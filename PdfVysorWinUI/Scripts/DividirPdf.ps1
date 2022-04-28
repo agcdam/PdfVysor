@@ -3,11 +3,6 @@
 [string]$outPath=$PSScriptRoot, #Introducimos la ruta de salida siendo la default el directorio del usuario
 [string]$outName="resultado") #Introducimos el nombre de salida del fichero resultante siendo resultado el default
 
-Set-Location $PSScriptRoot
-Start-Sleep 35
-
-Get-Location
-
 $tmpName = "ficTemp"
 
 function Delete {
