@@ -6,10 +6,6 @@
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
     <Page Include="Visor.xaml" />
-    <Page Include="UnirDoc.xaml" />
-    <Page Include="Ayuda.xaml" />
-    <Page Include="CreaDoc.xaml" />
-    <Page Include="DivideDoc.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -51,14 +47,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="PdfVysorWinUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
