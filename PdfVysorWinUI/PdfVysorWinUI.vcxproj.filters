@@ -6,10 +6,18 @@
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
     <Page Include="Visor.xaml" />
+    <Page Include="Ayuda.xaml" />
+    <Page Include="CreaDoc.xaml" />
+    <Page Include="DivideDoc.xaml" />
+    <Page Include="UnirDoc.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
     <Midl Include="MainWindow.idl" />
+    <Midl Include="Ayuda.idl" />
+    <Midl Include="CreaDoc.idl" />
+    <Midl Include="DivideDoc.idl" />
+    <Midl Include="UnirDoc.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

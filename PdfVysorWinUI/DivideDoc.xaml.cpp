@@ -25,7 +25,6 @@ namespace winrt::PdfVysorWinUI::implementation
         // ejemplo si la primera pagina es la 0 se podria dejar asi
         //system("powershell -command Split-PDF -FilePath C:\\Users\\agomez\\source\\repos\\PdfVysor\\test.pdf -OutputFolder C:\\Users\\agomez\\source\\repos\\PdfVysor\\PdfVysorWinUI\\Scripts\\ -SplitCount 5");
 
-        //Windows::System::ProcessLauncher::RunToCompletionAsync(L"PowerShell", L"Get-ChildItem");
     }
 
     void DivideDoc::Log(std::string const& msg) {
