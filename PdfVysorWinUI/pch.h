@@ -22,7 +22,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include "winrt/Windows.UI.Xaml.Input.h"
 #include "winrt/Windows.UI.Xaml.Media.Animation.h"
-#include "winrt/Windows.System.h"
+//#include "winrt/Windows.System.h"
 
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Composition.h>

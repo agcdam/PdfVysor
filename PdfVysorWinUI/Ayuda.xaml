@@ -8,6 +8,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock Text="Esto es la ayuda" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel>
+            <Button Content="Configurar modulo" Click="Button_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

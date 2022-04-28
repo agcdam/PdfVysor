@@ -18,5 +18,12 @@ namespace winrt::PdfVysorWinUI::implementation
         this->NavigationCacheMode(NavigationCacheMode::Enabled);
     }
 
-    
+    void winrt::PdfVysorWinUI::implementation::Ayuda::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    {
+        // instalacion de libreria
+        system("echo \"Instalando libreria\" && powershell -command Install-Module PSWritePDF -Scope CurrentUser -Force && echo \"Libreria instalada\"");
+    }
 }
+
+
+

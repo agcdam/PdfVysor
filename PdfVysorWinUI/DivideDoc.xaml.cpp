@@ -20,13 +20,12 @@ namespace winrt::PdfVysorWinUI::implementation
 
     void DivideDoc::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
     {
-        // instalacion de libreria
-        //system("echo \"Instalando libreria\" && powershell -command Install-Module PSWritePDF -Scope CurrentUser -Force && echo \"Libreria instalada\"");
+        
         
         // ejemplo si la primera pagina es la 0 se podria dejar asi
         //system("powershell -command Split-PDF -FilePath C:\\Users\\agomez\\source\\repos\\PdfVysor\\test.pdf -OutputFolder C:\\Users\\agomez\\source\\repos\\PdfVysor\\PdfVysorWinUI\\Scripts\\ -SplitCount 5");
 
-        Windows::System::ProcessLauncher::RunToCompletionAsync(L"PowerShell", L"Get-ChildItem");
+        //Windows::System::ProcessLauncher::RunToCompletionAsync(L"PowerShell", L"Get-ChildItem");
     }
 
     void DivideDoc::Log(std::string const& msg) {
