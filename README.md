@@ -11,11 +11,5 @@ Aqui teneis una guia de Microsoft sobre como preparar tu entorno para WinUI 3, [
 Una vez tengais el entorno listo, clonais el repositorio [PdfVysor](https://github.com/agcdam/PdfVysor) y abris la [Solucion](https://docs.microsoft.com/es-es/visualstudio/ide/solutions-and-projects-in-visual-studio?view=vs-2022).
 <br><br>
 
-## Instalar la aplicacion mediante instalador
-
-Una vez tengais clonado el repositorio, accedereis al directorio donde se encuentra el instalador [Installer](./Installer/PdfVysorWinUI_1.0.0.0_x64_Test/), 
-y ejecutareis el archivo con la extension **.msix**
-<br><br>
-
 ## Fallos? Propuestas?
 Si has encontrado un fallo o simplemente tienes alguna propuesta de mejora dejalo saber en [Issues](https://github.com/agcdam/PdfVysor/issues).
