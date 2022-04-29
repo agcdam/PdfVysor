@@ -71,7 +71,6 @@ namespace winrt::PdfVysorWinUI::implementation
             TotalPages().Content(winrt::box_value(winrt::to_hstring(m_pdfDocument.PageCount())));
             UpdatePageValue(Page::First);
             CheckPageControls();
-            RenderPage();
         }
         OpenFile().IsEnabled(true);
     }
@@ -330,7 +329,7 @@ namespace winrt::PdfVysorWinUI::implementation
     {
         if (ScrollerPage().IsLoaded())
         { 
-            ScrollerPage().ChangeView(nullptr, nullptr, (m_zoomScroller));
+            ScrollerPage().ChangeView(nullptr, nullptr, m_zoomScroller);
         }
     }
 

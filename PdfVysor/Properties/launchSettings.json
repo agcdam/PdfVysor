@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PdfVysor (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PdfVysor (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
