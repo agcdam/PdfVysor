@@ -9,8 +9,79 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <CommandBar x:Name="CommandBar">
-            
+        <CommandBar x:Name="FileController" HorizontalAlignment="Left" 
+                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <AppBarButton x:Name="OpenFile" Icon="OpenFile" Label="Abrir documento" Click="OpenFile_Click"/>
+            <AppBarButton x:Name="CloseFile" Icon="Delete" IsEnabled="False" Label="Cerrar documento" Click="CloseFile_Click"/>
+            <AppBarButton x:Name="SaveFile" Icon="Save" IsEnabled="False" Label="Guardar documento" Click="SaveFile_Click"/>
         </CommandBar>
+
+        <CommandBar x:Name="PageController" HorizontalAlignment="Center" Visibility="Collapsed"
+                    RelativePanel.Below="FileController" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <AppBarButton x:Name="FirstPageStartPage" Icon="Back" Label="Primera pagina" Click="FirstPageStartPage_Click"/>
+            <AppBarButton x:Name="PreviousPageStartPage" Icon="Previous" Label="Pagina anterior" Click="PreviousPageStartPage_Click"/>
+            <AppBarButton x:Name="ActualPageStartPage" Content="1" Label="Pagina inicial" AllowFocusOnInteraction="True" >
+                <Button.Flyout>
+                    <Flyout x:Name="FlyoutPageStartPage">
+                        <StackPanel Spacing="10">
+                            <TextBlock >
+                                <Run FontSize="20" FontWeight="Bold">Selecciona una pagina</Run>
+                            </TextBlock>
+                            <TextBox x:Name="InputPageBoxStartPage"/>
+                            <Button x:Name="SearchPageStartPage" Content="Buscar" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}" Click="SearchPageStartPage_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </AppBarButton>
+            
+            <AppBarButton x:Name="NextPageStartPage"  Icon="Next" Label="Pagina siguiente" Click="NextPageStartPage_Click"/>
+            <AppBarButton x:Name="LastPageStartPage" Icon="Forward" Label="Ultima pagina" Click="LastPageStartPage_Click"/>
+            <AppBarSeparator />
+            <AppBarButton x:Name="FirstPageEndPage" Icon="Back" Label="Primera pagina" Click="FirstPageEndPage_Click"/>
+            <AppBarButton x:Name="PreviousPageEndPage" Icon="Previous" Label="Pagina anterior" Click="PreviousPageEndPage_Click"/>
+            <AppBarButton x:Name="ActualPageEndPage" Content="1" Label="Pagina final" AllowFocusOnInteraction="True" >
+                <Button.Flyout>
+                    <Flyout x:Name="FlyoutPageEndPage">
+                        <StackPanel Spacing="10">
+                            <TextBlock >
+                                <Run FontSize="20" FontWeight="Bold">Selecciona una pagina</Run>
+                            </TextBlock>
+                            <TextBox x:Name="InputPageBoxEndPage"/>
+                            <Button x:Name="SearchPageEndPage" Content="Buscar" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}" Click="SearchPageEndPage_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </AppBarButton>
+            
+            <AppBarButton x:Name="NextPageEndPage"  Icon="Next" Label="Pagina siguiente" Click="NextPageEndPage_Click"/>
+            <AppBarButton x:Name="LastPageEndPage" Icon="Forward" Label="Ultima pagina" Click="LastPageEndPage_Click"/>
+        </CommandBar>
+        <RelativePanel x:Name="Pages" Visibility="Collapsed"
+                    RelativePanel.Below="PageController" RelativePanel.AlignLeftWithPanel="True" 
+                    RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
+                    Background="LightGray" >
+
+            <StackPanel Orientation="Horizontal" Spacing="20" 
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True" 
+					    RelativePanel.AlignRightWithPanel="True"
+                        HorizontalAlignment="Center" Margin="10">
+
+                <Image x:Name="StartPage" />
+                <Image x:Name="EndPage"/>
+                
+            </StackPanel>
+        </RelativePanel>
+        <StackPanel RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ProgressRing x:Name="ProgressBar"
+                          Height="40"
+                          Width="40"
+                          IsActive="False"
+                          Visibility="Collapsed"/>
+        </StackPanel>
     </RelativePanel>
 </Page>

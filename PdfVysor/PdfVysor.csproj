@@ -39,6 +39,9 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="DivideDoc.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
