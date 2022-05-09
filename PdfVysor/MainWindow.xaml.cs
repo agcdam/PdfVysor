@@ -32,6 +32,9 @@ namespace PdfVysor
                     case "divide":
                         ContentFram.Navigate(typeof(DivideDoc));
                         break;
+                    case "unir":
+                        ContentFram.Navigate(typeof(UneDoc));
+                        break;
                 }
             }
         }
