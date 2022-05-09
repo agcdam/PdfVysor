@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>PdfVysor</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -12,6 +12,7 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="DivideDoc.xaml" />
     <None Remove="Visor.xaml" />
   </ItemGroup>
 
@@ -36,6 +37,14 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="DivideDoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Visor.xaml">

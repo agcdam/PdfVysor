@@ -29,6 +29,9 @@ namespace PdfVysor
                     case "visor":
                         ContentFram.Navigate(typeof(Visor));
                         break;
+                    case "divide":
+                        ContentFram.Navigate(typeof(DivideDoc));
+                        break;
                 }
             }
         }

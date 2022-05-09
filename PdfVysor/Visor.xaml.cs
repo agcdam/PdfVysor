@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using Windows.Data.Pdf;
+using Windows.UI.Popups;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -13,10 +14,9 @@ using WinRT.Interop;
 
 namespace PdfVysor
 {
-    public enum Search { First, Previous, Next, Last, Search }
-
     public sealed partial class Visor : Page
     {
+        private enum Search { First, Previous, Next, Last, Search }
         private PdfDocument m_pdfDocument;
         private int m_actualPage = 0;
         private float m_zoomValue = 1.0f;
@@ -25,9 +25,9 @@ namespace PdfVysor
 
         public Visor()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             // setting the cache enable to save the state of the page
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         /*
@@ -58,6 +58,7 @@ namespace PdfVysor
                 }
                 catch
                 {
+                    ShowErrorDialog();
                 }
             }
 
@@ -70,12 +71,40 @@ namespace PdfVysor
             {
                 PageControllersVisibily(Visibility.Visible);
                 TotalPages.Content = m_pdfDocument.PageCount;
-                UpdatePageValue(Search.First);
+                NavigatePages(Search.First);
                 CheckPageControls();
             }
 
             OpenFile.IsEnabled = true;
         }
+
+        
+
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Shows reading document error dialog
+         */
+        private async void ShowErrorDialog()
+        {
+            ContentDialog errorDialog = new()
+            {
+                Title = "Error de lectura",
+                Content = "Ha ocurrido un error mientras se abria el documento, compruebe que el documento es correcto o no este protegido.",
+                CloseButtonText = "Aceptar",
+                PrimaryButtonText = "Abrir otro archivo",
+                DefaultButton = ContentDialogButton.Primary
+
+            };
+            errorDialog.XamlRoot = this.Content.XamlRoot;
+            ContentDialogResult result = await errorDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                OpenFile_Click(null, null);
+            }
+        }
+
+        
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -161,7 +190,7 @@ namespace PdfVysor
             Depends on the demand of page do different things 
             like show first, previous, next, last or the searched page
          */
-        private void UpdatePageValue(Search page)
+        private void NavigatePages(Search page)
         {
             switch (page)
             {
@@ -197,7 +226,9 @@ namespace PdfVysor
             if (v) progressBar.Visibility = Visibility.Visible;
             if (!v) progressBar.Visibility = Visibility.Collapsed;
             v = !v;
-            CommandBar.IsEnabled = v;
+            //CommandBar.IsEnabled = v;
+            PageController.IsEnabled = v;
+            FileController.IsEnabled = v;
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -206,20 +237,30 @@ namespace PdfVysor
          */
         private void PageControllersVisibily(Visibility visibility)
         {
-            FirstPage.Visibility = visibility;
-            PreviousPage.Visibility = visibility;
-            ActualPage.Visibility = visibility;
-            TotalPages.Visibility = visibility;
-            NextPage.Visibility = visibility;
-            LastPage.Visibility = visibility;
-            ZoomOut.Visibility = visibility;
-            ZoomValue.Visibility = visibility;
-            ZoomIn.Visibility = visibility;
-            ResetZoom.Visibility = visibility;
-            Separator1.Visibility = visibility;
-            Separator2.Visibility = visibility;
+            //FirstPage.Visibility = visibility;
+            //PreviousPage.Visibility = visibility;
+            //ActualPage.Visibility = visibility;
+            //TotalPages.Visibility = visibility;
+            //NextPage.Visibility = visibility;
+            //LastPage.Visibility = visibility;
+            //ZoomOut.Visibility = visibility;
+            //ZoomValue.Visibility = visibility;
+            //ZoomIn.Visibility = visibility;
+            //ResetZoom.Visibility = visibility;
+            //Separator1.Visibility = visibility;
+            //Separator2.Visibility = visibility;
+            //ScrollerPage.Visibility = visibility;
+            //AdjustZoom.Visibility = visibility;
+            PageController.Visibility = visibility;
             ScrollerPage.Visibility = visibility;
-            AdjustZoom.Visibility = visibility;
+            if (visibility == Visibility.Visible)
+            {
+                CloseFile.IsEnabled = true;
+            }
+            else
+            {
+                CloseFile.IsEnabled = false;
+            }
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -241,7 +282,7 @@ namespace PdfVysor
          */
         private void FirstPage_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePageValue(Search.First);
+            NavigatePages(Search.First);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -250,7 +291,7 @@ namespace PdfVysor
          */
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePageValue(Search.Previous);
+            NavigatePages(Search.Previous);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -265,11 +306,11 @@ namespace PdfVysor
                 if (int.TryParse(page, out int newPage) && IsInRange(newPage))
                 {
                     m_actualPage = newPage - 1;
-                    UpdatePageValue(Search.Search);
+                    NavigatePages(Search.Search);
                 }
                 else
                 {
-                    //pagina introducida errornia
+                    //pagina introducida erronia
                     InputPageBox.Text = (m_actualPage + 1).ToString();
                 }
 
@@ -282,8 +323,7 @@ namespace PdfVysor
          */
         private bool IsInRange(int newPage)
         {
-            if (newPage > 0 && newPage <= (int)m_pdfDocument.PageCount) return true;
-            return false;
+            return newPage > 0 && newPage <= m_pdfDocument.PageCount;
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -292,7 +332,7 @@ namespace PdfVysor
          */
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePageValue(Search.Next);
+            NavigatePages(Search.Next);
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -301,7 +341,7 @@ namespace PdfVysor
          */
         private void LastPage_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePageValue(Search.Last);
+            NavigatePages(Search.Last);
         }
 
 
@@ -452,6 +492,14 @@ namespace PdfVysor
         private void FlyoutZoom_Opening(object sender, object e)
         {
             ZoomSelector.Value = ((int)(m_zoomValue * 100));
+        }
+
+        private void CloseFile_Click(object sender, RoutedEventArgs e)
+        {
+            m_pdfDocument = null;
+            m_pageCache.Clear();
+            PageControllersVisibily(Visibility.Collapsed);
+            Output.Source = null;
         }
     }
 }
