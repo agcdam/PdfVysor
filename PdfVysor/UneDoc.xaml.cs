@@ -32,7 +32,7 @@ namespace PdfVysor
             InitializeWithWindow.Initialize(openPicker, hwnd);
             openPicker.FileTypeFilter.Add(".pdf");
             FilePickerSelectedFilesArray files = (FilePickerSelectedFilesArray)await openPicker.PickMultipleFilesAsync();
-
+            OpenFile.IsEnabled = true;
         }
 
         private void CloseFile_Click(object sender, RoutedEventArgs e)
