@@ -226,7 +226,6 @@ namespace PdfVysor
             if (v) progressBar.Visibility = Visibility.Visible;
             if (!v) progressBar.Visibility = Visibility.Collapsed;
             v = !v;
-            //CommandBar.IsEnabled = v;
             PageController.IsEnabled = v;
             FileController.IsEnabled = v;
         }
@@ -237,20 +236,6 @@ namespace PdfVysor
          */
         private void PageControllersVisibily(Visibility visibility)
         {
-            //FirstPage.Visibility = visibility;
-            //PreviousPage.Visibility = visibility;
-            //ActualPage.Visibility = visibility;
-            //TotalPages.Visibility = visibility;
-            //NextPage.Visibility = visibility;
-            //LastPage.Visibility = visibility;
-            //ZoomOut.Visibility = visibility;
-            //ZoomValue.Visibility = visibility;
-            //ZoomIn.Visibility = visibility;
-            //ResetZoom.Visibility = visibility;
-            //Separator1.Visibility = visibility;
-            //Separator2.Visibility = visibility;
-            //ScrollerPage.Visibility = visibility;
-            //AdjustZoom.Visibility = visibility;
             PageController.Visibility = visibility;
             ScrollerPage.Visibility = visibility;
             if (visibility == Visibility.Visible)
