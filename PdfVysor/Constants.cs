@@ -25,5 +25,13 @@
         // every click of the buttons increase or
         // decrease 0.10 (10%) zoom value
         public const float kStepFrequencyZoom = (float)0.1; // every click of the buttons increase or
+
+
+        /*
+         * UneDoc.xaml.cs
+         */
+        public const int kZoomLevels = 4; // numero de niveles de zoom
+        
+
     }
 }

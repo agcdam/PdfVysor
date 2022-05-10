@@ -53,6 +53,10 @@ namespace PdfVysor
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Open new file
+         */
         private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFile.IsEnabled = false;
@@ -121,6 +125,10 @@ namespace PdfVysor
             }
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Checks if it is necessary to disable any control of page
+         */
         private void CheckPageControllers()
         {
             /*
@@ -225,12 +233,20 @@ namespace PdfVysor
             }
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Updates indicators of page values
+         */
         private void UpdatePagesValues()
         {
             ActualPageStartPage.Content = m_startPage + 1;
             ActualPageEndPage.Content = m_endPage + 1;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Set the enviroment with new document
+         */
         private void NewPdfLoaded(PdfDocument pdf)
         {
             m_pdfDocument = null;
@@ -239,6 +255,10 @@ namespace PdfVysor
             m_endPage = (int)m_pdfDocument.PageCount - 1;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Change the visibility of the page controllers
+         */
         private void PageControllersVisibily(Visibility visibility)
         {
             PageController.Visibility = visibility;
@@ -255,21 +275,31 @@ namespace PdfVysor
             }
         }
 
+
+        #region Start Page
+
+        //----------------------------------------------------------------------------------------------------------
         /*
-         *  Start page
+            Navigates to the first page
          */
-
-
         private void FirstPageStartPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.FirstStart);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to the previous page
+         */
         private void PreviousPageStartPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.PreviousStart);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Search the page when the user uses the flyout
+         */
         private void SearchPageStartPage_Click(object sender, RoutedEventArgs e)
         {
             string page = InputPageBoxStartPage.Text;
@@ -287,37 +317,59 @@ namespace PdfVysor
             }
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Checks if the page introduced is right
+         */
         private bool IsInRangeStart(int index)
         {
             return index > 0 && index < m_endPage;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to te next page (if it not is EndPage)
+         */
         private void NextPageStartPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.NextStart);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to the last page (EndPage)
+         */
         private void LastPageStartPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.LastStart);
         }
 
+        #endregion
 
+        #region End Page
+
+        //----------------------------------------------------------------------------------------------------------
         /*
-         *  End page
+            Navigates to the first page (the previous page of the StartPage)
          */
-
-
         private void FirstPageEndPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.FirstEnd);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to the previous page (if it not is StartPage)
+         */
         private void PreviousPageEndPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.PreviousEnd);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Search the page when the user uses the flyout
+         */
         private void SearchPageEndPage_Click(object sender, RoutedEventArgs e)
         {
             string page = InputPageBoxEndPage.Text;
@@ -336,25 +388,44 @@ namespace PdfVysor
 
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Checks if the page introduced its in range
+         */
         private bool IsInRangeEnd(int index)
         {
             return index > m_startPage && index <= (m_pdfDocument.PageCount);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to the next page
+         */
         private void NextPageEndPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.NextEnd);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Navigates to the last page
+         */
         private void LastPageEndPage_Click(object sender, RoutedEventArgs e)
         {
             NavigatesPages(Search.LastEnd);
         }
 
+        #endregion
+
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Controls the navigation of the pages
+         */
         private void NavigatesPages(Search firstStart)
         {
             switch (firstStart)
             {
+
                 case Search.FirstStart:
                     m_startPage = 0;
                     m_lastUpdated = Updated.Start;
@@ -419,6 +490,10 @@ namespace PdfVysor
             ManageRendering();
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Manage the rendering of the pages depending on what page have been changed last
+         */
         private void ManageRendering()
         {
             if (m_startPage == m_endPage)
@@ -448,11 +523,19 @@ namespace PdfVysor
             LoadingPage(false);
         }
 
-        private void ShowPage(BitmapImage src, Image dest)
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Set the image in the destination
+         */
+        private static void ShowPage(BitmapImage src, Image dest)
         {
             dest.Source = src;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Render the page and show it
+         */
         private async void RenderPage(int pageNum, Image output)
         {
             BitmapImage src = new();
@@ -473,16 +556,23 @@ namespace PdfVysor
             ShowPage(src, output);
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Set the enviroment while any page its loading
+         */
         private void LoadingPage(bool v)
         {
             ProgressBar.IsActive = v;
-            if (v) ProgressBar.Visibility = Visibility.Visible;
-            if (!v) ProgressBar.Visibility = Visibility.Collapsed;
+            ProgressBar.Visibility = (v ? Visibility.Visible : Visibility.Collapsed);
             v = !v;
             FileController.IsEnabled = v;
             PageController.IsEnabled = v;
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Close the actual file
+         */
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
             m_pdfDocument = null;
@@ -493,6 +583,10 @@ namespace PdfVysor
             m_pageCache.Clear();
         }
 
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Save the file 
+         */
         private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             var savePicker = new FileSavePicker();
