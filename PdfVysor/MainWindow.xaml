@@ -22,7 +22,7 @@
                 <NavigationViewItem Icon="Edit" Content="Editar documentos" SelectsOnInvoked="False" Tag="edit">
                     <NavigationViewItem.MenuItems>
                         <NavigationViewItem Icon="Cut" Content="Dividir documentos" Tag="divide"/>
-                        <!--<NavigationViewItem Icon="Add" Content="Unir documentos" Tag="unir"/>-->
+                        <NavigationViewItem Icon="Add" Content="Unir documentos" Tag="unir"/>
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
 

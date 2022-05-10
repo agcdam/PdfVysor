@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="DivideDoc.xaml" />
+    <None Remove="UneDoc.xaml" />
     <None Remove="Visor.xaml" />
   </ItemGroup>
 
@@ -40,6 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UneDoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="DivideDoc.xaml">
