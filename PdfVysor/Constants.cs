@@ -31,7 +31,8 @@
          * UneDoc.xaml.cs
          */
         public const int kZoomLevels = 4; // numero de niveles de zoom
-        
 
+        public const string kNombreKey = "nombre";
+        public const string kFileJsonName = "DocConfig.json";
     }
 }

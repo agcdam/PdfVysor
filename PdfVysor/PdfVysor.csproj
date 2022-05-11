@@ -22,6 +22,8 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="ConfigDoc.xaml" />
+    <None Remove="CreaDoc.xaml" />
     <None Remove="DivideDoc.xaml" />
     <None Remove="UneDoc.xaml" />
     <None Remove="Visor.xaml" />
@@ -50,7 +52,18 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JsonLibrary\JsonLibrary.csproj" />
     <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ConfigDoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="CreaDoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UneDoc.xaml">

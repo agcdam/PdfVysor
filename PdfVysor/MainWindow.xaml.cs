@@ -35,6 +35,12 @@ namespace PdfVysor
                     case "unir":
                         ContentFram.Navigate(typeof(UneDoc));
                         break;
+                    case "crea":
+                        ContentFram.Navigate(typeof(CreaDoc));
+                        break;
+                    case "config":
+                        ContentFram.Navigate(typeof(ConfigDoc));
+                        break;
                 }
             }
         }
