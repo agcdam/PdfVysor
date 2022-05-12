@@ -20,7 +20,6 @@ namespace PdfVysor
         {
             await OpenFile();
             String data = await ReadData();
-            Debug.WriteLine(data + "----------");
             Tasks task;
             if (String.IsNullOrEmpty(data))
             {
@@ -34,10 +33,6 @@ namespace PdfVysor
             {
                 task = JsonSerializer.Deserialize<Tasks>(data);
             }
-
-            Debug.WriteLine(task.Name + "Nombre maquinaaaaa");
-            //Tasks tasks = JsonSerializer.Deserialize<Tasks>(data);
-            ////if (tasks == null) tasks = new Tasks() { Name = "Tareas", GroupTasks = new() };
             return task;
         }
 
@@ -50,21 +45,6 @@ namespace PdfVysor
                 WriteData(dataJson);
             });
         }
-
-        //public async Task<Tasks> LoadData()
-        //{
-        //    if (m_localFolder == null)
-        //    {
-        //        m_localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-        //    }
-        //    if (m_jsonFile == null)
-        //    {
-        //        m_jsonFile = await m_localFolder.GetFileAsync(kFileName);
-        //    }
-        //    //String dataJson = await ReadData();
-        //    //Tasks tasks = JsonSerializer.Deserialize<Tasks>(dataJson);
-        //    //return tasks;
-        //}
 
         private async Task<String> ReadData()
         {
@@ -86,11 +66,9 @@ namespace PdfVysor
             try
             {
                 m_jsonFile = await m_localFolder.GetFileAsync(kFileName);
-                Debug.WriteLine("Archivo json existe------");
             }
             catch
             {
-                Debug.WriteLine("Creando archivo json-----");
                 m_jsonFile = await m_localFolder.CreateFileAsync(kFileName, CreationCollisionOption.ReplaceExisting);
             }
 
