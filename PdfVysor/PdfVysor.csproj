@@ -52,7 +52,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JsonLibrary\JsonLibrary.csproj" />
     <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
