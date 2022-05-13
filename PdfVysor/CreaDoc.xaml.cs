@@ -117,14 +117,14 @@ namespace PdfVysor
         {
             LoadingData(true);
             FlyOutDelete.Hide();
-            //var list = ListMach.SelectedNodes;
-
+            
             foreach (var task in ListMach.SelectedNodes)
             {
                 Debug.WriteLine((string)task.Content + m_tasks.NameExists((string)task.Content));
                 m_tasks.RemoveItemsByName((string)task.Content);
             }
 
+            ShowInfo("Eliminacion tareas", "Tareas eliminadas correctamente", InfoBarSeverity.Informational);
             UpdateInfo();
 
             LoadingData(false);
