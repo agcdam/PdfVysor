@@ -2,26 +2,32 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using mux = Microsoft.UI.Xaml.Controls;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Windows.Data.Pdf;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Data.Pdf;
 using WinRT.Interop;
+using mux = Microsoft.UI.Xaml.Controls;
 
 
 namespace PdfVysor
 {
+    public class Item
+    {
+        public string Name { get; set; }
+    }
+
     public sealed partial class CreaDoc : Page
     {
         private Tasks m_tasks;
         private List<StorageFile> m_filesOrig;
         private StorageFile m_fileOut;
-
         private JsonController m_controller;
+
         public List<Tuple<string, GroupTask>> GroupTasksList
         {
             get
@@ -47,39 +53,16 @@ namespace PdfVysor
             InitializeData();
         }
 
-        private async void InitializeData()
+        private void InitializeData()
         {
-            // cargar la informacion del json
+            LoadingData(true);
             if (m_controller == null) m_controller = new JsonController();
-            m_tasks = new()
-            {
-                GroupTasks = new(),
-                Name = "Tareas"
-            };
-            //m_tasks = await m_controller.LoadData();
-            //if (String.IsNullOrEmpty(m_tasks.Name))
-            //{
-            //    m_tasks = new Tasks()
-            //    {
-            //        Name = "Tareas",
-            //        GroupTasks = new List<GroupTask>()
-            //    };
-            //}
-            Tasks aux = await m_controller.LoadData();
-            m_tasks = aux;
+        }
 
-            //Debug.WriteLine(aux.Name);
-            //Tasks aux = await m_controller.LoadData();
-            //if (aux != null) m_tasks = aux;
-
-            //m_tasks = new Tasks()
-            //{
-            //    Name = "Tareas",
-            //    GroupTasks = new List<GroupTask>()
-            //};
-            
-            UpdateInfo();
-
+        private void LoadingData(Boolean status)
+        {
+            ProgressStatus.IsActive = status;
+            ListMach.IsEnabled = !status;
         }
 
         private void UpdateInfo()
@@ -104,15 +87,18 @@ namespace PdfVysor
             }
             ListMach.RootNodes.Add(tasks);
             ListGroups.ItemsSource = GroupTasksList;
-            ListGroups.SelectedIndex = 0;
-            m_controller.SaveData(m_tasks);
+            if (ListGroups.SelectedIndex == -1) ListGroups.SelectedIndex = 0;
+            _ = Task.Run(async () =>
+            {
+                if (m_controller != null) m_controller.SaveData(m_tasks);
+            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (m_tasks.GroupExists(GroupName.Text) || SimplyTaskName.Text.Equals(m_tasks.Name))
+                if (m_tasks.NameExists(GroupName.Text) || SimplyTaskName.Text.Equals(m_tasks.Name))
                 {
                     ShowInfo("Ya existe un grupo con ese nombre", InfoBarSeverity.Informational);
                     return;
@@ -129,21 +115,19 @@ namespace PdfVysor
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            LoadingData(true);
+            FlyOutDelete.Hide();
             //var list = ListMach.SelectedNodes;
-            //if (list.Count == 0) return;
-            //foreach (var a in list)
-            //{
-            //    if ((string)a.Content != "Tareas")
-            //    {
-            //        Debug.WriteLine(a.Content);
-            //        //foreach (var gt in m_tasks.GroupTasks)
-            //        //{
-            //        //    if ((string)a.Content == gt.Name) m_tasks.DeleteGroupTask(gt);
-            //        //}
-            //    }
-            //}
-            //UpdateInfo();
+
+            foreach (var task in ListMach.SelectedNodes)
+            {
+                Debug.WriteLine((string)task.Content + m_tasks.NameExists((string)task.Content));
+                m_tasks.RemoveItemsByName((string)task.Content);
+            }
+
+            UpdateInfo();
+
+            LoadingData(false);
         }
 
         private void AddSimpleTask_Click(object sender, RoutedEventArgs e)
@@ -154,14 +138,21 @@ namespace PdfVysor
                 return;
             }
 
-            if (SimplyTaskName.Text.Length == 0) {
+            if (SimplyTaskName.Text.Length == 0)
+            {
                 ShowInfo("Inserta un nombre de tarea", InfoBarSeverity.Informational);
-                return; 
+                return;
             }
 
-            if (m_tasks.TaskExist(SimplyTaskName.Text) || SimplyTaskName.Text.Equals(m_tasks.Name))
+            if (m_tasks.NameExists(SimplyTaskName.Text) || SimplyTaskName.Text.Equals(m_tasks.Name))
             {
                 ShowInfo("Ya existe un grupo o una tarea con ese nombre", InfoBarSeverity.Informational);
+                return;
+            }
+
+            if (SaveUrl.Text.Length == 0)
+            {
+                ShowInfo("Indica un nombre de guardado", "Dado el caso de ser la ultima tarea seleccionada o no haber posibilidad de unirla al resto, el resultado se guardara en la ruta indicada.", InfoBarSeverity.Informational);
                 return;
             }
             switch (TaskType.SelectedIndex)
@@ -177,30 +168,67 @@ namespace PdfVysor
                         ShowInfo("El archivo seleccionado no existe", InfoBarSeverity.Informational);
                         return;
                     }
-                    if (SaveUrl.Text.Length == 0)
-                    {
-                        ShowInfo("Indica un nombre de guardado", "Dado el caso de ser la ultima tarea seleccionada o no haber posibilidad de unirla al resto, el resultado se guardara en la ruta indicada.", InfoBarSeverity.Informational);
-                        return;
-                    }
-                    List<String> filesOrig = new List<string>()
+                    
+                    List<String> filesOrig1 = new()
                     {
                         m_filesOrig[0].Path
                     };
-                    m_tasks.AddSimpleTask(new SimpleTask() {
+                    m_tasks.AddSimpleTask(new SimpleTask()
+                    {
                         Name = SimplyTaskName.Text,
-                        FileOrigPaths = filesOrig,
+                        FileOrigPaths = filesOrig1,
                         FirstPage = (int)FirstPage.Value,
                         LastPage = (int)LastPage.Value,
                         FileResultPath = m_fileOut.Path,
                         TaskType = Type.Split
                     }, ListGroups.SelectedIndex);
 
-                    UpdateInfo();
+                    //UpdateInfo();
                     break;
                 case 1: // Unir
+                    if (m_filesOrig.Count == 0)
+                    {
+                        ShowInfo("Selecciona al menos un archivo", InfoBarSeverity.Informational);
+                        return;
+                    }
+
+                    List<String> filesOrig2 = new();
+                    foreach (var v in m_filesOrig) filesOrig2.Add(v.Path);
+                    m_tasks.AddSimpleTask(new SimpleTask()
+                    {
+                        Name = SimplyTaskName.Text,
+                        FileOrigPaths = filesOrig2,
+                        FirstPage = 0,
+                        LastPage = 0,
+                        FileResultPath = m_fileOut.Path,
+                        TaskType = Type.Merge
+                    }, ListGroups.SelectedIndex);
+
+                    UpdateInfo();
                     break;
             }
 
+            ShowInfo("Tarea añadida correctamente", 
+                $"Tarea \"{SimplyTaskName.Text}\" añadida en el grupo \"{m_tasks.GetGroupByPosition(ListGroups.SelectedIndex).Name}\"", 
+                InfoBarSeverity.Success);
+            Debug.WriteLine(m_tasks.GroupTasks[ListGroups.SelectedIndex].Name);
+
+            ClearInfo();
+            UpdateInfo();
+
+        }
+
+        private void ClearInfo()
+        {
+            SimplyTaskName.Text = String.Empty;
+            GroupName.Text = String.Empty;
+            FirstPage.Text = String.Empty;
+            LastPage.Text = String.Empty;
+            m_fileOut = null;
+            m_filesOrig.Clear();
+            FilesList.ItemsSource = new ObservableCollection<string>();
+            SaveUrl.Text = String.Empty;
+            OrigUrl.Text = String.Empty;
         }
 
         private void ShowInfo(string title, string message, InfoBarSeverity type)
@@ -229,8 +257,7 @@ namespace PdfVysor
         }
 
         private async void OpenLocal_Click(object sender, RoutedEventArgs e)
-        {
-            // abrir openfiledialog 
+        { 
             FileOpenPicker openPicker = new();
 
             Window window = new();
@@ -293,6 +320,46 @@ namespace PdfVysor
                 m_fileOut = file;
                 SaveUrl.Text = m_fileOut.Path;
             }
+        }
+
+        private async void ListMach_Loaded(object sender, RoutedEventArgs e)
+        {
+            //if (m_controller == null) m_controller = new JsonController();
+            m_tasks = new()
+            {
+                GroupTasks = new(),
+                Name = "Tareas"
+            };
+            Tasks aux = await m_controller.LoadData();
+            m_tasks = aux;
+            UpdateInfo();
+            LoadingData(false);
+        }
+
+        private async void OpenFiles_Click(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new();
+
+            Window window = new();
+
+            var hwnd = WindowNative.GetWindowHandle(window);
+            InitializeWithWindow.Initialize(openPicker, hwnd);
+            openPicker.FileTypeFilter.Add(".pdf");
+            var files = await openPicker.PickMultipleFilesAsync();
+            if (m_filesOrig == null) m_filesOrig = new List<StorageFile>();
+            ObservableCollection<Item> items = new ObservableCollection<Item>();
+
+            foreach (var v in files)
+            {
+                if (v != null)
+                {
+                    m_filesOrig.Add(v as StorageFile);
+                    
+                }
+            }
+
+            foreach (var v in m_filesOrig) items.Add(new Item() { Name = v.Path });
+            FilesList.ItemsSource = items;
         }
     }
 }
