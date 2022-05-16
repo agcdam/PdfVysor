@@ -41,7 +41,7 @@
         </CommandBar>
 
         <StackPanel x:Name="ErrorPanel"
-                    Padding="20, 10, 20, 10"
+                    Padding="3, 10, 3, 10"
                     RelativePanel.Below="Command"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True">
@@ -51,7 +51,6 @@
               RelativePanel.AlignLeftWithPanel="True" 
               RelativePanel.Below="ErrorPanel">
             <TreeView x:Name="ListMach"
-                      Margin="0,0,0,0"
                       AllowDrop="True"
                       MinWidth="250"
                       Loaded="ListMach_Loaded"
@@ -74,18 +73,19 @@
                         Orientation="Vertical" 
                         Spacing="50" 
                         MinWidth="305" 
-                        MaxWidth="400" 
-                        Margin="40,0,0,0" 
+                        MaxWidth="500" 
+                        Margin="50,0,0,0" 
                         Padding="0,0,10,0">
                 <StackPanel Orientation="Vertical" 
                             Spacing="10">
                     <TextBox x:Name="GroupName" 
                              PlaceholderText="Nuevo grupo de tareas" 
                              MinWidth="250"/>
-                    <Button Content="Añadir grupo" 
+                    <Button x:Name="AddGroup" 
+                            Content="Añadir grupo" 
                             Style="{StaticResource AccentButtonStyle}" 
                             HorizontalAlignment="Stretch"
-                            Click="Button_Click"/>
+                            Click="AddGroup_Click"/>
                     <muxc:InfoBar x:Name="ErrorName"
                                   IsOpen="False"
                                   Severity="Warning"
@@ -115,15 +115,14 @@
                     
                     <Pivot Title="Tipo de tarea"
                            x:Name="TaskType">
-                        <PivotItem Header="Dividir" 
-                                   Tag="dividir">
+                        <PivotItem Header="Dividir">
                             <StackPanel Spacing="20">
                                 <StackPanel Spacing="10">
-                                    <Button x:Name="OpenLocal" 
+                                    <Button x:Name="OpenOrig" 
                                             Content="Seleccionar documento" 
                                             Margin="0,0,0,0" 
                                             HorizontalAlignment="Stretch"
-                                            Click="OpenLocal_Click"/>
+                                            Click="OpenOrig_Click"/>
                                     <TextBox x:Name="OrigUrl" 
                                              PlaceholderText="Ruta del archivo" 
                                              IsReadOnly="True"
@@ -154,8 +153,7 @@
                             </StackPanel>
                         </PivotItem>
 
-                        <PivotItem Header="Unir" 
-                                   Tag="unir">
+                        <PivotItem Header="Unir">
                             <StackPanel Spacing="20">
                                 <StackPanel Spacing="10">
                                     <Button x:Name="OpenFiles"

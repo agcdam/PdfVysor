@@ -5,7 +5,6 @@ using Windows.Storage;
 
 namespace PdfVysor
 {
-
     /// <summary>
     /// Class to control the data between the program and the configutarion JSON file
     /// </summary>
@@ -16,7 +15,7 @@ namespace PdfVysor
         private StorageFolder m_localFolder;
 
         /// <summary>
-        /// Opens the local folder when a new instance of JsonController is created
+        /// Opens <see cref="m_localFolder"/> when a new instance of <see cref="JsonController"/> is created
         /// </summary>
         public JsonController()
         {
@@ -24,9 +23,9 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Open the file and obtain the data deserializing it into Tasks objects
+        /// Deserialize the JSON file <see cref="m_jsonFile"/> into <see cref="Tasks"/>
         /// </summary>
-        /// <returns>Task with a Tasks object</returns>
+        /// <returns><see cref="Task"/> with a <see cref="Tasks"/> object</returns>
         public async Task<Tasks> LoadData()
         {
             await OpenFile();
@@ -49,7 +48,7 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Serialize the object given to JSON and write it into the configuration file
+        /// Serialize <paramref name="tasks"/> to JSON and write it into <see cref="m_jsonFile"/>
         /// </summary>
         /// <param name="tasks"></param>
         public async void SaveData(Tasks tasks)
@@ -64,9 +63,9 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Open the file and obtain the data
+        /// Obtain the data from <see cref="m_jsonFile"/>
         /// </summary>
-        /// <returns>Task with a String where is the data located</returns>
+        /// <returns><see cref="Task"/> with a <see cref="String"/> where is the data located</returns>
         private async Task<String> ReadData()
         {
             await OpenFile();
@@ -75,7 +74,7 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Write in the configuration file the data given in String
+        /// Write in <see cref="m_jsonFile"/> the data given in <paramref name="data"/>
         /// </summary>
         /// <param name="data"></param>
         private async void WriteData(String data)
@@ -86,7 +85,7 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Open the folder and open the configuration file
+        /// Open <see cref="m_localFolder"/> and open <see cref="m_jsonFile"/>
         /// </summary>
         /// <returns></returns>
         private async Task OpenFile()

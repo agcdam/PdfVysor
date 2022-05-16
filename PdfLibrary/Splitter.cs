@@ -1,17 +1,18 @@
 ﻿using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
 using iText.Kernel.Utils;
-using System.IO;
-using System;
-using System.Collections.Generic;
 
 namespace PdfLibrary
 {
     public static class Splitter
     {
-        // Splitting the file by a range of pages (firstPage and lastPage) and saving it in the system
+        /// <summary>
+        /// Split the file <paramref name="orig"/> into <paramref name="dest"/> with a range of pages definite by <paramref name="firstPage"/> and <paramref name="lastPage"/>
+        /// </summary>
+        /// <param name="orig"></param>
+        /// <param name="dest"></param>
+        /// <param name="firstPage"></param>
+        /// <param name="lastPage"></param>
+        /// <returns></returns>
         public static bool SplitPdfByPage(String orig, String dest, int firstPage, int lastPage)
         {
             String destFile = (firstPage == 1) ? "tmp1.pdf" : "tmp2.pdf"; // setting the temp file's name
@@ -23,13 +24,13 @@ namespace PdfLibrary
             List<int> pages = new() { firstPage, (lastPage + 1) }; // create the list with the pages required
 
             // splitting the file and getting every part of document in a list
-            IList<PdfDocument> pdfDocuments = new CustomPdfSplitter(document, pathTemp).SplitByPageNumbers(pages); 
+            IList<PdfDocument> pdfDocuments = new CustomPdfSplitter(document, pathTemp).SplitByPageNumbers(pages);
             foreach (PdfDocument pdfDocument in pdfDocuments) pdfDocument.Close(); // closing all the documents created before
             document.Close(); // close the original document
 
             FileInfo result = new(Path.Combine(Path.GetTempPath(), destFile)); // obtain the right file
             result.CopyTo(dest, true); // copy the rigth file to the destination
-            String[] tmpFiles = Directory.GetFiles(Path.GetTempPath(), "*.pdf"); // obtain temp files
+            String[] tmpFiles = Directory.GetFiles(Path.GetTempPath(), "tmp*.pdf"); // obtain temp files
             foreach (String file in tmpFiles) File.Delete(file); // delete temp files
             return true; //return true if all it's okay
         }

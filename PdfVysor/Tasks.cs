@@ -28,7 +28,7 @@ namespace PdfVysor
         public Tasks() { }
 
         /// <summary>
-        /// Add new GroupTask into the tasks giving the name and the list of SimpleTask.
+        /// Creates new <see cref="GroupTask"/> with <paramref name="name"/> as <see cref="GroupTask.Name"/>, and <paramref name="simpleTasks"/> as <see cref="GroupTask.Tasks"/>
         /// </summary>
         /// <param name="name"></param>
         /// <param name="simpleTasks"></param>
@@ -37,9 +37,8 @@ namespace PdfVysor
         public void AddGroupTasks(String name, List<SimpleTask> simpleTasks)
         {
             // Management of the possible errors
-            if (name == null) throw new ArgumentNullException();
+            if (name == null || simpleTasks == null) throw new ArgumentNullException();
             if (name.Length == 0) throw new ArgumentOutOfRangeException();
-            if (simpleTasks == null) throw new ArgumentNullException();
 
             // Add new GroupTask in the Tasks
             GroupTask gp = new()
@@ -52,7 +51,7 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Add new GroupTask into the tasks giving the name and setting the list of SimpleTask empty.
+        /// Add new <see cref="GroupTask"/> in <see cref="GroupTasks"/> with a empty <seealso cref="List{SimpleTask}"/> and the <paramref name="name"/> given
         /// </summary>
         /// <param name="name"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -64,16 +63,18 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Deletes the GroupTask given if exists.
+        /// Remove <paramref name="gt"/> from <see cref="GroupTasks"/> if exists
         /// </summary>
         /// <param name="gt"></param>
-        public void DeleteGroupTask(GroupTask gt)
+        /// <exception cref="ArgumentNullException"></exception>
+        public void RemoveGrouptask(GroupTask gt)
         {
+            if (gt == null) throw new ArgumentNullException();
             m_groupTasks.Remove(gt);
         }
 
         /// <summary>
-        /// Add <see cref="SimpleTask"/> in the <see cref="GroupTasks"/> in the position given.
+        /// Add <paramref name="task"/> in <see cref="GroupTasks"/> in the <paramref name="groupTaskPosition"/> position in <see cref="GroupTasks"/>
         /// </summary>
         /// <param name="task"></param>
         /// <param name="groupTaskPosition"></param>
@@ -86,7 +87,8 @@ namespace PdfVysor
         }
 
         /// <summary>
-        /// Check if the name given already exists
+        /// Returns true if <paramref name="name"/> exists in <see cref="GroupTasks"/>,
+        /// otherwise false if there's nothing with the same name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -100,6 +102,12 @@ namespace PdfVysor
             return false;
         }
 
+        /// <summary>
+        /// Return the <see cref="GroupTask"/> that corresponds in position with <see cref="GroupTask"/> with <paramref name="position"/>
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public GroupTask GetGroupByPosition(int position)
         {
             if (position >= m_groupTasks.Count || position < 0) throw new ArgumentOutOfRangeException();
@@ -116,6 +124,11 @@ namespace PdfVysor
             return null;
         }
 
+        /// <summary>
+        /// Remove <see cref="SimpleTask"/> or <see cref="GroupTask"/> if exists in <see cref="GroupTasks"/>
+        /// </summary>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void RemoveItemsByName(String name)
         {
             if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
@@ -170,6 +183,11 @@ namespace PdfVysor
             m_simpleTasks.Add(task);
         }
 
+        /// <summary>
+        /// Remove <see cref="SimpleTask"/> from <see cref="Tasks"/>
+        /// </summary>
+        /// <param name="simpleTask"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void RemoveSimpleTask(SimpleTask simpleTask)
         {
             if (simpleTask == null) throw new ArgumentNullException();
@@ -189,15 +207,5 @@ namespace PdfVysor
         public List<String> FileOrigPaths { set; get; }
         public String FileResultPath { set; get; }
         public SimpleTask() { }
-
-        /// <summary>
-        /// Execute the action of the <see cref="SimpleTask"/>
-        /// </summary>
-        public void Execute()
-        {
-            // ejecutar el codigo
-            // dependiendo del tipo de tare se realizaria una accion u otra
-
-        }
     }
 }
