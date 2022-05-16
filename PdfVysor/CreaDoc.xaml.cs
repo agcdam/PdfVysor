@@ -12,7 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 using mux = Microsoft.UI.Xaml.Controls;
-
+using System.Threading;
 
 namespace PdfVysor
 {
@@ -347,7 +347,7 @@ namespace PdfVysor
             openPicker.FileTypeFilter.Add(".pdf");
             var files = await openPicker.PickMultipleFilesAsync();
             if (m_filesOrig == null) m_filesOrig = new List<StorageFile>();
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
+            ObservableCollection<Item> items = new();
 
             foreach (var v in files)
             {
@@ -360,6 +360,23 @@ namespace PdfVysor
 
             foreach (var v in m_filesOrig) items.Add(new Item() { Name = v.Path });
             FilesList.ItemsSource = items;
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            List<SimpleTask> tasksSelected = new();
+            var nodes = ListMach.SelectedNodes;
+            foreach (var x in nodes)
+            {
+                SimpleTask task = m_tasks.GetSimpleTaskByName((string)x.Content);
+                if (task != null) tasksSelected.Add(task);
+            }
+            LoadingData(true);
+            Thread.Sleep(1000);
+            LoadingData(false);
+            ShowInfo("Tareas ejecutadas", 
+                $"Resultado guardado en {tasksSelected[tasksSelected.Count - 1].FileResultPath}", 
+                InfoBarSeverity.Success);
         }
     }
 }

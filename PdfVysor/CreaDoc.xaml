@@ -14,7 +14,8 @@
                     RelativePanel.AlignLeftWithPanel="True" 
                     RelativePanel.AlignTopWithPanel="True">
             <AppBarButton x:Name="Save"
-                          Label="Ejecutar">
+                          Label="Ejecutar"
+                          Click="Save_Click">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE945;"/>
                 </AppBarButton.Icon>
@@ -111,6 +112,7 @@
                                  PlaceholderText="Nombre tarea" />
                     </StackPanel>
 
+                    
                     <Pivot Title="Tipo de tarea"
                            x:Name="TaskType">
                         <PivotItem Header="Dividir" 

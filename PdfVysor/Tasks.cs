@@ -107,6 +107,15 @@ namespace PdfVysor
             return m_groupTasks[position];
         }
 
+        public SimpleTask GetSimpleTaskByName(String name)
+        {
+            foreach (GroupTask gt in m_groupTasks)
+            {
+                foreach (SimpleTask v in gt.Tasks) if (v.Name.Equals(name)) return v;
+            }
+            return null;
+        }
+
         public void RemoveItemsByName(String name)
         {
             if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
