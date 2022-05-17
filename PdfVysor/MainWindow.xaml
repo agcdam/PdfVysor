@@ -37,15 +37,6 @@
                     </NavigationViewItem.MenuItems>
                     
                 </NavigationViewItem>
-                <NavigationViewItem Content="Tareas"
-                                    Tag="crea">
-                    
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  Glyph="&#xE7C4;"/>
-                        
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Frame x:Name="ContentFram"/>
         </NavigationView>

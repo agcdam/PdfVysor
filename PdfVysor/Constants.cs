@@ -80,20 +80,5 @@
         /// Name of <see cref="Tasks"/> object
         /// </summary>
         public const string kTasksName = "Tareas";
-
-
-        /*
-         * CreaDoc.xaml.cs
-         */
-
-        /// <summary>
-        /// Maximum of messages to show at once
-        /// </summary>
-        public const int kMaxMessages = 4;
-
-        /// <summary>
-        /// Time in ms. to hide the message automatically
-        /// </summary>
-        public const int kTimeToHideMessages = 6500;
     }
 }
