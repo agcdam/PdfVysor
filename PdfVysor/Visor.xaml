@@ -9,101 +9,150 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
+        <CommandBar x:Name="FileController"
+                    HorizontalAlignment="Left"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+            
+            <AppBarButton x:Name="OpenFile"
+                          Icon="OpenFile"
+                          Label="Abrir documento"
+                          Click="OpenFile_Click"/>
+            
+            <AppBarButton x:Name="CloseFile"
+                          Icon="Delete"
+                          Label="Cerrar documento"
+                          Click="CloseFile_Click"
+                          IsEnabled="False"/>
+        </CommandBar>
 
-        <!--<CommandBar x:Name="CommandBar" Background="Transparent" IsOpen="False"  HorizontalAlignment="Left"
-                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <AppBarButton x:Name="OpenFile" Icon="OpenFile" Label="Abrir documento" Click="OpenFile_Click"/>
-            <AppBarSeparator x:Name="Separator1" Visibility="Collapsed"/>
-            <AppBarButton x:Name="FirstPage" Icon="Back" Label="Primera pagina" Click="FirstPage_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="PreviousPage" Icon="Previous" Label="Pagina anterior" Click="PreviousPage_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="ActualPage" Content="1" Label="Pagina actual" AllowFocusOnInteraction="True" Visibility="Collapsed">
+        <CommandBar x:Name="PageController"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Center"
+                    RelativePanel.Below="FileController"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+            
+            <AppBarButton x:Name="FirstPage"
+                          Icon="Back"
+                          Label="Primera pagina"
+                          Click="FirstPage_Click"/>
+            
+            <AppBarButton x:Name="PreviousPage"
+                          Icon="Previous"
+                          Label="Pagina anterior"
+                          Click="PreviousPage_Click"/>
+            
+            <AppBarButton x:Name="ActualPage"
+                          Content="1"
+                          Label="Pagina actual"
+                          AllowFocusOnInteraction="True">
+                
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutPage">
                         <StackPanel Spacing="10">
                             <TextBlock >
-                                <Run FontSize="20" FontWeight="Bold">Selecciona una pagina</Run>
+                                <Run FontSize="20"
+                                     FontWeight="Bold">
+                                    Selecciona una pagina
+                                </Run>
                             </TextBlock>
                             <TextBox x:Name="InputPageBox"/>
-                            <Button x:Name="SearchPage" Content="Buscar" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}" Click="SearchPage_Click"/>
+                            <Button x:Name="SearchPage"
+                                    Content="Buscar"
+                                    HorizontalAlignment="Stretch"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    Click="SearchPage_Click"/>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="TotalPages" Content="220" Label="Numero de paginas" Visibility="Collapsed"/>
-            <AppBarButton x:Name="NextPage"  Icon="Next" Label="Pagina siguiente" Click="NextPage_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="LastPage" Icon="Forward" Label="Ultima pagina" Click="LastPage_Click" Visibility="Collapsed"/>
-            <AppBarSeparator x:Name="Separator2" Visibility="Collapsed"/>
-            <AppBarToggleButton x:Name="AdjustZoom" Icon="BackToWindow" Label="Ajustar pagina" Click="AdjustZoom_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="ZoomOut" Icon="ZoomOut" Label="Quitar zoom" Click="ZoomOut_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="ZoomValue" Content="100 %" Label="Zoom" Visibility="Collapsed" >
+            
+            <AppBarButton x:Name="TotalPages"
+                          Content="220"
+                          Label="Numero de paginas"/>
+            
+            <AppBarButton x:Name="NextPage"
+                          Icon="Next"
+                          Label="Pagina siguiente"
+                          Click="NextPage_Click"/>
+            
+            <AppBarButton x:Name="LastPage"
+                          Icon="Forward"
+                          Label="Ultima pagina"
+                          Click="LastPage_Click"/>
+            
+            <AppBarSeparator x:Name="Separator2"/>
+            
+            <AppBarToggleButton x:Name="AdjustZoom"
+                                Icon="BackToWindow"
+                                Label="Ajustar pagina"
+                                Click="AdjustZoom_Click"/>
+            
+            <AppBarButton x:Name="ZoomOut"
+                          Icon="ZoomOut"
+                          Label="Quitar zoom"
+                          Click="ZoomOut_Click"/>
+            
+            <AppBarButton x:Name="ZoomValue"
+                          Content="100 %"
+                          Label="Zoom">
+                
                 <Button.Flyout>
-                    <Flyout x:Name="FlyoutZoom" Opening="FlyoutZoom_Opening">
-                        <Slider x:Name="ZoomSelector" Width="200" Minimum="20" Value="100" Maximum="500" StepFrequency="10" ValueChanged="ZoomSelector_ValueChanged"/>
+                    <Flyout x:Name="FlyoutZoom"
+                            Opening="FlyoutZoom_Opening">
+                        <Slider x:Name="ZoomSelector"
+                                Width="200"
+                                Minimum="20"
+                                Value="100"
+                                Maximum="500"
+                                StepFrequency="10"
+                                ValueChanged="ZoomSelector_ValueChanged"/>
                     </Flyout>
                 </Button.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="ZoomIn" Icon="ZoomIn" Label="Añadir zoom" Click="ZoomIn_Click" Visibility="Collapsed"/>
-            <AppBarButton x:Name="ResetZoom" Icon="Refresh" Label="Restablecer zoom" Click="ResetZoom_Click" Visibility="Collapsed"/>
-        </CommandBar>-->
-
-        <CommandBar x:Name="FileController" HorizontalAlignment="Left"
-                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <AppBarButton x:Name="OpenFile" Icon="OpenFile" Label="Abrir documento" Click="OpenFile_Click"/>
-            <AppBarButton x:Name="CloseFile" Icon="Delete" Label="Cerrar documento" Click="CloseFile_Click" IsEnabled="False"/>
+            <AppBarButton x:Name="ZoomIn"
+                          Icon="ZoomIn"
+                          Label="Añadir zoom"
+                          Click="ZoomIn_Click"/>
+            
+            <AppBarButton x:Name="ResetZoom"
+                          Icon="Refresh"
+                          Label="Restablecer zoom"
+                          Click="ResetZoom_Click"/>
         </CommandBar>
 
-        <CommandBar x:Name="PageController" Visibility="Collapsed" HorizontalAlignment="Center"
-                    RelativePanel.Below="FileController" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <AppBarButton x:Name="FirstPage" Icon="Back" Label="Primera pagina" Click="FirstPage_Click" />
-            <AppBarButton x:Name="PreviousPage" Icon="Previous" Label="Pagina anterior" Click="PreviousPage_Click" />
-            <AppBarButton x:Name="ActualPage" Content="1" Label="Pagina actual" AllowFocusOnInteraction="True" >
-                <Button.Flyout>
-                    <Flyout x:Name="FlyoutPage">
-                        <StackPanel Spacing="10">
-                            <TextBlock >
-                                <Run FontSize="20" FontWeight="Bold">Selecciona una pagina</Run>
-                            </TextBlock>
-                            <TextBox x:Name="InputPageBox"/>
-                            <Button x:Name="SearchPage" Content="Buscar" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}" Click="SearchPage_Click"/>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </AppBarButton>
-            <AppBarButton x:Name="TotalPages" Content="220" Label="Numero de paginas" />
-            <AppBarButton x:Name="NextPage"  Icon="Next" Label="Pagina siguiente" Click="NextPage_Click" />
-            <AppBarButton x:Name="LastPage" Icon="Forward" Label="Ultima pagina" Click="LastPage_Click" />
-            <AppBarSeparator x:Name="Separator2" />
-            <AppBarToggleButton x:Name="AdjustZoom" Icon="BackToWindow" Label="Ajustar pagina" Click="AdjustZoom_Click" />
-            <AppBarButton x:Name="ZoomOut" Icon="ZoomOut" Label="Quitar zoom" Click="ZoomOut_Click" />
-            <AppBarButton x:Name="ZoomValue" Content="100 %" Label="Zoom"  >
-                <Button.Flyout>
-                    <Flyout x:Name="FlyoutZoom" Opening="FlyoutZoom_Opening">
-                        <Slider x:Name="ZoomSelector" Width="200" Minimum="20" Value="100" Maximum="500" StepFrequency="10" ValueChanged="ZoomSelector_ValueChanged"/>
-                    </Flyout>
-                </Button.Flyout>
-            </AppBarButton>
-            <AppBarButton x:Name="ZoomIn" Icon="ZoomIn" Label="Añadir zoom" Click="ZoomIn_Click" />
-            <AppBarButton x:Name="ResetZoom" Icon="Refresh" Label="Restablecer zoom" Click="ResetZoom_Click" />
-        </CommandBar>
-
-        <ScrollViewer x:Name="ScrollerPage" Background="LightGray" Visibility="Collapsed"
+        <ScrollViewer x:Name="ScrollerPage"
+                      Background="LightGray"
+                      Visibility="Collapsed"
                       RelativePanel.Below="PageController"
                       RelativePanel.AlignBottomWithPanel="True"
-                      RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
                       HorizontalContentAlignment="Center"
-                      VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto" SizeChanged="ScrollerPage_SizeChanged"  
-                      HorizontalSnapPointsAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxZoomFactor="5" ZoomMode="Enabled" MinZoomFactor="0.20" ViewChanging="ScrollerPage_ViewChanging">
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
+                      SizeChanged="ScrollerPage_SizeChanged"
+                      HorizontalSnapPointsAlignment="Center"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      MaxZoomFactor="5"
+                      ZoomMode="Enabled"
+                      MinZoomFactor="0.20"
+                      ViewChanging="ScrollerPage_ViewChanging">
 
             <Image x:Name="Output"
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Center"/>
         </ScrollViewer>
 
         <StackPanel RelativePanel.AlignBottomWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True"
-                    RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    RelativePanel.AlignLeftWithPanel="True"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
             <ProgressRing x:Name="progressBar"
                           Height="40"
                           Width="40"

@@ -32,9 +32,6 @@ namespace PdfVysor
         private StorageFile m_fileOut;
         private JsonController m_controller;
 
-        private const int kMaxMessages = 4;
-        private const int kTimeToHideMessages = 6500;
-
         public List<Tuple<string, GroupTask>> GroupTasksList
         {
             get
@@ -309,14 +306,14 @@ namespace PdfVysor
                 ActionButton = button
             };
 
-            // Removing the most older InfoBar from the Error Panel when there are more than the kMaxMessages value
-            if (ErrorPanel.Children.Count >= kMaxMessages) ErrorPanel.Children.RemoveAt(0);
+            // Removing the most older InfoBar from the Error Panel when there are more than the Constants.kMaxMessages value
+            if (ErrorPanel.Children.Count >= Constants.kMaxMessages) ErrorPanel.Children.RemoveAt(0);
 
             // Adding the InfoBar to the ErrorPanel
             ErrorPanel.Children.Add(info);
 
             // Creating a Asyncronus Operation to remove the InfoBar added before
-            await Task.Run(() => Thread.Sleep(kTimeToHideMessages));
+            await Task.Run(() => Thread.Sleep(Constants.kTimeToHideMessages));
             ErrorPanel.Children.Remove(info);
         }
 
@@ -352,14 +349,14 @@ namespace PdfVysor
                 Severity = type
             };
 
-            // Removing the most older InfoBar from the Error Panel when there are more than the kMaxMessages value
-            if (ErrorPanel.Children.Count >= kMaxMessages) ErrorPanel.Children.RemoveAt(0);
+            // Removing the most older InfoBar from the Error Panel when there are more than the Constants.kMaxMessages value
+            if (ErrorPanel.Children.Count >= Constants.kMaxMessages) ErrorPanel.Children.RemoveAt(0);
 
             // Adding the InfoBar to the ErrorPanel
             ErrorPanel.Children.Add(info);
 
             // Creating a Asyncronus Operation to remove the InfoBar added before
-            await Task.Run(() => Thread.Sleep(kTimeToHideMessages));
+            await Task.Run(() => Thread.Sleep(Constants.kTimeToHideMessages));
             ErrorPanel.Children.Remove(info);
         }
 
@@ -377,14 +374,14 @@ namespace PdfVysor
                 Severity = type,
             };
 
-            // Removing the most older InfoBar from the Error Panel when there are more than the kMaxMessages value
-            if (ErrorPanel.Children.Count >= kMaxMessages) ErrorPanel.Children.RemoveAt(0);
+            // Removing the most older InfoBar from the Error Panel when there are more than the Constants.kMaxMessages value
+            if (ErrorPanel.Children.Count >= Constants.kMaxMessages) ErrorPanel.Children.RemoveAt(0);
 
             // Adding the InfoBar to the ErrorPanel
             ErrorPanel.Children.Add(info);
 
             // Creating a Asyncronus Operation to remove the InfoBar added before
-            await Task.Run(() => Thread.Sleep(kTimeToHideMessages));
+            await Task.Run(() => Thread.Sleep(Constants.kTimeToHideMessages));
             ErrorPanel.Children.Remove(info);
         }
 
@@ -486,11 +483,7 @@ namespace PdfVysor
         private async void ListMach_Loaded(object sender, RoutedEventArgs e)
         {
             // Creating new Object of Tasks
-            m_tasks = new()
-            {
-                GroupTasks = new(),
-                Name = "Tareas"
-            };
+            m_tasks = Tasks.GetDefaultTasks();
 
             // Get the data from the configure file by asynchronous task
             Tasks aux = await m_controller.LoadData();

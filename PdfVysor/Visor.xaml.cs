@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using Windows.Data.Pdf;
-using Windows.UI.Popups;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -26,13 +25,10 @@ namespace PdfVysor
         public Visor()
         {
             InitializeComponent();
-            // setting the cache enable to save the state of the page
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        /*
-         * Pages
-         */
+        #region Pages
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -42,9 +38,7 @@ namespace PdfVysor
         {
             OpenFile.IsEnabled = false;
             FileOpenPicker openPicker = new();
-
             Window window = new();
-
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(openPicker, hwnd);
             openPicker.FileTypeFilter.Add(".pdf");
@@ -78,7 +72,7 @@ namespace PdfVysor
             OpenFile.IsEnabled = true;
         }
 
-        
+
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -95,7 +89,7 @@ namespace PdfVysor
                 DefaultButton = ContentDialogButton.Primary
 
             };
-            errorDialog.XamlRoot = this.Content.XamlRoot;
+            errorDialog.XamlRoot = Content.XamlRoot;
             ContentDialogResult result = await errorDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -104,7 +98,7 @@ namespace PdfVysor
             }
         }
 
-        
+
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -328,12 +322,9 @@ namespace PdfVysor
         {
             NavigatePages(Search.Last);
         }
+        #endregion
 
-
-        /*
-         * Zoom
-         */
-
+        #region Zoom
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -479,6 +470,12 @@ namespace PdfVysor
             ZoomSelector.Value = ((int)(m_zoomValue * 100));
         }
 
+        #endregion
+
+        //----------------------------------------------------------------------------------------------------------
+        /*
+            Close the actual document
+         */
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
             m_pdfDocument = null;

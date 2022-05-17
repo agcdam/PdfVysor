@@ -10,7 +10,6 @@ namespace PdfVysor
     /// </summary>
     internal class JsonController
     {
-        private const string kFileName = "ConfigTasks.json";
         private StorageFile m_jsonFile;
         private StorageFolder m_localFolder;
 
@@ -33,12 +32,7 @@ namespace PdfVysor
             Tasks task;
             if (String.IsNullOrEmpty(data))
             {
-                task = new()
-                {
-                    Name = "Tareas",
-                    GroupTasks = new()
-                };
-
+                task = Tasks.GetDefaultTasks();
             }
             else
             {
@@ -95,12 +89,12 @@ namespace PdfVysor
             {
                 if (m_jsonFile == null)
                 {
-                    m_jsonFile = await m_localFolder.GetFileAsync(kFileName);
+                    m_jsonFile = await m_localFolder.GetFileAsync(Constants.kFileJsonName);
                 }
             }
             catch
             {
-                m_jsonFile = await m_localFolder.CreateFileAsync(kFileName, CreationCollisionOption.ReplaceExisting);
+                m_jsonFile = await m_localFolder.CreateFileAsync(Constants.kFileJsonName, CreationCollisionOption.ReplaceExisting);
             }
         }
     }

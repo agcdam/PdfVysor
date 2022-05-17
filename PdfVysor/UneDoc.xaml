@@ -10,41 +10,90 @@
 
     <Page.Resources>
         <!--zoom-->
-        <DataTemplate x:Key="PdfDocuments1" x:DataType="local:Document">
-            <StackPanel Orientation="Vertical" Spacing="10" Padding="10">
-                <Image Source="{x:Bind FirstPage}" Width="210" Height="297"/>
-                <TextBlock Text="{x:Bind Title}"  Margin="10,0,0,0"/>
+        <DataTemplate x:Key="PdfDocuments1"
+                      x:DataType="local:Document">
+            <StackPanel Orientation="Vertical"
+                        Spacing="10" Padding="10">
+                <Image Source="{x:Bind FirstPage}"
+                       Width="210" Height="297"/>
+                <TextBlock Text="{x:Bind Title}"
+                           Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="PdfDocuments2" x:DataType="local:Document">
-            <StackPanel Orientation="Vertical" Spacing="10" Padding="10">
-                <Image Source="{x:Bind FirstPage}" Width="420" Height="594"/>
-                <TextBlock Text="{x:Bind Title}"  Margin="10,0,0,0"/>
+        <DataTemplate x:Key="PdfDocuments2"
+                      x:DataType="local:Document">
+            <StackPanel Orientation="Vertical"
+                        Spacing="10"
+                        Padding="10">
+                <Image Source="{x:Bind FirstPage}"
+                       Width="420"
+                       Height="594"/>
+                <TextBlock Text="{x:Bind Title}"
+                           Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="PdfDocuments3" x:DataType="local:Document">
-            <StackPanel Orientation="Vertical" Spacing="10" Padding="10">
-                <Image Source="{x:Bind FirstPage}" Width="630" Height="891"/>
-                <TextBlock Text="{x:Bind Title}"  Margin="10,0,0,0"/>
+        <DataTemplate x:Key="PdfDocuments3"
+                      x:DataType="local:Document">
+            <StackPanel Orientation="Vertical"
+                        Spacing="10"
+                        Padding="10">
+                <Image Source="{x:Bind FirstPage}"
+                       Width="630"
+                       Height="891"/>
+                <TextBlock Text="{x:Bind Title}"
+                           Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="PdfDocuments4" x:DataType="local:Document">
-            <StackPanel Orientation="Vertical" Spacing="10" Padding="10">
-                <Image Source="{x:Bind FirstPage}" Width="840" Height="1188"/>
-                <TextBlock Text="{x:Bind Title}"  Margin="10,0,0,0"/>
+        <DataTemplate x:Key="PdfDocuments4"
+                      x:DataType="local:Document">
+            <StackPanel Orientation="Vertical"
+                        Spacing="10"
+                        Padding="10">
+                <Image Source="{x:Bind FirstPage}"
+                       Width="840"
+                       Height="1188"/>
+                <TextBlock Text="{x:Bind Title}"
+                           Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
     
     <RelativePanel>
-        <CommandBar x:Name="FileController" HorizontalAlignment="Left" 
-                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <AppBarButton x:Name="OpenFile" Icon="OpenFile" Label="Abrir documento" Click="OpenFile_Click"/>
-            <AppBarButton x:Name="CloseFile" Icon="Delete" IsEnabled="False" Label="Cerrar documento" Click="CloseFile_Click"/>
-            <AppBarButton x:Name="SaveFile" Icon="Save" IsEnabled="False" Label="Guardar documento" Click="SaveFile_Click"/>
+        <CommandBar x:Name="FileController"
+                    HorizontalAlignment="Left"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+            
+            <AppBarButton x:Name="OpenFile"
+                          Icon="OpenFile"
+                          Label="Abrir documento"
+                          Click="OpenFile_Click"/>
+            
+            <AppBarButton x:Name="CloseFile"
+                          Icon="Delete"
+                          IsEnabled="False"
+                          Label="Cerrar documento"
+                          Click="CloseFile_Click"/>
+            
+            <AppBarButton x:Name="SaveFile"
+                          Icon="Save"
+                          IsEnabled="False"
+                          Label="Guardar documento"
+                          Click="SaveFile_Click"/>
+            
             <AppBarSeparator/>
-            <AppBarButton x:Name="ZoomIn" Icon="ZoomIn" IsEnabled="False" Label="Aumentar zoom" Click="ZoomIn_Click"/>
-            <AppBarButton x:Name="ZoomOut" Icon="ZoomOut" IsEnabled="False" Label="Quitar zoom" Click="ZoomOut_Click"/>
+            <AppBarButton x:Name="ZoomIn"
+                          Icon="ZoomIn"
+                          IsEnabled="False"
+                          Label="Aumentar zoom"
+                          Click="ZoomIn_Click"/>
+            
+            <AppBarButton x:Name="ZoomOut"
+                          Icon="ZoomOut"
+                          IsEnabled="False"
+                          Label="Quitar zoom"
+                          Click="ZoomOut_Click"/>
         </CommandBar>
 
         <GridView

@@ -51,6 +51,19 @@ namespace PdfVysor
         }
 
         /// <summary>
+        /// Return new default object <see cref="Tasks"/>
+        /// </summary>
+        /// <returns></returns>
+        public static Tasks GetDefaultTasks()
+        {
+            return new Tasks()
+            {
+                Name = Constants.kTasksName,
+                GroupTasks = new()
+            };
+        }
+
+        /// <summary>
         /// Add new <see cref="GroupTask"/> in <see cref="GroupTasks"/> with a empty <seealso cref="List{SimpleTask}"/> and the <paramref name="name"/> given
         /// </summary>
         /// <param name="name"></param>

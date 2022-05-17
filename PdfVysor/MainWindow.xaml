@@ -9,28 +9,43 @@
 
     <Grid >
         <NavigationView CompactModeThresholdWidth="0"
-                        IsSettingsVisible="False"  IsBackButtonVisible="Collapsed" x:Name="Nav"
-                        Loaded="Nav_Loaded" SelectionChanged="Nav_SelectionChanged" >
+                        IsSettingsVisible="False"
+                        IsBackButtonVisible="Collapsed"
+                        x:Name="Nav"
+                        Loaded="Nav_Loaded"
+                        SelectionChanged="Nav_SelectionChanged">
+            
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="View" Content="Visualizar documentos" Tag="visor"/>
-                <NavigationViewItem Icon="Edit" Content="Editar documentos" SelectsOnInvoked="False" Tag="edit">
+                <NavigationViewItem Icon="View"
+                                    Content="Visualizar documentos"
+                                    Tag="visor"/>
+                
+                <NavigationViewItem Icon="Edit"
+                                    Content="Editar documentos"
+                                    SelectsOnInvoked="False"
+                                    Tag="edit">
+                    
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem Icon="Cut" Content="Dividir documentos" Tag="divide"/>
-                        <NavigationViewItem Icon="Copy" Content="Unir documentos" Tag="unir"/>
+                        <NavigationViewItem Icon="Cut"
+                                            Content="Dividir documentos"
+                                            Tag="divide"/>
+                        
+                        <NavigationViewItem Icon="Copy"
+                                            Content="Unir documentos"
+                                            Tag="unir"/>
+                        
                     </NavigationViewItem.MenuItems>
                     
                 </NavigationViewItem>
-                <NavigationViewItem Content="Tareas" Tag="crea">
+                <NavigationViewItem Content="Tareas"
+                                    Tag="crea">
+                    
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C4;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets"
+                                  Glyph="&#xE7C4;"/>
+                        
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <!--<NavigationViewItem Icon="Document" Content="Documentacion" Tag="doc" SelectsOnInvoked="False">
-                    <NavigationViewItem.MenuItems>
-                        
-                        <NavigationViewItem Icon="Setting" Content="Configuracion" Tag="config"/>
-                    </NavigationViewItem.MenuItems>
-                </NavigationViewItem>-->
             </NavigationView.MenuItems>
             <Frame x:Name="ContentFram"/>
         </NavigationView>

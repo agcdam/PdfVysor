@@ -22,7 +22,6 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ConfigDoc.xaml" />
     <None Remove="CreaDoc.xaml" />
     <None Remove="DivideDoc.xaml" />
     <None Remove="UneDoc.xaml" />
@@ -53,11 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PdfLibrary\PdfLibrary.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="ConfigDoc.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="CreaDoc.xaml">

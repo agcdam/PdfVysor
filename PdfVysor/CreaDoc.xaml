@@ -10,8 +10,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <CommandBar x:Name="Command" 
-                    RelativePanel.AlignLeftWithPanel="True" 
+        <CommandBar x:Name="Command"
+                    RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True">
             <AppBarButton x:Name="Save"
                           Label="Ejecutar"
@@ -25,14 +25,14 @@
                           Label="Eliminar">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyOutDelete">
-                        <StackPanel Orientation="Vertical" 
+                        <StackPanel Orientation="Vertical"
                                     Spacing="20">
                             <TextBlock Text="Confirmacion"/>
                             <TextBlock Text="Vas a quitar los objetos seleccionados. ¿Desea seguir?"/>
                             <Button x:Name="DeleteButton"
-                                    Content="Continuar" 
+                                    Content="Continuar"
                                     Click="DeleteButton_Click"
-                                    Style="{StaticResource AccentButtonStyle}" 
+                                    Style="{StaticResource AccentButtonStyle}"
                                     HorizontalAlignment="Stretch"/>
                         </StackPanel>
                     </Flyout>
@@ -67,23 +67,23 @@
                       RelativePanel.LeftOf="ScrollContent"/>
 
         <ScrollViewer x:Name="ScrollContent"
-                      RelativePanel.RightOf="GridList" 
+                      RelativePanel.RightOf="GridList"
                       RelativePanel.AlignTopWith="GridList">
-            <StackPanel x:Name="AddMach" 
-                        Orientation="Vertical" 
-                        Spacing="50" 
-                        MinWidth="305" 
-                        MaxWidth="500" 
-                        Margin="50,0,0,0" 
+            <StackPanel x:Name="AddMach"
+                        Orientation="Vertical"
+                        Spacing="50"
+                        MinWidth="305"
+                        MaxWidth="500"
+                        Margin="50,0,0,0"
                         Padding="0,0,10,0">
-                <StackPanel Orientation="Vertical" 
+                <StackPanel Orientation="Vertical"
                             Spacing="10">
                     <TextBox x:Name="GroupName" 
-                             PlaceholderText="Nuevo grupo de tareas" 
+                             PlaceholderText="Nuevo grupo de tareas"
                              MinWidth="250"/>
-                    <Button x:Name="AddGroup" 
-                            Content="Añadir grupo" 
-                            Style="{StaticResource AccentButtonStyle}" 
+                    <Button x:Name="AddGroup"
+                            Content="Añadir grupo"
+                            Style="{StaticResource AccentButtonStyle}"
                             HorizontalAlignment="Stretch"
                             Click="AddGroup_Click"/>
                     <muxc:InfoBar x:Name="ErrorName"
@@ -92,11 +92,11 @@
                                   Title="Introduce un nombre al grupo"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" 
+                <StackPanel Orientation="Vertical"
                             Spacing="10">
 
                     <TextBlock x:Name="HeaderGropuTasks"
-                               Text="Elige el grupo de tareas" 
+                               Text="Elige el grupo de tareas"
                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
 
                     <ListBox x:Name="ListGroups"
@@ -108,8 +108,8 @@
                              SelectedValuePath="Item2"/>
 
                     <StackPanel Spacing="10">
-                        <TextBox x:Name="SimplyTaskName" 
-                                 PlaceholderText="Nombre tarea" />
+                        <TextBox x:Name="SimplyTaskName"
+                                 PlaceholderText="Nombre tarea"/>
                     </StackPanel>
 
                     
@@ -118,13 +118,13 @@
                         <PivotItem Header="Dividir">
                             <StackPanel Spacing="20">
                                 <StackPanel Spacing="10">
-                                    <Button x:Name="OpenOrig" 
-                                            Content="Seleccionar documento" 
-                                            Margin="0,0,0,0" 
+                                    <Button x:Name="OpenOrig"
+                                            Content="Seleccionar documento"
+                                            Margin="0,0,0,0"
                                             HorizontalAlignment="Stretch"
                                             Click="OpenOrig_Click"/>
-                                    <TextBox x:Name="OrigUrl" 
-                                             PlaceholderText="Ruta del archivo" 
+                                    <TextBox x:Name="OrigUrl"
+                                             PlaceholderText="Ruta del archivo"
                                              IsReadOnly="True"
                                              IsTabStop="False"/>
                                 </StackPanel>
@@ -135,18 +135,18 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <NumberBox x:Name="FirstPage" 
-                                               Header="Primera pagina" 
-                                               HorizontalAlignment="Stretch" 
-                                               Grid.Column="0" 
-                                               Margin="0,0,10,0" 
+                                    <NumberBox x:Name="FirstPage"
+                                               Header="Primera pagina"
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="0"
+                                               Margin="0,0,10,0"
                                                ValueChanged="FirstPage_ValueChanged"
                                                Minimum="1"
                                                SpinButtonPlacementMode="Inline"/>
 
-                                    <NumberBox x:Name="LastPage" 
-                                               Header="Ultima pagina" 
-                                               Grid.Column="1" 
+                                    <NumberBox x:Name="LastPage"
+                                               Header="Ultima pagina"
+                                               Grid.Column="1"
                                                ValueChanged="LastPage_ValueChanged"
                                                SpinButtonPlacementMode="Inline"/>
                                 </Grid>
@@ -168,7 +168,8 @@
                                               CanReorderItems="True">
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="local:Item">
-                                                <TextBlock Text="{x:Bind Name}" Margin="0,5,0,5"/>
+                                                <TextBlock Text="{x:Bind Name}"
+                                                           Margin="0,5,0,5"/>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
@@ -180,20 +181,20 @@
                     <StackPanel Spacing="10"
                                 Margin="0,10,0,0">
                         <Button x:Name="SaveButton"
-                                            Content="Seleccionar ruta guardado"
-                                            HorizontalAlignment="Stretch" 
-                                            Click="SaveButton_Click"/>
+                                Content="Seleccionar ruta guardado"
+                                HorizontalAlignment="Stretch"
+                                Click="SaveButton_Click"/>
                         <TextBox x:Name="SaveUrl"
-                                             PlaceholderText="Ruta de guardado"
-                                             IsReadOnly="True"
-                                             IsTabStop="False"/>
+                                 PlaceholderText="Ruta de guardado"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"/>
                     </StackPanel>
                 </StackPanel>
 
-                <Button x:Name="AddSimpleTask" 
-                        Content="Añadir tarea" Style="{StaticResource AccentButtonStyle}" 
+                <Button x:Name="AddSimpleTask"
+                        Content="Añadir tarea" Style="{StaticResource AccentButtonStyle}"
                         Click="AddSimpleTask_Click"
-                        Margin="0,0,0,10" 
+                        Margin="0,0,0,10"
                         HorizontalAlignment="Stretch"/>
 
             </StackPanel>
