@@ -15,14 +15,32 @@
         </Grid.RowDefinitions>
 
         <NavigationView CompactModeThresholdWidth="0"
-                        IsSettingsVisible="False" Grid.Row="1" IsBackButtonVisible="Collapsed" x:Name="Nav"
-                        Loaded="Nav_Loaded" SelectionChanged="Nav_SelectionChanged" >
+                        IsSettingsVisible="False"
+                        Grid.Row="1"
+                        IsBackButtonVisible="Collapsed"
+                        x:Name="Nav"
+                        Loaded="Nav_Loaded"
+                        SelectionChanged="Nav_SelectionChanged">
+            
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="View" Content="Visualizar documentos" Tag="visor"/>
-                <NavigationViewItem Icon="Edit" Content="Editar documentos" SelectsOnInvoked="False" Tag="edit">
+                <NavigationViewItem Icon="View"
+                                    Content="Visualizar documentos"
+                                    Tag="visor"/>
+                
+                <NavigationViewItem Icon="Edit"
+                                    Content="Editar documentos"
+                                    SelectsOnInvoked="False"
+                                    Tag="edit">
+                    
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem Icon="Cut" Content="Dividir documentos" Tag="divide"/>
-                        <NavigationViewItem Icon="Add" Content="Unir documentos" Tag="unir"/>
+                        <NavigationViewItem Icon="Cut"
+                                            Content="Dividir documentos"
+                                            Tag="divide"/>
+                        
+                        <NavigationViewItem Icon="Add"
+                                            Content="Unir documentos"
+                                            Tag="unir"/>
+                        
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
 

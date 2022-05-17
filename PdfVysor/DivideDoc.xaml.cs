@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -15,6 +16,9 @@ namespace PdfVysor
 
     public sealed partial class DivideDoc : Page
     {
+        /// <summary>
+        /// Search request
+        /// </summary>
         private enum Search
         {
             FirstStart,
@@ -32,6 +36,9 @@ namespace PdfVysor
             Initial
         };
 
+        /// <summary>
+        /// Last page updated
+        /// </summary>
         private enum Updated
         {
             Start,
@@ -600,7 +607,9 @@ namespace PdfVysor
             StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
             {
-                PdfLibrary.Splitter.SplitPdfByPage(m_file.Path, file.Path, m_startPage + 1, m_endPage + 1);
+                _ = Task.Run(() =>
+                   PdfLibrary.Splitter.SplitPdfByPage(m_file.Path, file.Path, m_startPage + 1, m_endPage + 1)
+               );
             }
         }
     }

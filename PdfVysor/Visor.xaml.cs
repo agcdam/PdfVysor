@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using Windows.Data.Pdf;
-using Windows.UI.Popups;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -78,7 +77,7 @@ namespace PdfVysor
             OpenFile.IsEnabled = true;
         }
 
-        
+
 
         //----------------------------------------------------------------------------------------------------------
         /*
@@ -95,7 +94,7 @@ namespace PdfVysor
                 DefaultButton = ContentDialogButton.Primary
 
             };
-            errorDialog.XamlRoot = this.Content.XamlRoot;
+            errorDialog.XamlRoot = Content.XamlRoot;
             ContentDialogResult result = await errorDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -104,7 +103,7 @@ namespace PdfVysor
             }
         }
 
-        
+
 
         //----------------------------------------------------------------------------------------------------------
         /*

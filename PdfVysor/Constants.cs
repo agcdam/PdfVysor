@@ -6,32 +6,59 @@
          * MainWindow.xaml.cs
          */
 
-        // title of the application
+        /// <summary>
+        /// Title of the application
+        /// </summary>
         public static string kTitleWindow = "PdfVysor";
 
 
         /*
          * Visor.xaml.cs
          */
-        public const int kHeightImage = 1188; // base height of the pdf page
-        public const int kWidthImage = 840; // base width of the pdf page
-        public const double kPageRenderQuality = 2.0; // quality of the page's render
 
-        // zoom level based on 1 as 100% (in the indicators is on % based)
-        public const float kMinZoom = 0.20f; // min factor of zoom level in the scroller page
-        public const float kMaxZoom = 5.0f; // max factor of zoom level in the scroller page
-        public const float kDefaultZoomValue = (float)1; // default zoom value
+        /// <summary>
+        /// Base height of the pdf pages
+        /// </summary>
+        public const int kHeightImage = 1188;
 
-        // every click of the buttons increase or
-        // decrease 0.10 (10%) zoom value
-        public const float kStepFrequencyZoom = (float)0.1; // every click of the buttons increase or
+        /// <summary>
+        /// Base width of the pdf pages
+        /// </summary>
+        public const int kWidthImage = 840;
+
+        /// <summary>
+        /// Quality of the rendering pages
+        /// </summary>
+        public const double kPageRenderQuality = 2.0;
+
+        /// <summary>
+        /// Minimum zoom factor in the visor page.
+        /// </summary>
+        public const float kMinZoom = 0.20f;
+
+        /// <summary>
+        /// Maximum zoom factor in the visor page
+        /// </summary>
+        public const float kMaxZoom = 5.0f;
+
+        /// <summary>
+        /// Default zoom value
+        /// </summary>
+        public const float kDefaultZoomValue = 1.0f;
+
+        /// <summary>
+        /// Step value when increase or decrease
+        /// </summary>
+        public const float kStepFrequencyZoom = (float)0.1;
 
 
         /*
          * UneDoc.xaml.cs
          */
-        public const int kZoomLevels = 4; // numero de niveles de zoom
-        
 
+        /// <summary>
+        /// Number of zoom levels
+        /// </summary>
+        public const int kZoomLevels = 4;
     }
 }
