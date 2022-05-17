@@ -115,6 +115,11 @@ namespace PdfVysor
             return m_groupTasks[position];
         }
 
+        /// <summary>
+        /// Returns the <see cref="SimpleTask"/> in <see cref="GroupTasks"/> if there's one that coincide with the name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public SimpleTask GetSimpleTaskByName(String name)
         {
             foreach (GroupTask gt in m_groupTasks)

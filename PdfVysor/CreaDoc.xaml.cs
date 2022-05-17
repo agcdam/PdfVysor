@@ -632,6 +632,13 @@ namespace PdfVysor
                 LoadingData(false);
             }
 
+            // Clear all the temp files created before
+            _ = Task.Run(() =>
+            {
+                String[] tmpFiles = Directory.GetFiles(Path.GetTempPath(), "tmp*.pdf"); // obtain temp files
+                foreach (String file in tmpFiles) File.Delete(file); // delete temp files
+            });
+
         }
     }
 }
