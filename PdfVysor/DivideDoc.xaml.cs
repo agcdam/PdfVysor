@@ -116,7 +116,7 @@ namespace PdfVysor
                 DefaultButton = ContentDialogButton.Primary
 
             };
-            errorDialog.XamlRoot = this.Content.XamlRoot;
+            errorDialog.XamlRoot = Content.XamlRoot;
             ContentDialogResult result = await errorDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
