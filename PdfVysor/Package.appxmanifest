@@ -9,7 +9,7 @@
   <Identity
     Name="b4c1a713-78cc-4663-8494-e6743ec9db8d"
     Publisher="CN=agomez"
-    Version="1.0.1.0" />
+    Version="1.1.0.0" />
 
   <Properties>
     <DisplayName>PdfVysor</DisplayName>
