@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -15,6 +16,9 @@ namespace PdfVysor
 
     public sealed partial class DivideDoc : Page
     {
+        /// <summary>
+        /// Search request
+        /// </summary>
         private enum Search
         {
             FirstStart,
@@ -32,6 +36,9 @@ namespace PdfVysor
             Initial
         };
 
+        /// <summary>
+        /// Last page updated
+        /// </summary>
         private enum Updated
         {
             Start,
@@ -46,7 +53,6 @@ namespace PdfVysor
         private Dictionary<int, BitmapImage> m_pageCache = new();
         private Updated m_lastUpdated;
 
-
         public DivideDoc()
         {
             InitializeComponent();
@@ -60,45 +66,39 @@ namespace PdfVysor
         private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFile.IsEnabled = false;
-
             FileOpenPicker openPicker = new();
-
             Window window = new();
             var hwnd = WindowNative.GetWindowHandle(window);
             InitializeWithWindow.Initialize(openPicker, hwnd);
             openPicker.FileTypeFilter.Add(".pdf");
             StorageFile file = await openPicker.PickSingleFileAsync();
-            PdfDocument pdf = null;
             if (file != null)
             {
                 try
                 {
-                    pdf = await PdfDocument.LoadFromFileAsync(file);
+                    PdfDocument pdf = await PdfDocument.LoadFromFileAsync(file);
                     m_file = file;
+
+                    if (pdf != null)
+                    {
+                        NewPdfLoaded(pdf);
+                    }
+
+                    if (m_pdfDocument != null)
+                    {
+                        PageControllersVisibily(Visibility.Visible);
+                        UpdatePagesValues();
+                        CheckPageControllers();
+                        m_pageCache.Clear();
+                        NavigatesPages(Search.Initial);
+                    }
                 }
                 catch
                 {
                     ShowErrorDialog();
                 }
             }
-
-            if (pdf != null)
-            {
-                NewPdfLoaded(pdf);
-            }
-
-            if (m_pdfDocument != null)
-            {
-                PageControllersVisibily(Visibility.Visible);
-                UpdatePagesValues();
-                CheckPageControllers();
-                m_pageCache.Clear();
-                NavigatesPages(Search.Initial);
-            }
-
-
             OpenFile.IsEnabled = true;
-
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -114,9 +114,8 @@ namespace PdfVysor
                 CloseButtonText = "Aceptar",
                 PrimaryButtonText = "Abrir otro archivo",
                 DefaultButton = ContentDialogButton.Primary
-
             };
-            errorDialog.XamlRoot = this.Content.XamlRoot;
+            errorDialog.XamlRoot = Content.XamlRoot;
             ContentDialogResult result = await errorDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -590,9 +589,7 @@ namespace PdfVysor
         private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             var savePicker = new FileSavePicker();
-
             savePicker.FileTypeChoices.Add("Portable Document Format", new List<string>() { ".pdf" });
-
             savePicker.SuggestedFileName = "New Document";
             Window window = new();
             var hwnd = WindowNative.GetWindowHandle(window);
@@ -600,7 +597,9 @@ namespace PdfVysor
             StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
             {
-                PdfLibrary.Splitter.SplitPdfByPage(m_file.Path, file.Path, m_startPage + 1, m_endPage + 1);
+                _ = Task.Run(() =>
+                    PdfLibrary.Splitter.SplitPdfByPage(m_file.Path, file.Path, m_startPage + 1, m_endPage + 1)
+                );
             }
         }
     }

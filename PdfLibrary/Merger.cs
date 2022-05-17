@@ -5,6 +5,12 @@ namespace PdfLibrary
 {
     public class Merger
     {
+        /// <summary>
+        /// Join together <paramref name="orig"/> with all the files into <paramref name="files"/>, saving it into <paramref name="dest"/>
+        /// </summary>
+        /// <param name="orig"></param>
+        /// <param name="dest"></param>
+        /// <param name="files"></param>
         public static void Merge(String orig, String dest, List<String> files)
         {
             PdfDocument pdfDocument = new(new PdfReader(orig), new PdfWriter(dest)); // open the reader and the writer to the same doc

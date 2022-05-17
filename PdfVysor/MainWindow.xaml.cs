@@ -12,12 +12,23 @@ namespace PdfVysor
             this.Title = Constants.kTitleWindow;
         }
 
+        /// <summary>
+        /// Navigates to <see cref="Visor"/> page when <see cref="Nav"/> is loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Nav_Loaded(object sender, RoutedEventArgs e)
         {
             Nav.SelectedItem = Nav.MenuItems.First();
             ContentFram.Navigate(typeof(Visor));
         }
 
+
+        /// <summary>
+        /// Load new <see cref="Frame"/> into <see cref="ContentFram"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void Nav_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var selectedItem = (NavigationViewItem)args.SelectedItem;

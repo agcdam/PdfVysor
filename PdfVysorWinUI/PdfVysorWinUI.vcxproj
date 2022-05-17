@@ -8,7 +8,7 @@
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{8010c550-fadf-40c0-b6cb-e42b7c88b03e}</ProjectGuid>
-    <ProjectName>PdfVysorWinUI</ProjectName>
+    <ProjectName>PdfVysorCpp</ProjectName>
     <RootNamespace>PdfVysorWinUI</RootNamespace>
     <!--
       $(TargetName) should be same as $(RootNamespace) so that the produced binaries (.exe/.pri/etc.)

@@ -128,9 +128,7 @@ namespace PdfVysor
         private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             var savePicker = new FileSavePicker();
-
             savePicker.FileTypeChoices.Add("Portable Document Format", new List<string>() { ".pdf" });
-
             savePicker.SuggestedFileName = "New Document";
             Window window = new();
             var hwnd = WindowNative.GetWindowHandle(window);
