@@ -10,9 +10,9 @@ Aqui teneis una guia de Microsoft sobre como preparar tu entorno para WinUI 3, [
 
 Una vez tengais el entorno listo, clonais el repositorio [PdfVysor](https://github.com/agcdam/PdfVysor) y abris la [Solucion](https://docs.microsoft.com/es-es/visualstudio/ide/solutions-and-projects-in-visual-studio?view=vs-2022).
 
-Si deseais ejecutar la version en C++, seleccionais en Proyectos de Inicio, en la parte superior, el proyecto PdfVysorWinUI. 
+Si deseais ejecutar la version en C++, seleccionais en Proyectos de Inicio, en la parte superior, el proyecto PdfVysorCpp (Desktop). 
 
-Si deseais ejecutar la version en C#, seleccionais en Proyectos de Inicio, en la parte superior, el proyecto PdfVysor.
+Si deseais ejecutar la version en C#, seleccionais en Proyectos de Inicio, en la parte superior, el proyecto PdfVysorCs.
 <br><br>
 
 ## Fallos? Propuestas?
