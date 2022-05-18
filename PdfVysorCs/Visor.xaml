@@ -9,22 +9,25 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <CommandBar x:Name="FileController"
+
+        <CommandBar x:Name="FileController" 
                     HorizontalAlignment="Left"
-                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True" 
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True">
-            
+
             <AppBarButton x:Name="OpenFile"
                           Icon="OpenFile"
                           Label="Abrir documento"
-                          Click="OpenFile_Click"/>
-            
+                          Click="OpenFile_Click"
+                          ToolTipService.ToolTip="Abrir documento"/>
+
             <AppBarButton x:Name="CloseFile"
                           Icon="Delete"
                           Label="Cerrar documento"
                           Click="CloseFile_Click"
-                          IsEnabled="False"/>
+                          IsEnabled="False"
+                          ToolTipService.ToolTip="Cerrar documento"/>
         </CommandBar>
 
         <CommandBar x:Name="PageController"
@@ -33,22 +36,25 @@
                     RelativePanel.Below="FileController"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True">
-            
+
             <AppBarButton x:Name="FirstPage"
                           Icon="Back"
                           Label="Primera pagina"
-                          Click="FirstPage_Click"/>
-            
+                          Click="FirstPage_Click"
+                          ToolTipService.ToolTip="Primera pagina"/>
+
             <AppBarButton x:Name="PreviousPage"
                           Icon="Previous"
                           Label="Pagina anterior"
-                          Click="PreviousPage_Click"/>
-            
+                          Click="PreviousPage_Click"
+                          ToolTipService.ToolTip="Pagina anterior"/>
+
             <AppBarButton x:Name="ActualPage"
                           Content="1"
                           Label="Pagina actual"
-                          AllowFocusOnInteraction="True">
-                
+                          AllowFocusOnInteraction="True"
+                          ToolTipService.ToolTip="Haz clic para buscar una pagina">
+
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutPage">
                         <StackPanel Spacing="10">
@@ -59,6 +65,7 @@
                                 </Run>
                             </TextBlock>
                             <TextBox x:Name="InputPageBox"/>
+
                             <Button x:Name="SearchPage"
                                     Content="Buscar"
                                     HorizontalAlignment="Stretch"
@@ -68,40 +75,46 @@
                     </Flyout>
                 </Button.Flyout>
             </AppBarButton>
-            
             <AppBarButton x:Name="TotalPages"
                           Content="220"
-                          Label="Numero de paginas"/>
-            
+                          Label="Numero de paginas"
+                          ToolTipService.ToolTip="Total paginas"/>
+
             <AppBarButton x:Name="NextPage"
                           Icon="Next"
                           Label="Pagina siguiente"
-                          Click="NextPage_Click"/>
-            
+                          Click="NextPage_Click"
+                          ToolTipService.ToolTip="Siguiente pagina"/>
+
             <AppBarButton x:Name="LastPage"
                           Icon="Forward"
                           Label="Ultima pagina"
-                          Click="LastPage_Click"/>
-            
+                          Click="LastPage_Click"
+                          ToolTipService.ToolTip="Ultima pagina"/>
+
             <AppBarSeparator x:Name="Separator2"/>
-            
+
             <AppBarToggleButton x:Name="AdjustZoom"
                                 Icon="BackToWindow"
                                 Label="Ajustar pagina"
-                                Click="AdjustZoom_Click"/>
-            
+                                Click="AdjustZoom_Click"
+                                ToolTipService.ToolTip="Ajustar altura documento"/>
+
             <AppBarButton x:Name="ZoomOut"
                           Icon="ZoomOut"
                           Label="Quitar zoom"
-                          Click="ZoomOut_Click"/>
-            
+                          Click="ZoomOut_Click"
+                          ToolTipService.ToolTip="Quitar zoom"/>
+
             <AppBarButton x:Name="ZoomValue"
                           Content="100 %"
-                          Label="Zoom">
-                
+                          Label="Zoom"
+                          ToolTipService.ToolTip="Haz clic para adjustar el zoom">
+
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutZoom"
                             Opening="FlyoutZoom_Opening">
+
                         <Slider x:Name="ZoomSelector"
                                 Width="200"
                                 Minimum="20"
@@ -115,12 +128,14 @@
             <AppBarButton x:Name="ZoomIn"
                           Icon="ZoomIn"
                           Label="Añadir zoom"
-                          Click="ZoomIn_Click"/>
-            
+                          Click="ZoomIn_Click"
+                          ToolTipService.ToolTip="Añadir zoom"/>
+
             <AppBarButton x:Name="ResetZoom"
                           Icon="Refresh"
                           Label="Restablecer zoom"
-                          Click="ResetZoom_Click"/>
+                          Click="ResetZoom_Click"
+                          ToolTipService.ToolTip="Restablecer zoom"/>
         </CommandBar>
 
         <ScrollViewer x:Name="ScrollerPage"
@@ -144,7 +159,8 @@
 
             <Image x:Name="Output"
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
+                   HorizontalAlignment="Center" />
+
         </ScrollViewer>
 
         <StackPanel RelativePanel.AlignBottomWithPanel="True"
@@ -153,6 +169,7 @@
                     RelativePanel.AlignLeftWithPanel="True"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
+
             <ProgressRing x:Name="progressBar"
                           Height="40"
                           Width="40"

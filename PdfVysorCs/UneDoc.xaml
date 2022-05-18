@@ -9,17 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <!--zoom-->
+
         <DataTemplate x:Key="PdfDocuments1"
                       x:DataType="local:Document">
             <StackPanel Orientation="Vertical"
-                        Spacing="10" Padding="10">
+                        Spacing="10"
+                        Padding="10">
                 <Image Source="{x:Bind FirstPage}"
-                       Width="210" Height="297"/>
+                       Width="210"
+                       Height="297"/>
                 <TextBlock Text="{x:Bind Title}"
                            Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
+
         <DataTemplate x:Key="PdfDocuments2"
                       x:DataType="local:Document">
             <StackPanel Orientation="Vertical"
@@ -32,6 +35,7 @@
                            Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
+
         <DataTemplate x:Key="PdfDocuments3"
                       x:DataType="local:Document">
             <StackPanel Orientation="Vertical"
@@ -44,6 +48,7 @@
                            Margin="10,0,0,0"/>
             </StackPanel>
         </DataTemplate>
+
         <DataTemplate x:Key="PdfDocuments4"
                       x:DataType="local:Document">
             <StackPanel Orientation="Vertical"
@@ -57,43 +62,48 @@
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
-    
+
     <RelativePanel>
         <CommandBar x:Name="FileController"
                     HorizontalAlignment="Left"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True">
-            
+
             <AppBarButton x:Name="OpenFile"
                           Icon="OpenFile"
                           Label="Abrir documento"
-                          Click="OpenFile_Click"/>
-            
+                          Click="OpenFile_Click"
+                          ToolTipService.ToolTip="Abrir documentos"/>
+
             <AppBarButton x:Name="CloseFile"
                           Icon="Delete"
                           IsEnabled="False"
                           Label="Cerrar documento"
-                          Click="CloseFile_Click"/>
-            
+                          Click="CloseFile_Click"
+                          ToolTipService.ToolTip="Cerrar documento"/>
+
             <AppBarButton x:Name="SaveFile"
                           Icon="Save"
                           IsEnabled="False"
                           Label="Guardar documento"
-                          Click="SaveFile_Click"/>
-            
+                          Click="SaveFile_Click"
+                          ToolTipService.ToolTip="Guardar documento"/>
+
             <AppBarSeparator/>
             <AppBarButton x:Name="ZoomIn"
                           Icon="ZoomIn"
                           IsEnabled="False"
                           Label="Aumentar zoom"
-                          Click="ZoomIn_Click"/>
-            
+                          Click="ZoomIn_Click"
+                          ToolTipService.ToolTip="Aumentar zoom"/>
+
             <AppBarButton x:Name="ZoomOut"
                           Icon="ZoomOut"
                           IsEnabled="False"
                           Label="Quitar zoom"
-                          Click="ZoomOut_Click"/>
+                          Click="ZoomOut_Click"
+                          ToolTipService.ToolTip="reducir zoom"/>
         </CommandBar>
 
         <GridView
