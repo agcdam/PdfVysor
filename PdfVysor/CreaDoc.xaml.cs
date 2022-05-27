@@ -584,41 +584,61 @@ namespace PdfVysor
                             #region Split
                             case Type.Split:
 
-                                PdfLibrary.Splitter.SplitPdfByPage(x.FileOrigPaths[0],
+                                try
+                                {
+                                    PdfLibrary.Splitter.SplitPdfByPage(x.FileOrigPaths[0],
                                     x.FileResultPath,
                                     x.FirstPage,
                                     x.LastPage);
-                                results.Add(x.FileResultPath);
+                                    results.Add(x.FileResultPath);
+                                } catch 
+                                {
+                                    errors.Add(x.FileOrigPaths[0]);
+                                }
 
                                 break;
                             #endregion
                             #region Merge
                             case Type.Merge:
 
-                                // If merge only has 1 page, it will be the result
-                                if (x.FileOrigPaths.Count == 1)
+                                try
                                 {
-                                    FileInfo i = new(x.FileOrigPaths[0]);
-                                    i.CopyTo(x.FileResultPath, true);
-                                    results.Add(x.FileResultPath);
-                                    break;
-                                }
+                                    // If merge only has 1 page, it will be the result
+                                    if (x.FileOrigPaths.Count == 1)
+                                    {
+                                        FileInfo i = new(x.FileOrigPaths[0]);
+                                        i.CopyTo(x.FileResultPath, true);
+                                        results.Add(x.FileResultPath);
+                                        break;
+                                    }
 
-                                PdfLibrary.Merger.Merge(x.FileOrigPaths[0],
-                                    x.FileResultPath,
-                                    x.FileOrigPaths.GetRange(1, x.FileOrigPaths.Count - 1));
-                                results.Add(x.FileResultPath);
+                                    PdfLibrary.Merger.Merge(x.FileOrigPaths[0],
+                                        x.FileResultPath,
+                                        x.FileOrigPaths.GetRange(1, x.FileOrigPaths.Count - 1));
+                                    results.Add(x.FileResultPath);
+                                } catch
+                                {
+                                    errors.Add(x.FileOrigPaths[0]);
+                                }
 
                                 break;
                             #endregion
                             #region Watermark
                             case Type.WaterMark:
-                                PdfLibrary.WaterMark.AddWaterMark(x.FileOrigPaths[0],
+                                try
+                                {
+                                    PdfLibrary.WaterMark.AddWaterMark(x.FileOrigPaths[0],
                                     x.FileResultPath,
                                     x.TextWaterMark,
                                     x.AngleRadians,
                                     x.Opacity);
-                                results.Add(x.FileResultPath);
+                                    results.Add(x.FileResultPath);
+                                }
+                                catch
+                                {
+                                    errors.Add(x.FileOrigPaths[0]);
+                                }
+                                
                                 break;
                                 #endregion
                         }

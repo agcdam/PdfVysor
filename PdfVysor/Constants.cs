@@ -29,7 +29,7 @@
         /// <summary>
         /// Quality of the rendering pages
         /// </summary>
-        public const double kPageRenderQuality = 2.0;
+        public const double kPageRenderQuality = 1.5;
 
         /// <summary>
         /// Minimum zoom factor in the visor page.
