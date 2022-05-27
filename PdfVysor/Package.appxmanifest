@@ -12,12 +12,12 @@
 
   <Identity
     Name="b4c1a713-78cc-4663-8494-e6743ec9db8d"
-    Publisher="CN=multiscan"
-    Version="1.0.20.0" />
+    Publisher="CN=agcdam"
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>PdfVysor</DisplayName>
-    <PublisherDisplayName>agomez</PublisherDisplayName>
+    <PublisherDisplayName>Alonso Gómez Casanova</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

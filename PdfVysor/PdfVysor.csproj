@@ -19,9 +19,9 @@
     <AppxBundle>Auto</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxPackageDir>C:\Users\agomez\Documents\PdfVysor\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\perez\Documents\PdfVysor\Ultima release\</AppxPackageDir>
     <DefaultLanguage>es-ES</DefaultLanguage>
-    <PackageCertificateKeyFile>PdfVysor_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>CEA3BA5B6EBC3B630D339962CDE42C88C2903646</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\BadgeLogo.scale-100.png" />
