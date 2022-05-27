@@ -1,0 +1,310 @@
+﻿<Page
+    x:Class="PdfVysor.CreaDoc"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PdfVysor"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel>
+        <CommandBar x:Name="Command"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True">
+            <AppBarButton x:Name="Execute"
+                          Label="Ejecutar tareas"
+                          Click="Execute_Click"
+                          ToolTipService.ToolTip="Ejecutar tareas">
+                
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" 
+                              Glyph="&#xE945;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="Delete"
+                          Icon="Delete"
+                          Label="Eliminar tareas"
+                          ToolTipService.ToolTip="Eliminar tareas">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="FlyOutDelete">
+                        <StackPanel Orientation="Vertical"
+                                    Spacing="20">
+                            <TextBlock Text="Confirmacion"/>
+                            <TextBlock Text="Se van a quitar las tareas seleccionadas. ¿Desea seguir?"/>
+                            <Button x:Name="DeleteButton"
+                                    Content="Continuar"
+                                    Click="DeleteButton_Click"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarToggleButton x:Name="Edit"
+                                Icon="Edit"
+                                Label="Editar tareas"
+                                Click="Edit_Click"
+                                ToolTipService.ToolTip="Editar tareas seleccionadas"/>
+        </CommandBar>
+
+        <StackPanel x:Name="ErrorPanel"
+                    Padding="3, 10, 3, 10"
+                    RelativePanel.Below="Command"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+        </StackPanel>
+
+        <TreeView x:Name="ListMach"
+                  AllowDrop="True"
+                  MinWidth="250"
+                  Loaded="ListMach_Loaded"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
+                  CanReorderItems="False"
+                  CanDragItems="False"
+                  SelectionMode="Multiple"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.Below="ErrorPanel"/>
+        
+        <ProgressRing x:Name="ProgressStatus"
+                      IsActive="True"
+                      Margin="0, 20, 0, 0"
+                      RelativePanel.Below="ErrorPanel"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.LeftOf="ScrollContent"/>
+
+        <ScrollViewer x:Name="ScrollContent"
+                      RelativePanel.RightOf="ListMach"
+                      RelativePanel.AlignTopWith="ListMach">
+            
+            <StackPanel x:Name="AddMach"
+                        Orientation="Vertical"
+                        Spacing="50"
+                        MinWidth="305"
+                        MaxWidth="500"
+                        Margin="50,0,0,0"
+                        Padding="0,0,10,0">
+                
+                <StackPanel Orientation="Vertical"
+                            Spacing="10">
+                    
+                    <TextBox x:Name="GroupName" 
+                             PlaceholderText="Nuevo grupo de tareas"
+                             MinWidth="250"/>
+                    
+                    <Button x:Name="AddGroup"
+                            Content="Añadir grupo"
+                            Style="{StaticResource AccentButtonStyle}"
+                            HorizontalAlignment="Stretch"
+                            Click="AddGroup_Click"/>
+                    
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical"
+                            Spacing="10">
+
+                    <TextBlock x:Name="HeaderGropuTasks"
+                               Text="Elige el grupo de tareas"
+                               Style="{ThemeResource BaseTextBlockStyle}"/>
+
+                    <ListBox x:Name="ListGroups"
+                             HorizontalAlignment="Stretch" 
+                             SelectedIndex="0" 
+                             Margin="0,0,0,30" 
+                             MaxHeight="150"
+                             DisplayMemberPath="Item1"
+                             SelectedValuePath="Item2"/>
+
+                    <StackPanel Spacing="10">
+                        <TextBox x:Name="SimplyTaskName"
+                                 PlaceholderText="Nombre tarea"/>
+                    </StackPanel>
+
+                    
+                    <Pivot Title="Tipo de tarea"
+                           x:Name="TaskType"
+                           SelectionChanged="TaskType_SelectionChanged">
+                        
+                        <PivotItem Header="Dividir">
+                            <StackPanel Spacing="20">
+                                <StackPanel Spacing="10">
+                                    <Button x:Name="OpenFileDiv"
+                                            Content="Seleccionar documento"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            Click="OpenFileDiv_Click"/>
+                                    
+                                    <TextBox x:Name="FileDivPath"
+                                             PlaceholderText="Ruta del archivo"
+                                             IsReadOnly="True"
+                                             IsTabStop="False"/>
+                                    
+                                </StackPanel>
+
+                                <Grid Margin="0,10,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <NumberBox x:Name="FirstPage"
+                                               Header="Primera pagina"
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="0"
+                                               Margin="0,0,10,0"
+                                               ValueChanged="FirstPage_ValueChanged"
+                                               Minimum="1"
+                                               SpinButtonPlacementMode="Inline"/>
+
+                                    <NumberBox x:Name="LastPage"
+                                               Header="Ultima pagina"
+                                               Grid.Column="1"
+                                               ValueChanged="LastPage_ValueChanged"
+                                               SpinButtonPlacementMode="Inline"/>
+                                </Grid>
+                            </StackPanel>
+                        </PivotItem>
+
+                        <PivotItem Header="Unir">
+                            <StackPanel Spacing="20">
+                                <StackPanel Spacing="10">
+                                    <RelativePanel>
+                                        <Button x:Name="OpenFilesMerg"
+                                                Content="Seleccionar archivos"
+                                                HorizontalAlignment="Stretch"
+                                                Click="OpenFilesMerg_Click"
+                                                RelativePanel.AlignLeftWithPanel="True"
+                                                RelativePanel.LeftOf="DeleteFileSelected"/>
+                                        
+                                        <Button x:Name="DeleteFileSelected"
+                                                Margin="10,0,0,0"
+                                                RelativePanel.AlignRightWithPanel="True"
+                                                Click="DeleteFileSelected_Click"
+                                                ToolTipService.ToolTip="Quitar documentos">
+                                            
+                                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                      Glyph="&#xF78A;"/>
+                                        </Button>
+                                    </RelativePanel>
+                                    <ListView x:Name="FilesListMerg"
+                                              MaxHeight="131"
+                                              CanDragItems="True"
+                                              AllowDrop="True"
+                                              SelectionMode="Extended"
+                                              CanReorderItems="True">
+                                        
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="local:Item">
+                                                <TextBlock Text="{x:Bind Name}"
+                                                           Margin="0,5,0,5"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+                            </StackPanel>
+                        </PivotItem>
+
+                        <PivotItem Header="Marca de agua">
+                            <StackPanel Spacing="20">
+                                <StackPanel Spacing="10">
+                                    <Button x:Name="OpenFileMark"
+                                            Content="Selecccionar archivo"
+                                            HorizontalAlignment="Stretch"
+                                            Click="OpenFileMark_Click"/>
+
+                                    <TextBox x:Name="OrigFilePath"
+                                             PlaceholderText="Ruta del archivo"/>
+                                </StackPanel>
+
+                                <RichEditBox x:Name="TextMark"
+                                             PlaceholderText="Texto marca de agua"
+                                             TextAlignment="Left"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Vertical"
+                                                Spacing="20"
+                                                Margin="0, 40, 0, 0">
+                                        
+                                        <NumberBox x:Name="Angle"
+                                                   Header="Angulo en º"
+                                                   SpinButtonPlacementMode="Inline"
+                                                   Maximum="360"
+                                                   Minimum="0"
+                                                   Value="305"
+                                                   SmallChange="45"
+                                                   LargeChange="180"
+                                                   Grid.Column="0"
+                                                   ValueChanged="Angle_ValueChanged"
+                                                   Grid.Row="0"/>
+
+                                        <NumberBox x:Name="Opacity"
+                                                   Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   Header="Opacidad en %"
+                                                   Maximum="100"
+                                                   Minimum="0"
+                                                   SmallChange="10"
+                                                   Value="50"
+                                                   ValueChanged="Opacity_ValueChanged"
+                                                   SpinButtonPlacementMode="Inline"/>
+                                    </StackPanel>
+
+                                    <Border Background="White"
+                                            Grid.Column="1"
+                                            Width="210"
+                                            Height="297"
+                                            Margin="10,0,0,0">
+
+                                        <TextBlock x:Name="ShowText"
+                                                   Text="Texto"
+                                                   Foreground="Black"
+                                                   FontSize="22"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Opacity="0.5"
+                                                   Rotation="305"
+                                                   CenterPoint="22, 17, 0">
+                                            <TextBlock.RotationTransition>
+                                                <ScalarTransition/>
+                                            </TextBlock.RotationTransition>
+                                        </TextBlock>
+                                    </Border>
+                                </Grid>
+                                
+                            </StackPanel>
+                        </PivotItem>
+
+                    </Pivot>
+                    <StackPanel Spacing="10"
+                                Margin="0,10,0,0">
+                        
+                        <Button x:Name="SaveFileSelect"
+                                Content="Seleccionar ruta guardado"
+                                HorizontalAlignment="Stretch"
+                                Click="SaveFileSelect_Click"/>
+                        
+                        <TextBox x:Name="SaveUrl"
+                                 PlaceholderText="Ruta de guardado"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"/>
+                        
+                    </StackPanel>
+                </StackPanel>
+
+                <Button x:Name="AddSimpleTask"
+                        Content="Añadir tarea" Style="{StaticResource AccentButtonStyle}"
+                        Margin="0,0,0,10"
+                        HorizontalAlignment="Stretch"/>
+
+            </StackPanel>
+        </ScrollViewer>
+    </RelativePanel>
+</Page>
