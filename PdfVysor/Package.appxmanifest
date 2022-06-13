@@ -13,7 +13,7 @@
   <Identity
     Name="b4c1a713-78cc-4663-8494-e6743ec9db8d"
     Publisher="CN=agcdam"
-    Version="1.0.3.0" />
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>PdfVysor</DisplayName>
